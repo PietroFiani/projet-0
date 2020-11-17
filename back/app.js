@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: false }))
 // });
 
 require("./routes/customer.routes.js")(app);
+require("./routes/runner.routes.js")(app);
 
 app.listen(process.env.PORT, () => {
     console.log(`app is running on port ${process.env.PORT}`)
