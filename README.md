@@ -9,11 +9,13 @@ in a terminal
 			DATABASE="brocoli"
 			HOST="localhost"
 			DB_PORT=3306
+	$ npm install
 	$ node app.js
 ```
 in an other terminal
 
 ```	
 	$ cd front
+	$ npm install
 	$ yarn run serve
 ```
