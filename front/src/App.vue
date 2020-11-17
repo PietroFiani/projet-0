@@ -1,10 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -38,33 +34,35 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+    <div v-for="customer in customers" :key="customer.id">
+      {{ customer.firstname }} {{ customer.lastname }}
+    </div>
+
+      <HelloWorld />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import HelloWorld from "./components/HelloWorld";
+import axios from "axios";
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     HelloWorld,
   },
 
   data: () => ({
+    customers: {},
     //
   }),
+  asyncData() {},
   mounted() {
-    this.getData()
+    let url = "http://localhost:5000/customers";
+    axios.get(url).then((response) => (this.customers = response.data));
+    console.log(this.customers);
   },
-  methods: {
-    getData() {
-      fetch('http://localhost:5000/getAll')
-      .then(response => response.json())
-      .then(data => console.log(data))
-    }
-  }
+  methods: {},
 };
 </script>

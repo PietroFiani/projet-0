@@ -1,6 +1,5 @@
 module.exports = app => {
     const customers = require("../controllers/customer.controller.js");
-
     // Create a new Customer
     app.post("/customers", customers.create);
 
@@ -14,7 +13,7 @@ module.exports = app => {
     app.put("/customers/:customerId", customers.update);
 
     // Delete a Customer with customerId
-    app.delete("/customers/:customerId", customers.delete);
+    // app.delete("/customers/:customerId", customers.delete);
 
     // Create a new Customer
     app.delete("/customers", customers.deleteAll);

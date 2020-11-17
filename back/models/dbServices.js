@@ -16,7 +16,7 @@ connection.connect((error) => {
     if (error) {
         console.log(error.message)
     }
-    // console.log('db ' + connection.state)
+     console.log('db ' + connection.state)
 })
 
 class DbServices {
@@ -45,3 +45,4 @@ class DbServices {
 }
 
 module.exports = DbServices
+module.exports = connection;
