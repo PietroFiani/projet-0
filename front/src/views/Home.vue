@@ -1,7 +1,10 @@
 <template>
   <div class="home">
     <img id="logo" src="../assets/logo.svg" alt="logo de la marque">
-    <button class="round">Devenir Runner</button>
+
+    <router-link :to="{ name: 'RunnerRegister'}">
+        <button class="rounded">Devenir Runner</button>
+    </router-link>
     <h1 class="title">Get delivery with Brocoli</h1>
     <v-home-form></v-home-form>
     <img id="img-bk" src="../assets/backgroundImg.svg" alt="livreur représenté en course et à la livraison"> <!--image violette de fond -->
@@ -41,21 +44,22 @@ $purple:#470063;
       left : 1vw; 
       width: 17vw; 
     }
-    .round{
+    .rounded{
       font-family: Rubik,sans-serif;
-      font-weight: 500;
+      font-size: 1em;
       border: solid 2px $purple; 
-      color: $purple;
+      color: white;
       width: 10em; 
-      border-radius: 50px;
+      border-radius: 50px !important;
       position: absolute;
       top:1vh; 
       right:1vw; 
       outline: none;
       transition: 300ms;
+      background-color: $purple;
       &:hover{
-      color:white;
-      background-color:$purple;
+      color:$purple;
+      background-color:white;
     }
   } 
 }

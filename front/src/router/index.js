@@ -37,7 +37,7 @@ const routes = [
   },
   {
     path: '/partenaire/Inscription',
-    name: 'Register',
+    name: 'RunnerRegister',
     component: () => import(/* webpackChunkName: "authCustomer" */ '../views/Runner/register.vue')
   }
 ]

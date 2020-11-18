@@ -10,7 +10,9 @@
           </div>
           <div class="btn-wrapper">
             <button class="round sign-in" @click="log">Connexion</button>
-            <button class="round sign-up">Inscription</button>
+            <router-link :to="{ name: 'Register'}">
+                <button class="round sign-up"> Inscription</button>
+            </router-link>
           </div>
           <div class="btn-wrapper">
               <button class="round runner-sign-in">Connexion Runner</button>
@@ -94,7 +96,6 @@ $purple:#470063;
     height: 2.2em;
     border-radius: 50px;
     font-family: Rubik, sans-serif;
-    font-weight: 500;
     margin:0.2em; 
     transition: 300ms;
     outline: none;
