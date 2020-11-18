@@ -8,7 +8,7 @@ const Customer = function (customer) {
     this.lastname = customer.lastname;
     this.firstname = customer.firstname;
     this.password = customer.password;
-    this.image = customer.password;
+    this.image = customer.image;
     this.phone = customer.phone
 };
 

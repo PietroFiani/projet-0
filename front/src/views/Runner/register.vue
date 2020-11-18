@@ -53,6 +53,7 @@ export default {
       phone: "",
       firstname: "",
       lastname: "",
+      image : ""
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -72,6 +73,7 @@ export default {
           phone: this.object.phone,
           firstname: this.object.firstname,
           lastname: this.object.lastname,
+          image: this.object.image
         })
         .then((response) => console.log("INSCRIT", response)) //c'est un objet
         .catch((error) => console.log(console.log("PAS INSCRIT", error)));

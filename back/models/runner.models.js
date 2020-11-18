@@ -7,7 +7,7 @@ const Runner = function (runner) {
     this.lastname = runner.lastname;
     this.firstname = runner.firstname;
     this.password = runner.password;
-    this.image = runner.password;
+    this.image = runner.image;
     this.phone = runner.phone
 };
 
