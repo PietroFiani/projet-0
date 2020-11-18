@@ -73,7 +73,7 @@ export default {
           firstname: this.object.firstname,
           lastname: this.object.lastname,
         })
-        .then((response) => console.log("INSCRIT", response))
+        .then((response) => console.log("INSCRIT", response)) //c'est un objet
         .catch((error) => console.log(console.log("PAS INSCRIT", error)));
     },
   },

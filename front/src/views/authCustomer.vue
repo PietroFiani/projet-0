@@ -15,7 +15,7 @@
           label="Mot de passe"
           required
         ></v-text-field>
-        <v-btn color="error" class="mr-4" @click="log"> Connexion</v-btn>
+        <v-btn color="error" class="mr-4" @click="log" x-large rounded> Connexion</v-btn>
       </v-form>
     </v-app>
   </div>
@@ -56,5 +56,5 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>
