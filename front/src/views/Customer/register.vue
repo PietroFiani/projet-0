@@ -53,7 +53,7 @@ export default {
       phone: "",
       firstname: "",
       lastname: "",
-      image: null,
+      image: "",
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
