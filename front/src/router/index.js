@@ -29,7 +29,7 @@ const routes = [
     path: '/client/Inscription',
     name: 'Register',
     component: () => import(/* webpackChunkName: "authCustomer" */ '../views/Customer/register.vue')
-  }
+  },
   {
     path: '/partenaire/connexion',
     name: 'Log In',
