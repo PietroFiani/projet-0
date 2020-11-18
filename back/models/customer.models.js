@@ -1,9 +1,8 @@
-
 const sql = require("./dbServices.js");
 const bcrypt = require('bcrypt');
 
 // constructor
-const Customer = function (customer) {
+const Customer = function(customer) {
     this.mail = customer.mail;
     this.lastname = customer.lastname;
     this.firstname = customer.firstname;
@@ -45,13 +44,12 @@ Customer.findById = (customerId, result) => {
 };
 
 Customer.log = (auth, result) => {
-    sql.query('SELECT * FROM customer WHERE mail = ?', [auth.mail], async function (error, res, fields) {
+    sql.query('SELECT * FROM customer WHERE mail = ?', [auth.mail], async function(error, res, fields) {
         if (error) {
             console.log("error: ", error);
             result(null, error);
             return;
-        }
-        else {
+        } else {
             console.log("try", auth, "for", res)
             if (res.length > 0) {
                 const comparision = await bcrypt.compare(auth.password, res[0].password)
@@ -59,14 +57,12 @@ Customer.log = (auth, result) => {
                     console.log("Success authentification: ", res[0]);
                     result(null, res[0]);
                     return;
-                }
-                else {
+                } else {
                     console.log("Email and password does not match");
                     result(null);
                     return;
                 }
-            }
-            else {
+            } else {
                 console.log("Email does not exist");
                 result(null);
                 return;
