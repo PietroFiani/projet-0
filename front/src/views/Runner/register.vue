@@ -58,11 +58,14 @@
               multiple
             ></v-autocomplete>
           </v-col>
-          <v-col cols="12" align="center">
+          <v-col cols="11" align="center">
             <v-btn rounded color="primary" class="mr-4" @click="register">
               Inscription</v-btn
-            ></v-col
-          >
+            >
+            <div v-if="message">
+                <v-card color="error">{{message}}</v-card>
+            </div>
+          </v-col>
         </v-row>
       </v-form>
     </v-app>
@@ -84,7 +87,7 @@ export default {
       image: "",
       departmentsIds: [],
     },
-    warning: "",
+    message: "",
     departments: [],
     emailRules: [
       (v) => !!v || "E-mail requis",
