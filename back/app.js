@@ -5,8 +5,6 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const bdService = require('./models/dbServices')
-const DbServices = require('./models/dbServices')
 
 app.use(cors())
 app.use(express.json())
