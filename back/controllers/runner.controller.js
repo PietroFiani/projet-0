@@ -1,4 +1,4 @@
-const Customer = require("../models/runner.models.js");
+const Runner = require("../models/runner.models.js");
 const bcrypt = require('bcrypt');
 
 
@@ -43,7 +43,7 @@ exports.login = async function (req, res) {
         mail,
         password
     }
-    Customer.log(auth, (err, data) => {
+    Runner.log(auth, (err, data) => {
         if (err)
             res.status(500).send({
                 message: err.message || "Some error occurred while creating the Customer."

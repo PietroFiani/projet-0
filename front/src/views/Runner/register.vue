@@ -64,7 +64,7 @@ export default {
 
   methods: {
     register() {
-      let url = "http://localhost:5000/customers/register";
+      let url = "http://localhost:5000/runners/register";
       this.$refs.form.validate();
       axios
         .post(url, {
