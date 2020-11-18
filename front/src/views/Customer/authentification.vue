@@ -40,6 +40,7 @@ export default {
 
   methods: {
     log() {
+      // const self=this
       let url = "http://localhost:5000/customers/login";
       this.$refs.form.validate();
       axios
@@ -47,10 +48,16 @@ export default {
           params: { mail: this.object.mail, password: this.object.password },
         })
         .then((response) => {
-          if (response.data) console.log("CONNECTE", response.data);
+          if (response.data) {
+            console.log("CONNECTE", response.data);
+            this.$store.commit('idChange', response.data.id)
+            // console.log(self.$store.state.customerId)
+          } 
           else console.log("PAS CONNECTE");
         })
         .catch((error) => console.log("PAS CONNECTE", error));
+      console.log(this.$store.state.customerId)
+
     },
   },
 };
