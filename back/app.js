@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: false }))
 
 require("./routes/customer.routes.js")(app);
 require("./routes/runner.routes.js")(app);
+require("./routes/addrCustomer.routes.js")(app);
 require("./routes/department.routes.js")(app);
 
 app.listen(process.env.PORT, () => {

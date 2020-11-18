@@ -1,3 +1,5 @@
+import init.sql in phpmyadmin
+
 in a terminal
 ```	
 	$ cd back
