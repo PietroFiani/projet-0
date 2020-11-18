@@ -1,4 +1,5 @@
 const Runner = require("../models/runner.models.js");
+const Delivery = require("../models/delivery.models.js");
 const bcrypt = require('bcrypt');
 
 
@@ -6,7 +7,7 @@ const bcrypt = require('bcrypt');
 exports.create = (req, res) => {
     // Validate request
 
-    console.log("body",req.body)
+    console.log("body", req.body)
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
@@ -14,8 +15,8 @@ exports.create = (req, res) => {
     }
     const password = req.body.password;
     const encryptedPassword = bcrypt.hashSync(password, 10)
-    console.log("crypt psswd",encryptedPassword)
-    // Create a Customer
+    console.log("crypt psswd", encryptedPassword)
+    // Create a Runner
     const runner = new Runner({
         mail: req.body.mail,
         lastname: req.body.lastname,
@@ -25,14 +26,38 @@ exports.create = (req, res) => {
         image: req.body.image
     });
 
-    // Save Customer in the database
+
+
+    // Save Runner in the database
     Runner.create(runner, (err, data) => {
         if (err)
             res.status(500).send({
-                message: err.message || "Some error occurred while creating the Customer."
+                message: err.message || "Some error occurred while creating the Runner."
             });
-        else res.send(data);
+        else {
+            let idRunner = data.id
+            req.body.departmentsIds.forEach(idDepartment => {
+                let delivery = new Delivery({
+                    idRunner,
+                    idDepartment
+                })
+                Delivery.create(delivery, (err, deliverydata => {
+                    if (err)
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while creating the Delivery."
+                        });
+
+                }))
+            },
+                res.send(data)
+
+            )
+
+        }
     });
+
+
+
 };
 
 exports.login = async function (req, res) {

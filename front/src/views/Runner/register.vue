@@ -47,18 +47,19 @@
           </v-col>
           <v-col cols="11" lg="8">
             <v-autocomplete
+              v-model="object.departmentsIds"
               :items="departments"
-              :item-text="item => item.code +' - '+ item.nom"
-              outlined
-              dense
+              :item-text="(item) => item.code + ' - ' + item.nom"
+              :item-value="(item) => item.id"
               chips
-              small-chips
-              label="Outlined"
+              :rules="required"
+              required
+              label="Lieux de travail"
               multiple
             ></v-autocomplete>
           </v-col>
           <v-col cols="12" align="center">
-            <v-btn color="error" class="mr-4" @click="register">
+            <v-btn rounded color="primary" class="mr-4" @click="register">
               Inscription</v-btn
             ></v-col
           >
@@ -81,7 +82,9 @@ export default {
       firstname: "",
       lastname: "",
       image: "",
+      departmentsIds: [],
     },
+    warning: "",
     departments: [],
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -112,17 +115,17 @@ export default {
           firstname: this.object.firstname,
           lastname: this.object.lastname,
           image: this.object.image,
+          departmentsIds: this.object.departmentsIds,
         })
         .then((response) => console.log("INSCRIT", response)) //c'est un objet
-        .catch((error) => console.log(console.log("PAS INSCRIT", error)));
+        .catch((error) => {
+          console.log("PAS INSCRIT", error);
+          this.message = "Vous etes déjà inscrit !";
+        });
     },
   },
 };
 </script>
 
 <style>
-button {
-  width: 300px;
-  height: 300px !important;
-}
 </style>
