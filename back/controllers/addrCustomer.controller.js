@@ -1,5 +1,4 @@
 const AddrCustomer = require("../models/addrCustomer.models.js");
-const bcrypt = require('bcrypt');
 
 // Create and Save a new Customer
 exports.create = (req, res) => {
