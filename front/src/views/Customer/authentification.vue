@@ -62,7 +62,6 @@ export default {
             console.log("CONNECTE", response.data);
             this.$store.commit('loginCustomer', response.data.id)
             this.$router.push("/client/profil");
-            // console.log(self.$store.state.customerId)
           } 
           else { 
             console.log("PAS CONNECTE");
@@ -74,7 +73,6 @@ export default {
           console.log("PAS CONNECTE", error);
           this.message = "Email et/ou password invalide";
         })
-      console.log(this.$store.state.customerId)
 
     },
   },
