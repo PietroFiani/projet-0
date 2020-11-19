@@ -9,12 +9,15 @@
           required
         ></v-text-field>
         <v-text-field
-          v-model="object.password"
-          :counter="10"
-          :rules="required"
-          label="Mot de passe"
-          required
-        ></v-text-field>
+              v-model="object.password"
+              :counter="10"
+              :rules="required"
+              label="Mot de passe"
+              :append-icon="value ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append="() => (value = !value)"
+              :type="value ? 'password' : 'text'"
+              required
+            ></v-text-field>
         <v-btn color="error" class="mr-4" @click="log" x-large rounded> Connexion</v-btn>
       </v-form>
     </v-app>
@@ -27,6 +30,8 @@ import axios from "axios";
 export default {
   data: () => ({
     valid: false,
+    value: String,
+    message: "",
     object: {
       mail: "",
       password: "",
@@ -37,6 +42,11 @@ export default {
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),
+  mounted() {
+    if (this.$store.state.runnerId) {
+      this.$router.push("/client/profil");
+    }
+  },
 
   methods: {
     log() {
@@ -51,11 +61,19 @@ export default {
           if (response.data) {
             console.log("CONNECTE", response.data);
             this.$store.commit('loginCustomer', response.data.id)
+            this.$router.push("/client/profil");
             // console.log(self.$store.state.customerId)
           } 
-          else console.log("PAS CONNECTE");
+          else { 
+            console.log("PAS CONNECTE");
+            this.message = "Email et/ou password invalide";
+          
+          }
         })
-        .catch((error) => console.log("PAS CONNECTE", error));
+        .catch((error) => {
+          console.log("PAS CONNECTE", error);
+          this.message = "Email et/ou password invalide";
+        })
       console.log(this.$store.state.customerId)
 
     },

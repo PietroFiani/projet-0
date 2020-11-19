@@ -4,7 +4,7 @@ const sql = require("./dbServices.js");
 const AddrCustomer = function(addrCustomer) {
     this.road = addrCustomer.road;
     this.zip = addrCustomer.zip;
-    this.idDepartement = addrCustomer.idDepartement;
+    this.idDepartment = addrCustomer.idDepartment;
     this.idCustomer = addrCustomer.idCustomer
 };
 
@@ -21,24 +21,24 @@ AddrCustomer.create = (newAddrCustomer, result) => {
     });
 };
 
-AddrCustomer.findById = (addrCustomerId, result) => {
-    sql.query(`SELECT * FROM address WHERE id = ${addrCustomerId}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+// AddrCustomer.findById = (addrCustomerId, result) => {
+//     sql.query(`SELECT * FROM address WHERE id = ${addrCustomerId}`, (err, res) => {
+//         if (err) {
+//             console.log("error: ", err);
+//             result(err, null);
+//             return;
+//         }
 
-        if (res.length) {
-            console.log("found address: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
+//         if (res.length) {
+//             console.log("found address: ", res[0]);
+//             result(null, res[0]);
+//             return;
+//         }
 
-        // not found AddrCustomer with the id
-        result({ kind: "not_found" }, null);
-    });
-};
+//         // not found AddrCustomer with the id
+//         result({ kind: "not_found" }, null);
+//     });
+// };
 
 // AddrCustomer.log = (auth, result) => {
 //     sql.query('SELECT * FROM customer WHERE mail = ?', [auth.mail], async function(error, res, fields) {
@@ -68,18 +68,18 @@ AddrCustomer.findById = (addrCustomerId, result) => {
 //     })
 // };
 
-AddrCustomer.getAll = result => {
-    sql.query("SELECT * FROM address", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
+// AddrCustomer.getAll = result => {
+//     sql.query("SELECT * FROM address", (err, res) => {
+//         if (err) {
+//             console.log("error: ", err);
+//             result(null, err);
+//             return;
+//         }
 
-        console.log("address: ", res);
-        result(null, res);
-    });
-};
+//         console.log("address: ", res);
+//         result(null, res);
+//     });
+// };
 
 // AddrCustomer.updateById = (id, customer, result) => {
 //     sql.query(

@@ -16,7 +16,7 @@ exports.create = (req, res) => {
     const password = req.body.password;
     const encryptedPassword = bcrypt.hashSync(password, 10)
     console.log("crypt psswd", encryptedPassword)
-    // Create a Runner
+        // Create a Runner
     const runner = new Runner({
         mail: req.body.mail,
         lastname: req.body.lastname,
@@ -37,18 +37,18 @@ exports.create = (req, res) => {
         else {
             let idRunner = data.id
             req.body.departmentsIds.forEach(idDepartment => {
-                let delivery = new Delivery({
-                    idRunner,
-                    idDepartment
-                })
-                Delivery.create(delivery, (err, deliverydata => {
-                    if (err)
-                        res.status(500).send({
-                            message: err.message || "Some error occurred while creating the Delivery."
-                        });
+                    let delivery = new Delivery({
+                        idRunner,
+                        idDepartment
+                    })
+                    Delivery.create(delivery, (err, deliverydata => {
+                        if (err)
+                            res.status(500).send({
+                                message: err.message || "Some error occurred while creating the Delivery."
+                            });
 
-                }))
-            },
+                    }))
+                },
                 res.send(data)
 
             )
@@ -60,7 +60,7 @@ exports.create = (req, res) => {
 
 };
 
-exports.login = async function (req, res) {
+exports.login = async function(req, res) {
     var mail = req.query.mail;
     var password = req.query.password;
     console.log("REQ", req.query)

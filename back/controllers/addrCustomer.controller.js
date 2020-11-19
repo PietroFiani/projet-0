@@ -14,7 +14,7 @@ exports.create = (req, res) => {
     const addrCustomer = new AddrCustomer({
         road: req.body.road,
         zip: req.body.zip,
-        idDepartement: req.body.idDepartement,
+        idDepartment: req.body.idDepartment,
         idCustomer: req.body.idCustomer
     });
 

@@ -27,14 +27,24 @@
           label="E-mail"
           required
         ></v-text-field>
-
         <v-text-field
-          v-model="object.password"
-          :counter="10"
-          :rules="required"
-          label="Mot de passe"
-          required
-        ></v-text-field>
+              v-model="object.password"
+              :rules="required"
+              label="Mot de passe"
+              required
+              :append-icon="value1 ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append="() => (value1 = !value1)"
+              :type="value1 ? 'password' : 'text'"
+            ></v-text-field>
+        <v-text-field
+              v-model="object.repassword"
+              :rules="required"
+              label="Confirmation mot de passe"
+              required
+              :append-icon="value2 ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append="() => (value2 = !value2)"
+              :type="value2 ? 'password' : 'text'"
+            ></v-text-field>
         <v-text-field
           v-model="object.road"
           :rules="required"
@@ -48,7 +58,7 @@
           required
         ></v-text-field>
          <v-autocomplete
-              v-model="object.departmentsIds"
+              v-model="object.departmentsId"
               :items="departments"
               :item-text="(item) => item.code + ' - ' + item.nom"
               :item-value="(item) => item.id"
@@ -70,17 +80,21 @@ import axios from "axios";
 export default {
   data: () => ({
     valid: false,
+    value1: String,
+    value2: String,
     object: {
       mail: "",
       password: "",
+      repassword: "",
       phone: "",
       firstname: "",
       lastname: "",
       image: "",
-      departmentsIds: [],
+      departmentsId: "",
       road: "",
       zip: ""
     },
+    message: "",
     departments: [],
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -106,26 +120,29 @@ export default {
   methods: {
     register() {
       let url = "http://localhost:5000/customers/register";
-      this.$refs.form.validate();
-      axios
-        .post(url, {
-          mail: this.object.mail,
-          password: this.object.password,
-          phone: this.object.phone,
-          firstname: this.object.firstname,
-          lastname: this.object.lastname,
-          image: this.object.image,
-          departmentsIds: this.object.departmentsIds,
-        })
-        .then((response) => {
-          console.log("INSCRIT", response)
-          this.$store.commit("loginCustomer", response.data.id)
-          this.$router.push("/client/profil")
-        }) //c'est un objet
-        .catch((error) =>{
-          console.log("PAS INSCRIT", error);
-          this.message = "Vous etes déjà inscrit !";
-        })
+      if (this.$refs.form.validate()) {
+        axios
+          .post(url, {
+            mail: this.object.mail,
+            password: this.object.password,
+            phone: this.object.phone,
+            firstname: this.object.firstname,
+            lastname: this.object.lastname,
+            image: this.object.image,
+            departmentsId: this.object.departmentsId,
+            road: this.object.road,
+            zip: this.object.zip
+          })
+          .then((response) => {
+            console.log("INSCRIT", response)
+            this.$store.commit("loginCustomer", response.data.id)
+            this.$router.push("/client/profil")
+          }) //c'est un objet
+          .catch((error) =>{
+            console.log("PAS INSCRIT", error);
+            this.message = "Vous etes déjà inscrit !";
+          })
+      }
     },
   },
 };

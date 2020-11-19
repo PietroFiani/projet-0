@@ -18,7 +18,6 @@
             ></v-text-field>
             <v-text-field
               v-model="object.password"
-              :counter="10"
               :rules="required"
               label="Mot de passe"
               required
@@ -112,7 +111,7 @@ export default {
     axios
       .get(url)
       .then((response) => {
-        console.log("Departements", response.data);
+        // console.log("Departements", response.data);
         this.departments = response.data;
       }) //c'est un objet
       .catch((error) => console.log(console.log("Departments error ", error)));
