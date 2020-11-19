@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>COUCOU {{ customer.lastname }} {{ customer.firstname }}</h1>
+    <h1>BIEN OU QUOI {{ customers[0].firstname }} {{ customers[0].lastname }}</h1>
+    <div v-for="customer of customers" :key="customer.id">
+      <p> {{customer.road}} {{customer.zip}}  {{customer.nom}}</p>
+      <button>Update</button>
+    </div>
     <v-btn @click="logout()"> Se deconnecter </v-btn>
   </div>
 </template>
@@ -11,7 +15,7 @@ import axios from "axios"
 export default {
   data() {
     return {
-      customer: {},
+      customers: {},
       id : null
     }
   },
@@ -26,7 +30,7 @@ export default {
         .then((response) => {
           if (response.data) {
             console.log("CUSTOMER", response.data)
-            this.customer = response.data
+            this.customers = response.data
           }
         })
         .catch((error) => {
@@ -34,7 +38,7 @@ export default {
         })
         
     }
-    this.findAddr()
+    // this.findAddr()
   },
   methods: {
     findAddr() {

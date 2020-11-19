@@ -25,7 +25,7 @@ Customer.create = (newCustomer, result) => {
 };
 
 Customer.findById = (customerId, result) => {
-    sql.query(`SELECT * FROM customer WHERE id = ${customerId}`, (err, res) => {
+    sql.query(`SELECT * FROM customer, address NATURAL JOIN department WHERE customer.id = ${customerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -33,8 +33,8 @@ Customer.findById = (customerId, result) => {
         }
 
         if (res.length) {
-            console.log("found customer: ", res[0]);
-            result(null, res[0]);
+            console.log("found customer: ", res);
+            result(null, res);
             return;
         }
 

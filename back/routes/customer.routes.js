@@ -10,7 +10,7 @@
         app.get("/customers", customers.findAll);
 
         // Retrieve a single Customer with customerId
-        app.get("/customers/:customerId", customers.addressByIdCustomer);
+        app.get("/customers/:customerId", customers.findOne);
 
         // Update a Customer with customerId
         app.put("/customers/:customerId", customers.update);
@@ -21,6 +21,4 @@
         // Delete all customer
         // app.delete("/customers", customers.deleteAll);
 
-        // Retrive the address with a customerId
-        // app.put("/customerLocation/:customerId", customers.addressByIdCustomer);
     };
