@@ -22,27 +22,27 @@ const routes = [
   },
   {
     path: '/client/connexion',
-    name: 'Log In',
+    name: 'Connexion Client',
     component: () => import(/* webpackChunkName: "authCustomer" */ '../views/Customer/authentification.vue')
   },
   {
     path: '/client/inscription',
-    name: 'Register',
+    name: 'Inscription Client',
     component: () => import(/* webpackChunkName: "register" */ '../views/Customer/register.vue')
   },
   {
     path: '/partenaire/connexion',
-    name: 'Log In',
+    name: 'Connexion Partenaire',
     component: () => import(/* webpackChunkName: "authentification" */ '../views/Runner/authentification.vue')
   },
   {
     path: '/partenaire/inscription',
-    name: 'RunnerRegister',
+    name: 'Inscription Partenaire',
     component: () => import(/* webpackChunkName: "register" */ '../views/Runner/register.vue')
   },
   {
     path: '/partenaire/profil',
-    name: 'RunnerDashboard',
+    name: 'Profil Partenaire',
     component: () => import(/* webpackChunkName: "profile" */ '../views/Runner/dashboard.vue')
   }
 ]
