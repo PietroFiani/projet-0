@@ -1,6 +1,6 @@
 module.exports = app => {
     const runners = require("../controllers/runner.controller.js");
-    // Create a new Customer
+    // Create a new Runner
     app.post("/runners/register", runners.create);
 
     // Login
@@ -9,8 +9,8 @@ module.exports = app => {
     // Retrieve all Customers
     // app.get("/runners", runners.findAll);
 
-    // Retrieve a single Customer with customerId
-    // app.get("/runners/:runnerId", runners.findOne);
+    // Retrieve a single Runner with runnerId
+    app.get("/runners/:runnerId", runners.findOne);
 
     // Update a Customer with customerId
     // app.put("/runner/:runnerrId", runners.update);

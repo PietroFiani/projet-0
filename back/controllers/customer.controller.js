@@ -1,12 +1,12 @@
-
 const Customer = require("../models/customer.models.js");
+const AddrCustomer = require("../models/addrCustomer.models.js");
 const bcrypt = require('bcrypt');
 
 // Create and Save a new Customer
 exports.create = (req, res) => {
     // Validate request
 
-    console.log("body",req.body)
+    console.log("body", req.body)
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
@@ -14,8 +14,8 @@ exports.create = (req, res) => {
     }
     const password = req.body.password;
     const encryptedPassword = bcrypt.hashSync(password, 10)
-    console.log("crypt psswd",encryptedPassword)
-    // Create a Customer
+    console.log("crypt psswd", encryptedPassword)
+        // Create a Customer
     const customer = new Customer({
         mail: req.body.mail,
         lastname: req.body.lastname,
@@ -31,11 +31,30 @@ exports.create = (req, res) => {
             res.status(500).send({
                 message: err.message || "Some error occurred while creating the Customer."
             });
-        else res.send(data);
+        else {
+            let idCustomer = data.id
+            req.body.departmentsIds.forEach(idDepartment => {
+                    let addrCustomer = new AddrCustomer({
+                        idRunner,
+                        idDepartment
+                    })
+                    AddrCustomer.create(addrCustomer, (err, deliverydata => {
+                        if (err)
+                            res.status(500).send({
+                                message: err.message || "Some error occurred while creating the Delivery."
+                            });
+
+                    }))
+                },
+                res.send(data)
+
+            )
+
+        }
     });
 };
 
-exports.login = async function (req, res) {
+exports.login = async function(req, res) {
     var mail = req.query.mail;
     var password = req.query.password;
     console.log("REQ", req.query)

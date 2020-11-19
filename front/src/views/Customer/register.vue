@@ -35,6 +35,29 @@
           label="Mot de passe"
           required
         ></v-text-field>
+        <v-text-field
+          v-model="object.road"
+          :rules="required"
+          label="Rue"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="object.zip"
+          :rules="required"
+          label="Code postal"
+          required
+        ></v-text-field>
+         <v-autocomplete
+              v-model="object.departmentsIds"
+              :items="departments"
+              :item-text="(item) => item.code + ' - ' + item.nom"
+              :item-value="(item) => item.id"
+              chips
+              :rules="required"
+              required
+              label="Departement"
+              
+            ></v-autocomplete>
         <v-btn color="error" class="mr-4" @click="register"> Inscription</v-btn>
       </v-form>
     </v-app>
@@ -54,13 +77,31 @@ export default {
       firstname: "",
       lastname: "",
       image: "",
+      departmentsIds: [],
+      road: "",
+      zip: ""
     },
+    departments: [],
     emailRules: [
       (v) => !!v || "E-mail requis",
       (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
     ],
     required: [(v) => !!v || "requis"],
   }),
+  mounted() {
+    if (this.$store.state.custopmerId) {
+      // this.$router.push("/client/profil");
+      console.log('already Log')
+    }
+    let url = "http://localhost:5000/departments";
+    axios
+      .get(url)
+      .then((response) => {
+        // console.log("Departements", response.data);
+        this.departments = response.data;
+      }) //c'est un objet
+      .catch((error) => console.log(console.log("Departments error ", error)));
+  },
 
   methods: {
     register() {
@@ -73,10 +114,18 @@ export default {
           phone: this.object.phone,
           firstname: this.object.firstname,
           lastname: this.object.lastname,
-          image: this.object.image
+          image: this.object.image,
+          departmentsIds: this.object.departmentsIds,
         })
-        .then((response) => console.log("INSCRIT", response)) //c'est un objet
-        .catch((error) => console.log(console.log("PAS INSCRIT", error)));
+        .then((response) => {
+          console.log("INSCRIT", response)
+          this.$store.commit("loginCustomer", response.data.id)
+          this.$router.push("/client/profil")
+        }) //c'est un objet
+        .catch((error) =>{
+          console.log("PAS INSCRIT", error);
+          this.message = "Vous etes déjà inscrit !";
+        })
     },
   },
 };

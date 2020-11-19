@@ -50,7 +50,7 @@ export default {
         .then((response) => {
           if (response.data) {
             console.log("CONNECTE", response.data);
-            this.$store.commit('idChange', response.data.id)
+            this.$store.commit('loginCustomer', response.data.id)
             // console.log(self.$store.state.customerId)
           } 
           else console.log("PAS CONNECTE");

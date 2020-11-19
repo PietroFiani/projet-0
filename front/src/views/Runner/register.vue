@@ -22,6 +22,9 @@
               :rules="required"
               label="Mot de passe"
               required
+              :append-icon="value1 ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append="() => (value1 = !value1)"
+              :type="value1 ? 'password' : 'text'"
             ></v-text-field>
           </v-col>
           <v-col cols="11" lg="4">
@@ -39,10 +42,13 @@
               required
             ></v-text-field>
             <v-text-field
-              :counter="10"
+              v-model="object.repassword"
               :rules="required"
               label="Confirmation mot de passe"
               required
+              :append-icon="value2 ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append="() => (value2 = !value2)"
+              :type="value2 ? 'password' : 'text'"
             ></v-text-field>
           </v-col>
           <v-col cols="11" lg="8">
@@ -59,12 +65,12 @@
             ></v-autocomplete>
           </v-col>
           <v-col cols="11" align="center">
+            <v-card v-if="message" dark color="warning"
+              ><v-card-text>{{ message }}</v-card-text></v-card
+            >
             <v-btn rounded color="primary" class="mr-4" @click="register">
               Inscription</v-btn
             >
-            <div v-if="message">
-                <v-card color="error">{{message}}</v-card>
-            </div>
           </v-col>
         </v-row>
       </v-form>
@@ -78,9 +84,12 @@ import axios from "axios";
 export default {
   data: () => ({
     valid: false,
+    value1: String,
+    value2: String,
     object: {
       mail: "",
       password: "",
+      repassword: "",
       phone: "",
       firstname: "",
       lastname: "",
@@ -96,6 +105,9 @@ export default {
     required: [(v) => !!v || "requis"],
   }),
   mounted() {
+    if (this.$store.state.runnerId) {
+      this.$router.push("/partenaire/profil");
+    }
     let url = "http://localhost:5000/departments";
     axios
       .get(url)
@@ -109,22 +121,30 @@ export default {
   methods: {
     register() {
       let url = "http://localhost:5000/runners/register";
-      this.$refs.form.validate();
-      axios
-        .post(url, {
-          mail: this.object.mail,
-          password: this.object.password,
-          phone: this.object.phone,
-          firstname: this.object.firstname,
-          lastname: this.object.lastname,
-          image: this.object.image,
-          departmentsIds: this.object.departmentsIds,
-        })
-        .then((response) => console.log("INSCRIT", response)) //c'est un objet
-        .catch((error) => {
-          console.log("PAS INSCRIT", error);
-          this.message = "Vous etes déjà inscrit !";
-        });
+      if (this.object.password != this.object.repassword) {
+        return (this.message = "Le mot de passe est invalide");
+      }
+      if (this.$refs.form.validate()) {
+        axios
+          .post(url, {
+            mail: this.object.mail,
+            password: this.object.password,
+            phone: this.object.phone,
+            firstname: this.object.firstname,
+            lastname: this.object.lastname,
+            image: this.object.image,
+            departmentsIds: this.object.departmentsIds,
+          })
+          .then((response) => {
+            console.log("INSCRIT", response.data);
+            this.$store.commit("loginRunner", response.data.id);
+            this.$router.push("/partenaire/profil");
+          }) //c'est un objet
+          .catch((error) => {
+            console.log("PAS INSCRIT", error);
+            this.message = "Vous etes déjà inscrit !";
+          });
+      }
     },
   },
 };
