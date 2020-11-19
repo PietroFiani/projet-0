@@ -26,19 +26,24 @@ const routes = [
     component: () => import(/* webpackChunkName: "authCustomer" */ '../views/Customer/authentification.vue')
   },
   {
-    path: '/client/Inscription',
+    path: '/client/inscription',
     name: 'Register',
-    component: () => import(/* webpackChunkName: "authCustomer" */ '../views/Customer/register.vue')
+    component: () => import(/* webpackChunkName: "register" */ '../views/Customer/register.vue')
   },
   {
     path: '/partenaire/connexion',
     name: 'Log In',
-    component: () => import(/* webpackChunkName: "authCustomer" */ '../views/Runner/authentification.vue')
+    component: () => import(/* webpackChunkName: "authentification" */ '../views/Runner/authentification.vue')
   },
   {
-    path: '/partenaire/Inscription',
+    path: '/partenaire/inscription',
     name: 'RunnerRegister',
-    component: () => import(/* webpackChunkName: "authCustomer" */ '../views/Runner/register.vue')
+    component: () => import(/* webpackChunkName: "register" */ '../views/Runner/register.vue')
+  },
+  {
+    path: '/partenaire/profil',
+    name: 'RunnerDashboard',
+    component: () => import(/* webpackChunkName: "profile" */ '../views/Runner/dashboard.vue')
   }
 ]
 

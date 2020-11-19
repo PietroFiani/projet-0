@@ -9,9 +9,18 @@ export default new Vuex.Store({
         customerId: null,
     },
     mutations: {
-        idChange(state, payload) {
-            state.customerId = payload
-        }
+        logoutCustomer(state) {
+            state.customerId = null;
+          },
+          loginCustomer(state, customerId) {
+            state.customerId = customerId;
+          },
+          logoutRunner(state) {
+            state.runnerId = null;
+          },
+          loginRunner(state, runnerId) {
+            state.runnerId = runnerId;
+          }
     },
     actions: {
 
