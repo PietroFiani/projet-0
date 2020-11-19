@@ -57,6 +57,19 @@ exports.create = (req, res) => {
     });
 };
 
+exports.addressByIdCustomer = (req, res) => {
+
+    // console.log('test')
+    AddrCustomer.addressByIdCustomer((err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Some error occurred while finding address of customer."
+            })
+        } else res.send({ message: `addr of customer` });
+
+    })
+}
+
 exports.login = async function(req, res) {
     var mail = req.query.mail;
     var password = req.query.password;

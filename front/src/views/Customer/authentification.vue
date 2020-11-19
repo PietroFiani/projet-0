@@ -43,7 +43,7 @@ export default {
     required: [(v) => !!v || "Mot de passe requis"],
   }),
   mounted() {
-    if (this.$store.state.runnerId) {
+    if (this.$store.state.customerId) {
       this.$router.push("/client/profil");
     }
   },
