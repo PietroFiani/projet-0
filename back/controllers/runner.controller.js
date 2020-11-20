@@ -89,6 +89,23 @@ exports.findOne = (req, res) => {
                     message: "Error retrieving Runner with id " + req.params.runnerId
                 });
             }
-        } else res.send(data);
-    });
-};
+        } else Delivery.findByRunner(req.params.runnerId, (err, deliveryData) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found delivery with runnerId ${req.params.runnerId}.`
+                    });
+                }
+                else {
+                    res.status(500).send({
+                        message: "Error retrieving delivery with runnerId " + req.params.runnerId
+                    });
+                }
+            }
+            else {
+                data.deliveries = deliveryData;
+                res.send(data)
+            }
+        });
+    })
+}
