@@ -16,7 +16,7 @@
         ></v-text-field>
         <v-text-field
           v-model="object.phone"
-          :rules="required"
+          :rules="PhoneRules"
           label="Téléphone"
           required
         ></v-text-field>
@@ -53,8 +53,8 @@
         ></v-text-field>
         <v-text-field
           v-model="object.zip"
-          :rules="required"
-          label="Code postal"
+          :rules="CodePostalRules"
+          label="Code Postal"
           required
         ></v-text-field>
          <v-autocomplete
@@ -96,10 +96,16 @@ export default {
     },
     message: "",
     departments: [],
+    PhoneRules:[
+      (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Numéro incorrect"
+    ],
     emailRules: [
       (v) => !!v || "E-mail requis",
       (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
     ],
+    CodePostalRules:[
+      (v) => /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/.test(v) || "Code Postal Valide", 
+    ], 
     required: [(v) => !!v || "requis"],
   }),
   mounted() {

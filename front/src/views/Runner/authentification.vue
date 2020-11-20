@@ -24,9 +24,7 @@
             <v-card dark color="warning"
               ><v-card-text v-if="message">{{ message }}</v-card-text></v-card
             >
-            <v-btn color="primary" class="mt-4" @click="log" x-large rounded>
-              Connexion</v-btn
-            >
+            <v-btn color="primary" class="mt-4 zizi" @click="log" x-large rounded>Connexion</v-btn>
           </v-col>
         </v-row>
       </v-form>
@@ -48,7 +46,7 @@ export default {
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),
