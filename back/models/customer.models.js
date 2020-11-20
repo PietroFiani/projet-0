@@ -25,7 +25,11 @@ Customer.create = (newCustomer, result) => {
 };
 
 Customer.findById = (customerId, result) => {
-    sql.query(`SELECT * FROM customer, address NATURAL JOIN department WHERE customer.id = ${customerId}`, (err, res) => {
+    sql.query(`SELECT * 
+               FROM customer c, address a, department d 
+               WHERE a.idDepartment = d.id 
+               AND c.id = a.idCustomer
+               AND c.id = ${customerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

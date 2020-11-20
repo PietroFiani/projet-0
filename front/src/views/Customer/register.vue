@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"
 
 export default {
   data: () => ({
@@ -110,22 +110,22 @@ export default {
   }),
   mounted() {
     if (this.$store.state.custopmerId) {
-      // this.$router.push("/client/profil");
+      // this.$router.push("/client/profil")
       console.log('already Log')
     }
-    let url = "http://localhost:5000/departments";
+    let url = "http://localhost:5000/departments"
     axios
       .get(url)
       .then((response) => {
-        // console.log("Departements", response.data);
-        this.departments = response.data;
+        // console.log("Departements", response.data)
+        this.departments = response.data
       }) //c'est un objet
-      .catch((error) => console.log(console.log("Departments error ", error)));
+      .catch((error) => console.log(console.log("Departments error ", error)))
   },
 
   methods: {
     register() {
-      let url = "http://localhost:5000/customers/register";
+      let url = "http://localhost:5000/customers/register"
       if (this.$refs.form.validate()) {
         axios
           .post(url, {
@@ -145,13 +145,13 @@ export default {
             this.$router.push("/client/profil")
           }) //c'est un objet
           .catch((error) =>{
-            console.log("PAS INSCRIT", error);
-            this.message = "Vous etes déjà inscrit !";
+            console.log("PAS INSCRIT", error)
+            this.message = "Vous etes déjà inscrit !"
           })
       }
     },
   },
-};
+}
 </script>
 
 <style>

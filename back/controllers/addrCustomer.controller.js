@@ -66,9 +66,10 @@ exports.update = (req, res) => {
             message: "Content can not be empty!"
         });
     }
+    // console.log(req.params)
 
     AddrCustomer.updateById(
-        req.params.customerId,
+        req.params.addrCustomerId,
         new AddrCustomer(req.body),
         (err, data) => {
             if (err) {

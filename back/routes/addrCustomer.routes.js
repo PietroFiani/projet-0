@@ -13,7 +13,7 @@ module.exports = app => {
     app.put("/addrCustomer/:addrCustomerId", addrCustomer.update);
 
     // Delete a Customer with customerId
-    // app.delete("/customers/:customerId", customers.delete);
+    // app.delete("/customers/:customerId", addrCustomer.delete);
 
     // Create a new Customer
     // app.delete("/customers", customers.deleteAll);

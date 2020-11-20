@@ -35,6 +35,11 @@ export default {
       id : null,
       departments: [],
       required: [(v) => !!v || "requis"],
+      object: {
+        departmentsId: "",
+        road: "",
+        zip: ""
+      },
     }
     
   },
@@ -45,8 +50,9 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            console.log("Address", response.data)
+            // console.log("Address", response.data)
             this.address = response.data
+
           }
         })
         .catch((error) => {
@@ -60,14 +66,17 @@ export default {
           this.departments = response.data;
         }) //c'est un objet
         .catch((error) => console.log(console.log("Departments error ", error)));
-    
   },
   methods: {
     update() {
       let url = `http://localhost:5000/addrCustomer/${this.id}`
       console.log(url)
       axios
-        .put(url)
+        .put(url, {
+          road: this.address.road,
+          zip: this.address.zip,
+          idDepartment: this.address.idDepartment
+        })
         .then((response) => {
           if (response.data) {
             console.log("Address", response.data)
@@ -77,8 +86,8 @@ export default {
         .catch((error) => {
           console.log("ERREUR", error)
         })
-      // this.$store.commit("removeAddrCustomer")
-      // this.$router.push("/client/profil")
+      this.$store.commit("removeAddrCustomer")
+      this.$router.push("/client/profil")
     }
   }
 }
