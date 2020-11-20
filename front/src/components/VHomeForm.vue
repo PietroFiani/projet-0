@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <v-form class="home-form">
+    <v-form class="home-form" ref="form" v-model="valid" lazy-validation>
       <div class="text-area-wrapper">
         <v-text-field
           class="textarea"
-          label="email :"
+          label="E-mail :"
           v-model="object.mail"
           :rules="emailRules"
           required
@@ -12,24 +12,26 @@
         </v-text-field>
         <v-text-field
           class="textarea"
-          type="password"
-          label="mot de passe :"
+          label="Mot de passe"
           v-model="object.password"
-          :counter="10"
-          :rules="required"
+          :append-icon="value ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append="() => (value = !value)"
+          :type="value ? 'password' : 'text'"
           required
         >
         </v-text-field>
         <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
       <div class="btn-wrapper">
-        <button class="round sign-in" @click="log">Connexion</button>
-        <router-link :to="{ name: 'Register' }">
+        <button class="round sign-in" @click="log()">Connexion</button>
+        <router-link :to="{ name: 'Inscription Client' }">
           <button class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
-        <button class="round runner-sign-in">Connexion Runner</button>
+        <router-link :to="{name :'Connexion Partenaire'}">
+          <button class="round runner-sign-in">Connexion Runner</button>
+        </router-link>
       </div>
     </v-form>
   </div>
@@ -41,19 +43,27 @@ import axios from "axios";
 export default {
   data: () => ({
     valid: false,
+    value: String,
+    message: "",
     object: {
       mail: "",
       password: "",
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),
+  mounted() {
+    if (this.$store.state.customerId) {
+      this.$router.push("/client/profil");
+    }
+  },
 
   methods: {
     log() {
+      // const self=this
       let url = "http://localhost:5000/customers/login";
       this.$refs.form.validate();
       axios
@@ -61,10 +71,22 @@ export default {
           params: { mail: this.object.mail, password: this.object.password },
         })
         .then((response) => {
-          if (response.data) console.log("CONNECTE", response.data);
-          else console.log("PAS CONNECTE");
+          if (response.data) {
+            console.log("CONNECTE", response.data);
+            this.$store.commit('loginCustomer', response.data.id)
+            this.$router.push("/client/profil");
+          } 
+          else { 
+            console.log("PAS CONNECTE");
+            this.message = "Email et/ou password invalide";
+          
+          }
         })
-        .catch((error) => console.log("PAS CONNECTE", error));
+        .catch((error) => {
+          console.log("PAS CONNECTE", error);
+          this.message = "Email et/ou password invalide";
+        })
+
     },
   },
 };
@@ -78,7 +100,7 @@ $purple: #470063;
 
 .container {
   background-color: white;
-  height: 60vh;
+  height: 70vh;
   width: 30em;
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);

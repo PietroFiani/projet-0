@@ -2,7 +2,7 @@
   <div class="home">
     <img id="logo" src="../assets/logo.svg" alt="logo de la marque">
 
-    <router-link :to="{ name: 'RunnerRegister'}">
+    <router-link :to="{ name: 'Inscription Partenaire'}">
         <button class="rounded">Devenir Runner</button>
     </router-link>
     <h1 class="title">Get delivery with Brocoli</h1>

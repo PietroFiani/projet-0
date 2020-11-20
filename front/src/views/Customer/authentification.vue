@@ -17,7 +17,7 @@
               @click:append="() => (value = !value)"
               :type="value ? 'password' : 'text'"
               required
-            ></v-text-field>
+        ></v-text-field>
         <v-btn color="error" class="mr-4" @click="log" x-large rounded> Connexion</v-btn>
       </v-form>
     </v-app>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"; //client pour requetes db
 
 export default {
   data: () => ({
@@ -38,7 +38,7 @@ export default {
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),
