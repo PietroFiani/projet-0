@@ -35,6 +35,12 @@ const routes = [{
             import ( /* webpackChunkName: "profile" */ '../views/Customer/updateAddr.vue')
     },
     {
+        path: '/client/modifier/profil',
+        name: 'UpadteProfilClient',
+        component: () =>
+            import ( /* webpackChunkName: "profile" */ '../views/Customer/updateProfil.vue')
+    },
+    {
         path: '/partenaire/connexion',
         name: 'Connexion Partenaire',
         component: () =>

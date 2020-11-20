@@ -117,16 +117,24 @@ exports.findOne = (req, res) => {
 
 // Update a Customer identified by the customerId in the request
 exports.update = (req, res) => {
+
     // Validate Request
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
+    const password = req.body.password;
+    const encryptedPassword = bcrypt.hashSync(password, 10)
 
+    const customer = new Customer({
+        mail: req.body.mail,
+        phone: req.body.phone,
+        password: encryptedPassword
+    });
     Customer.updateById(
         req.params.customerId,
-        new Customer(req.body),
+        customer,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

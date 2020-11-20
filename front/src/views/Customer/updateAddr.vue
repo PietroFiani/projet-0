@@ -75,7 +75,7 @@ export default {
         .put(url, {
           road: this.address.road,
           zip: this.address.zip,
-          idDepartment: this.address.idDepartment
+          idDepartment: this.address.idDepartment,
         })
         .then((response) => {
           if (response.data) {

@@ -68,6 +68,9 @@
               label="Departement"
               
             ></v-autocomplete>
+            <v-card v-if="message" dark color="warning"
+              ><v-card-text>{{ message }}</v-card-text>
+            </v-card>
         <v-btn color="error" class="mr-4" @click="register"> Inscription</v-btn>
       </v-form>
     </v-app>
@@ -125,6 +128,9 @@ export default {
 
   methods: {
     register() {
+      if (this.object.password != this.object.repassword) {
+        return (this.message = "Le mot de passe est invalide");
+      }
       let url = "http://localhost:5000/customers/register"
       if (this.$refs.form.validate()) {
         axios
