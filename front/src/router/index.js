@@ -38,6 +38,12 @@ const routes = [{
             import ( /* webpackChunkName: "profile" */ '../views/Customer/dashboard.vue')
     },
     {
+        path: '/client/modifier/adresse',
+        name: 'UpadteAddrClient',
+        component: () =>
+            import ( /* webpackChunkName: "profile" */ '../views/Customer/updateAddr.vue')
+    },
+    {
         path: '/partenaire/connexion',
         name: 'Connexion Partenaire',
         component: () =>

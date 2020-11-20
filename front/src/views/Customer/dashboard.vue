@@ -3,7 +3,7 @@
     <h1>BIEN OU QUOI {{ customers[0].firstname }} {{ customers[0].lastname }}</h1>
     <div v-for="customer of customers" :key="customer.id">
       <p> {{customer.road}} {{customer.zip}}  {{customer.nom}}</p>
-      <button>Update</button>
+      <v-btn color="primary" class="mr-4" @click="updateAddr(customer.id)"> Modifier</v-btn>
     </div>
     <v-btn @click="logout()"> Se deconnecter </v-btn>
   </div>
@@ -59,6 +59,11 @@ export default {
       this.$store.commit("logoutCustomer")
       this.$router.push("/")
     },
+    updateAddr(id) {
+      this.$store.commit("addAddrCustomer", id)
+      this.$router.push({ name: 'UpadteAddrClient'})
+
+    }
   },
 }
 </script>

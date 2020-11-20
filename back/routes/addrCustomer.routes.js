@@ -7,10 +7,10 @@ module.exports = app => {
     app.get("/addrCustomer", addrCustomer.findAll);
 
     // Retrieve a single Customer with customerId
-    // app.get("/addrCustomer/:addrCustomerId", addrCustomer.findOne);
+    app.get("/addrCustomer/:addrCustomerId", addrCustomer.findOne);
 
-    // // Update a Customer with customerId
-    // app.put("/addrCustomer/:addrCustomerId", addrCustomer.update);
+    // Update a Customer with customerId
+    app.put("/addrCustomer/:addrCustomerId", addrCustomer.update);
 
     // Delete a Customer with customerId
     // app.delete("/customers/:customerId", customers.delete);
