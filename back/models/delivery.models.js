@@ -22,7 +22,7 @@ Delivery.create = (newDelivery, result) => {
 };
 
 Delivery.findByRunner = (runnerId, result) => {
-    sql.query(`SELECT * FROM delivery natural join department WHERE idRunner = ${runnerId}`, (err, res) => {
+    sql.query(`SELECT * FROM delivery, department WHERE delivery.idDepartment=department.id AND idRunner = ${runnerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -35,6 +35,24 @@ Delivery.findByRunner = (runnerId, result) => {
             return;
         }
 
+        // not found Runner with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+Delivery.deleteByRunner = (runnerId, result) => {
+    sql.query(`DELETE FROM delivery WHERE idRunner = ${runnerId}`, (err, res) => {
+        console.log("coucou", res)
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res) {
+            console.log("delete deliveries: ", res);
+            result(null, res);
+            return;
+        }
         // not found Runner with the id
         result({ kind: "not_found" }, null);
     });

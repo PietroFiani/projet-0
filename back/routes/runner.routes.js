@@ -10,10 +10,10 @@ module.exports = app => {
     // app.get("/runners", runners.findAll);
 
     // Retrieve a single Runner with runnerId
-    app.get("/runners/:runnerId", runners.findOne);
+  app.get("/runners/:runnerId", runners.findOne);
 
-    // Update a Customer with customerId
-    // app.put("/runner/:runnerrId", runners.update);
+    // Update a Runner with runnerId
+  app.put("/runners/:runnerId", runners.update);
 
     // Delete a Customer with customerId
     // app.delete("/customers/:customerId", customers.delete);
