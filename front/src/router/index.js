@@ -41,6 +41,12 @@ const routes = [{
             import ( /* webpackChunkName: "profile" */ '../views/Customer/updateProfil.vue')
     },
     {
+        path: '/client/ajouter/adresse',
+        name: 'AddAddrClient',
+        component: () =>
+            import ( /* webpackChunkName: "profile" */ '../views/Customer/addAddress.vue')
+    },
+    {
         path: '/partenaire/connexion',
         name: 'Connexion Partenaire',
         component: () =>

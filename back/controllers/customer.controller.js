@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt');
 exports.create = (req, res) => {
     // Validate request
 
-    console.log("body", req.body)
-    console.log(req.body.departmentsId)
+    // console.log("body", req.body)
+    // console.log(req.body.departmentsId)
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"

@@ -120,24 +120,24 @@ AddrCustomer.updateById = (id, addrCustomer, result) => {
     );
 };
 
-// AddrCustomer.remove = (id, result) => {
-//     sql.query("DELETE FROM customer WHERE id = ?", id, (err, res) => {
-//         if (err) {
-//             console.log("error: ", err);
-//             result(null, err);
-//             return;
-//         }
+AddrCustomer.remove = (id, result) => {
+    sql.query("DELETE FROM address WHERE id = ?", id, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
 
-//         if (res.affectedRows == 0) {
-//             // not found AddrCustomer with the id
-//             result({ kind: "not_found" }, null);
-//             return;
-//         }
+        if (res.affectedRows == 0) {
+            // not found AddrCustomer with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
 
-//         console.log("deleted customer with id: ", id);
-//         result(null, res);
-//     });
-// };
+        console.log("deleted customer with id: ", id);
+        result(null, res);
+    });
+};
 
 // AddrCustomer.removeAll = result => {
 //     sql.query("DELETE FROM customer", (err, res) => {

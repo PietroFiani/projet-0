@@ -10,7 +10,7 @@ exports.create = (req, res) => {
             message: "Content can not be empty!"
         });
     }
-    // Create a Customer
+    // Create a addrCustomer
     const addrCustomer = new AddrCustomer({
         road: req.body.road,
         zip: req.body.zip,
@@ -88,21 +88,21 @@ exports.update = (req, res) => {
 };
 
 // // Delete a Customer with the specified customerId in the request
-// exports.delete = (req, res) => {
-//     Customer.remove(req.params.customerId, (err, data) => {
-//         if (err) {
-//             if (err.kind === "not_found") {
-//                 res.status(404).send({
-//                     message: `Not found Customer with id ${req.params.customerId}.`
-//                 });
-//             } else {
-//                 res.status(500).send({
-//                     message: "Could not delete Customer with id " + req.params.customerId
-//                 });
-//             }
-//         } else res.send({ message: `Customer was deleted successfully!` });
-//     });
-// };
+exports.delete = (req, res) => {
+    AddrCustomer.remove(req.params.addrCustomerId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found AddrCustomer with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Could not delete address with id " + req.params.customerId
+                });
+            }
+        } else res.send({ message: `Adress was deleted successfully!` });
+    });
+};
 
 // // Delete all Customers from the database.
 // exports.deleteAll = (req, res) => {

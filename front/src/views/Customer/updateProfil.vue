@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     update() {
-        if (this.object.password != this.object.repassword) {
+      if (this.object.password != this.object.repassword) {
         return (this.message = "Le mot de passe est invalide");
       }
       let url = `http://localhost:5000/customers/${this.id}`

@@ -1,20 +1,20 @@
 module.exports = app => {
     const addrCustomer = require("../controllers/addrCustomer.controller.js");
-    // Create a new Customer
+    // Create a new Address
     app.post("/addrCustomer/add", addrCustomer.create);
 
-    // Retrieve all Customers
+    // Retrieve all Address
     app.get("/addrCustomer", addrCustomer.findAll);
 
-    // Retrieve a single Customer with customerId
+    // Retrieve a single Address with customerId
     app.get("/addrCustomer/:addrCustomerId", addrCustomer.findOne);
 
-    // Update a Customer with customerId
+    // Update a Address with addressId
     app.put("/addrCustomer/:addrCustomerId", addrCustomer.update);
 
-    // Delete a Customer with customerId
-    // app.delete("/customers/:customerId", addrCustomer.delete);
+    // Delete a Address with addressId
+    app.delete("/addrCustomers/:addrCustomerId", addrCustomer.delete);
 
-    // Create a new Customer
+    // Create a new Address
     // app.delete("/customers", customers.deleteAll);
 };
