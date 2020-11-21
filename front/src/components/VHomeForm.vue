@@ -44,6 +44,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
+    value: String, 
     valid: false,
     object: {
       mail: "",
@@ -113,6 +114,7 @@ $color1-btn: #FFAAAA;
   font-family: Monsserrat, sans-serif;
   transition: 300ms;
   outline: none;  
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .sign-up {
   background-color: $color1-btn;
