@@ -4,5 +4,5 @@ module.exports = app => {
     // Retrieve all Departements
     app.get("/products/:runnerId", products.getByRunner)
     app.post("/products/new", products.create)
-
+    app.put("/products/:productId", products.update);
 };

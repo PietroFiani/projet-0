@@ -19,6 +19,7 @@ exports.getByRunner = (req, res) => {
     });
 }
 exports.create = (req, res) => {
+    console.log("coucou")
     let product = new Product(req.body)
     Product.create(product, (err, data) => {
         if (err)
@@ -28,4 +29,37 @@ exports.create = (req, res) => {
         else res.send(data)
 
     });
+}
+exports.update = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+
+    const product = new Product(
+        req.body
+    );
+
+    Product.updateById(req.body.id,
+        new Product(product),
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found Product with id ${req.body.id}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error updating Product with id " + req.body.id
+                    });
+                }
+            } else {
+                res.send(data)
+
+            }
+        }
+
+    );
 }

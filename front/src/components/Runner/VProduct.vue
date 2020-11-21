@@ -83,15 +83,17 @@
             label="Prix"
             required
             type="number"
-            suffix="€"
+            suffix="€/gr"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn v-if="add" color="warning" text @click="newProduct()">
+          <v-btn v-if="add" color="warning" text @click="addProduct()">
             Ajouter</v-btn
           >
-          <v-btn v-else color="warning" text> Modifier</v-btn>
+          <v-btn v-else color="warning" text @click="updateProduct()">
+            Modifier</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -111,17 +113,37 @@ export default {
       categories: [],
       dialog: false,
       newProduct: {
+        id: Number,
         label: "",
         stock: 0,
         description: "",
         price: 0,
         photo: "",
         idCategory: 1,
-        idRunner: this.$store.state.runnerId,
       },
     };
   },
   methods: {
+    addProduct() {
+      let url = "http://localhost:5000/products/new";
+      axios
+        .post(url, {
+          label: this.newProduct.label,
+          stock: this.newProduct.stock,
+          description: this.newProduct.description,
+          price: this.newProduct.price,
+          photo: this.newProduct.photo,
+          idCategory: this.newProduct.idCategory,
+          idRunner: this.$store.state.runnerId,
+        })
+        .then((response) => {
+          console.log("New Product", response.data);
+          this.dialog = false;
+          this.initProduct();
+          this.$emit("reload");
+        })
+        .catch((error) => console.log("Categories error ", error));
+    },
     edit(product) {
       let url = "http://localhost:5000/categories";
       axios
@@ -130,7 +152,7 @@ export default {
           console.log("Categories", response.data);
           this.categories = response.data;
         }) //c'est un objet
-        .catch((error) => console.log("Categories error ", error));
+        .catch((error) => console.log("Product error ", error));
       if (product) {
         this.newProduct = product;
         this.add = false;
@@ -139,7 +161,38 @@ export default {
       }
       this.dialog = true;
     },
-    newProduct() {},
+
+    initProduct() {
+      this.newProduct.id = 0;
+      this.newProduct.label = "";
+      this.newProduct.stock = 0;
+      this.newProduct.description = "";
+      this.newProduct.price = 0;
+      this.newProduct.photo = "";
+      this.newProduct.idCategory = 1;
+    },
+
+    updateProduct() {
+      let url = `http://localhost:5000/products/${this.newProduct.id}`;
+      axios
+        .put(url, {
+          id: this.newProduct.id,
+          label: this.newProduct.label,
+          stock: this.newProduct.stock,
+          description: this.newProduct.description,
+          price: this.newProduct.price,
+          photo: this.newProduct.photo,
+          idCategory: this.newProduct.idCategory,
+          idRunner: this.$store.state.runnerId,
+        })
+        .then((response) => {
+          console.log("Updated Product", response.data);
+          this.dialog = false;
+          this.initProduct();
+          this.$emit("reload");
+        })
+        .catch((error) => console.log("Product error ", error));
+    },
   },
 };
 </script>

@@ -13,7 +13,7 @@
       >
 
       <v-col cols="7" class="mt-14">
-        <v-card
+        <v-card height="700" class="scroll"
           ><v-tabs grow v-model="tab" align-with-title>
             <v-tabs-slider color="primary"></v-tabs-slider>
             <v-tab class="ma-0"> Commande </v-tab>
@@ -24,7 +24,7 @@
                 <v-card flat> </v-card>
               </v-tab-item>
               <v-tab-item>
-                <v-product :products="products"></v-product>
+                <v-product :products="products" @reload="reload()"></v-product>
               </v-tab-item>
               <v-tab-item>
                 <v-profil
@@ -54,7 +54,6 @@ export default {
       tab: null,
       runner: {},
       products: [],
-      
     };
   },
   mounted() {
@@ -92,6 +91,20 @@ export default {
     logout() {
       this.$store.commit("logoutRunner");
       this.$router.push("/");
+    },
+    reload() {
+      let url2 = `http://localhost:5000/products/${this.$store.state.runnerId}`;
+      axios
+        .get(url2)
+        .then((response) => {
+          if (response.data) {
+            console.log("Products", response.data);
+            this.products = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
     },
     update(newRunner) {
       console.log("New Runner", newRunner);
@@ -144,5 +157,8 @@ button {
   position: absolute;
   right: 2%;
   top: 3%;
+}
+.scroll {
+   overflow-y: scroll
 }
 </style>
