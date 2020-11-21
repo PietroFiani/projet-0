@@ -74,7 +74,7 @@ Runner.findById = (runnerId, result) => {
 };
 Runner.updateById = (id, runner, result) => {
     sql.query(
-        "UPDATE runner SET mail = ?, phone = ? WHERE id = ?", [runner.mail, runner.phone, id],
+        "UPDATE runner SET mail = ?, phone = ?, password = ? WHERE id = ?", [runner.mail, runner.phone,runner.password, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -92,6 +92,25 @@ Runner.updateById = (id, runner, result) => {
             result(null, { id: id, ...runner });
         }
     );
+};
+
+Runner.remove = (runnerId, result) => {
+    sql.query(`DELETE FROM runner WHERE id = ${runnerId}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            // not found Customer with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
+
+        console.log("deleted runner with id: ", runnerId);
+        result(null, res);
+    });
 };
 
 module.exports = Runner;

@@ -103,7 +103,7 @@ exports.findOne = (req, res) => {
             else {
                 data.deliveries = deliveryData;
                 res.send(data)
-                
+
             }
         });
     })
@@ -116,24 +116,66 @@ exports.update = (req, res) => {
             message: "Content can not be empty!"
         });
     }
+    const encryptedPassword = bcrypt.hashSync(password, 10)
+
+    const runner = new Runner({
+        mail: req.body.mail,
+        password: encryptedPassword,
+        phone: req.body.phone,
+    });
 
     Runner.updateById(req.body.id,
-        new Runner(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Runner with id ${req.params.customerId}.`
-                    });
+        new Runner(runner,
+            (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found Runner with id ${req.body.id}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Error updating Runner with id " + req.body.id
+                        });
+                    }
                 } else {
-                    res.status(500).send({
-                        message: "Error updating Runner with id " + req.params.customerId
-                    });
-                }
-            } else {
-                res.send(data)
-                
-            }
-        })
+                    res.send(data)
 
+                }
+            })
+
+    )
+}
+exports.delete = (req, res) => {
+    Delivery.deleteByRunner(req.params.runnerId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found delivery with runnerId ${req.params.runnerId}.`
+                });
+            }
+            else {
+                res.status(500).send({
+                    message: "Error retrieving delivery with runnerId " + req.params.runnerId
+                });
+            }
+        }
+        else {
+
+            Runner.remove(req.params.runnerId, (err, runnerData) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found Runner with id ${req.params.runnerId}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Could not delete Customer with id " + req.params.runnerId
+                        });
+                    }
+                }
+                else res.send({ message: `Runner was deleted successfully!` });
+            })
+
+        }
+    })
 }

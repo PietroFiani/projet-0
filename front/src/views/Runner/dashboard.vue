@@ -21,17 +21,17 @@
             <v-tab> Profil </v-tab>
             <v-tabs-items v-model="tab">
               <v-tab-item>
-                <v-card flat>
-                  <v-card-text>mes commandes</v-card-text>
-                </v-card>
+                <v-card flat> </v-card>
               </v-tab-item>
               <v-tab-item>
-                <v-card flat>
-                  <v-card-text>produit</v-card-text>
-                </v-card>
+                <v-product :products="products"></v-product>
               </v-tab-item>
               <v-tab-item>
-                <v-profil :runner="runner" @update="update"></v-profil>
+                <v-profil
+                  :runner="runner"
+                  @update="update"
+                  @logout="logout"
+                ></v-profil>
               </v-tab-item>
             </v-tabs-items> </v-tabs
         ></v-card>
@@ -43,14 +43,18 @@
 <script>
 import axios from "axios";
 import VProfil from "../../components/Runner/VProfil";
+import VProduct from "../../components/Runner/VProduct";
 export default {
   components: {
     VProfil,
+    VProduct,
   },
   data() {
     return {
       tab: null,
       runner: {},
+      products: [],
+      
     };
   },
   mounted() {
@@ -65,6 +69,18 @@ export default {
           if (response.data) {
             console.log("RUNNER", response.data);
             this.runner = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
+      let url2 = `http://localhost:5000/products/${this.$store.state.runnerId}`;
+      axios
+        .get(url2)
+        .then((response) => {
+          if (response.data) {
+            console.log("Products", response.data);
+            this.products = response.data;
           }
         })
         .catch((error) => {
@@ -85,6 +101,7 @@ export default {
           id: this.runner.id,
           mail: newRunner.mail,
           phone: newRunner.phone,
+          password: newRunner.password,
         })
         .then((response) => {
           console.log("Runner updated", response.data);
@@ -104,14 +121,13 @@ export default {
             url: `http://localhost:5000/deliveries/${this.runner.id}`,
             headers: { "Content-Type": "application/json" },
           });
-          axios
-            .post("http://localhost:5000/deliveries/create", {
-              runnerId: this.runner.id,
-              departmentsIds: this.runner.departmentsIds,
-            })
+          axios.post("http://localhost:5000/deliveries/create", {
+            runnerId: this.runner.id,
+            departmentsIds: this.runner.departmentsIds,
+          });
         }
       });
-      this.$router.go()
+      this.$router.go();
     },
   },
 };

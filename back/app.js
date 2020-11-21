@@ -18,6 +18,9 @@ require("./routes/customer.routes.js")(app);
 require("./routes/runner.routes.js")(app);
 require("./routes/addrCustomer.routes.js")(app);
 require("./routes/department.routes.js")(app);
+require("./routes/product.routes.js")(app);
+require("./routes/category.routes.js")(app);
+
 
 app.listen(process.env.PORT, () => {
     console.log(`app is running on port ${process.env.PORT}`)

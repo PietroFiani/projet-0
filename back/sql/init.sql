@@ -24,16 +24,26 @@ CREATE TABLE IF NOT EXISTS runner(
     PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS category(
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(55) NOT NULL,
+    PRIMARY KEY(id)
+) ENGINE = InnoDB;
+
 
 CREATE TABLE IF NOT EXISTS product(
     id INT(11) NOT NULL AUTO_INCREMENT,
     stock INT NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    price INT NOT NULL,
+    label VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     photo VARCHAR(255),
     idRunner INT NOT NULL,
+    idCategory INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY (idRunner) REFERENCES runner(id)
+    FOREIGN KEY (idCategory) REFERENCES category(id)
+
 
 ) ENGINE = InnoDB;
 
@@ -104,6 +114,7 @@ CREATE TABLE IF NOT EXISTS orderRow(
 -- Dumping data for table `departement`
 --
 
+INSERT INTO category(name) VALUES ('Fines Herbes'), ('Champignons'),( 'Vitamines')
 INSERT INTO department (id, code, nom, nom_uppercase, slug, nom_soundex) VALUES
 (1, '01', 'Ain', 'AIN', 'ain', 'A500'),
 (2, '02', 'Aisne', 'AISNE', 'aisne', 'A250'),

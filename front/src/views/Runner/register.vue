@@ -124,6 +124,9 @@ export default {
       if (this.object.password != this.object.repassword) {
         return (this.message = "Le mot de passe est invalide");
       }
+      if (!this.object.departmentsIds.length){
+        return (this.message ="Veuillez rentrer les départements dans lesquels vous travaillez")
+      }
       if (this.$refs.form.validate()) {
         axios
           .post(url, {
