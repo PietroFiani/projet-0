@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: false }))
 // app.get("/", (req, res) => {
 //     res.json({ message: "Welcome to bezkoder application." });
 // });
-
+require("./routes/delivery.routes.js")(app);
 require("./routes/customer.routes.js")(app);
 require("./routes/runner.routes.js")(app);
 require("./routes/addrCustomer.routes.js")(app);

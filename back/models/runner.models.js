@@ -72,5 +72,26 @@ Runner.findById = (runnerId, result) => {
         result({ kind: "not_found" }, null);
     });
 };
+Runner.updateById = (id, runner, result) => {
+    sql.query(
+        "UPDATE runner SET mail = ?, phone = ? WHERE id = ?", [runner.mail, runner.phone, id],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated runner: ", { id: id, ...runner });
+            result(null, { id: id, ...runner });
+        }
+    );
+};
 
 module.exports = Runner;
