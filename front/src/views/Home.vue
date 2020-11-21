@@ -8,7 +8,7 @@
     <router-link :to="{ name: 'Inscription Partenaire' }">
       <button class="rounded">Devenir Runner</button>
     </router-link>
-    <h1 class="title">Get delivery with Brocoli</h1>
+    <h1 class="title">Miguel la petite feuille de canabis !</h1>
     <v-home-form></v-home-form>
       <!-- credits : GoodKatz -->
       <svg
@@ -99,9 +99,10 @@ $color1-btn: #FFAAAA;
 .title {
   font-weight: 900;
   font-size: 3em !important;
-  font-family: Monserrat, sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   color: white;
   margin-top: 3vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 }
 #logo {
   height: 10em;
