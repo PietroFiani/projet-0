@@ -82,7 +82,7 @@ $color1-btn: #FFAAAA;
 .container {
   background-color: white;
   height: 60vh;
-  width: 35vw;
+  width: 35em;
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -118,7 +118,7 @@ $color1-btn: #FFAAAA;
   background-color: $color1-btn;
   border: 2px solid $color1-btn;
   color: white;
-  width: 18em;
+  width: 15em;
   transition: 200ms;
   &:hover {
     color: $color1-btn;
@@ -128,7 +128,7 @@ $color1-btn: #FFAAAA;
 .sign-in {
   border: solid 2px $color1-btn;
   color: $color1-btn;
-  width: 18em;
+  width: 15em;
   &:hover {
     color: white;
     background-color: $color1-btn;
@@ -137,7 +137,7 @@ $color1-btn: #FFAAAA;
 .runner-sign-in {
   border: solid 2px $color1-btn;
   color: $color1-btn;
-  width: 38em;
+  width: 32em;
   justify-self: center;
   margin-top: -1em;
   &:hover {

@@ -98,7 +98,7 @@ $color1-btn: #FFAAAA;
 }
 .title {
   font-weight: 900;
-  font-size: 3em !important;
+  font-size: 5vmin !important;
   font-family: 'Poppins', sans-serif !important;
   color: white;
   margin-top: 3vh;
