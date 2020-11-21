@@ -16,7 +16,7 @@
         ></v-text-field>
         <v-text-field
           v-model="object.phone"
-          :rules="required"
+          :rules="phoneRules"
           label="Téléphone"
           required
         ></v-text-field>
@@ -43,7 +43,7 @@
         ></v-text-field>
         <v-text-field
           v-model="object.zip"
-          :rules="required"
+          :rules="codePostalRules"
           label="Code postal"
           required
         ></v-text-field>
@@ -82,9 +82,15 @@ export default {
       zip: ""
     },
     departments: [],
+    codePostalRules:[
+      (v) => /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/.test(v) || "Code Postal incorrect", 
+    ], 
+    phoneRules:[
+      (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Numéro incorrect"
+    ],
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "requis"],
   }),

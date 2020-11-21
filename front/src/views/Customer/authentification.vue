@@ -33,7 +33,7 @@ export default {
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),

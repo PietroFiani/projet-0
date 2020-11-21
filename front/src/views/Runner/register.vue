@@ -30,7 +30,7 @@
           <v-col cols="11" lg="4">
             <v-text-field
               v-model="object.phone"
-              :rules="required"
+              :rules="phoneRules"
               label="Téléphone"
               required
             ></v-text-field>
@@ -98,9 +98,12 @@ export default {
     },
     message: "",
     departments: [],
+    phoneRules:[
+      (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Numéro incorrect"
+    ],
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "requis"],
   }),

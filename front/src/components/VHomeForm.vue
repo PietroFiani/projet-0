@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <v-form class="home-form">
+    <v-form class="home-form" ref="form" v-model="valid" lazy-validation>
       <div class="text-area-wrapper">
         <v-text-field
           class="textarea"
-          label="email :"
+          label="E-mail :"
           v-model="object.mail"
           :rules="emailRules"
           required
@@ -12,11 +12,13 @@
         </v-text-field>
         <v-text-field
           class="textarea"
-          type="password"
-          label="mot de passe :"
+          label="Mot de passe :"
           v-model="object.password"
           :counter="10"
           :rules="required"
+          :append-icon="value ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append="() => (value = !value)"
+          :type="value ? 'password' : 'text'"
           required
         >
         </v-text-field>
@@ -24,12 +26,14 @@
       </div>
       <div class="btn-wrapper">
         <button class="round sign-in" @click="log">Connexion</button>
-        <router-link :to="{ name: 'Register' }">
+        <router-link :to="{ name: 'Inscription Client' }">
           <button class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
-        <button class="round runner-sign-in">Connexion Runner</button>
+        <router-link :to="{ name : 'Connexion Partenaire'}">
+          <button class="round runner-sign-in">Connexion Runner</button>
+        </router-link>
       </div>
     </v-form>
   </div>
@@ -47,7 +51,7 @@ export default {
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),
@@ -73,17 +77,16 @@ export default {
 
 <style lang="scss" scoped>
 //Variables
-$green: #1ead0b;
-$purple: #470063;
+$color1-btn: #FFAAAA;
 
 .container {
   background-color: white;
   height: 60vh;
-  width: 30em;
+  width: 35vw;
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  margin-top: 5vh;
+  margin-top: 3vh;
   .home-form {
     display: flex;
     flex-direction: column;
@@ -105,50 +108,50 @@ $purple: #470063;
 }
 //buttons
 .round {
-  height: 2.2em;
+  height: 3em;
   border-radius: 50px;
-  font-family: Rubik, sans-serif;
-  margin: 0.2em;
+  font-family: Monsserrat, sans-serif;
   transition: 300ms;
-  outline: none;
+  outline: none;  
 }
 .sign-up {
-  background-color: $green;
-  border: 2px solid $green;
+  background-color: $color1-btn;
+  border: 2px solid $color1-btn;
   color: white;
-  width: 200px;
+  width: 18em;
   transition: 200ms;
   &:hover {
-    color: $green;
+    color: $color1-btn;
     background-color: white;
   }
 }
 .sign-in {
-  border: solid 2px $green;
-  color: $green;
-  width: 200px;
+  border: solid 2px $color1-btn;
+  color: $color1-btn;
+  width: 18em;
   &:hover {
     color: white;
-    background-color: $green;
+    background-color: $color1-btn;
   }
 }
 .runner-sign-in {
-  border: solid 2px $purple;
-  color: $purple;
-  width: 200px;
+  border: solid 2px $color1-btn;
+  color: $color1-btn;
+  width: 38em;
   justify-self: center;
   margin-top: -1em;
   &:hover {
     color: white;
-    background-color: $purple;
+    background-color: $color1-btn;
   }
 }
 //textarea
 .textarea {
-  width: 34em;
+  width: 38em;
+  height: 6em;
 }
 .forgot-psw {
-  color: $purple;
+  color: $color1-btn;
   &:hover {
     color: rgb(70, 70, 236);
   }
