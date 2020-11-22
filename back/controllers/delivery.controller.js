@@ -31,11 +31,12 @@ exports.create = (req, res) => {
             id_department: department
         })
         Delivery.create(delivery, (err, data) => {
-            if (err)
+            if (err) {
                 res.status(500).send({
                     message: err.message || "Some error occurred while creating the Delivery."
                 });
-            else res.send(data)
-        });
-    });
+            }
+
+        }); 
+    });res.send("deliveries updated")
 }
