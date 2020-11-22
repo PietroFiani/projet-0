@@ -71,6 +71,8 @@ export default {
             url: `http://localhost:5000/addrCustomers/${id}`,
             headers: { "Content-Type": "application/json" },
           }); 
+      this.$router.push({name: 'Profil Client'})
+
     },
   },
 }
