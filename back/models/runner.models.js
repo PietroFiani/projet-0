@@ -94,8 +94,8 @@ Runner.updateById = (id, runner, result) => {
     );
 };
 
-Runner.remove = (runnerId, result) => {
-    sql.query(`DELETE FROM runner WHERE id_runner = ${runnerId}`, (err, res) => {
+Runner.remove = (id_runner, result) => {
+    sql.query(`DELETE FROM runner WHERE id_runner = ${id_runner}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -108,7 +108,7 @@ Runner.remove = (runnerId, result) => {
             return;
         }
 
-        console.log("deleted runner with id: ", runnerId);
+        console.log("deleted runner with id: ", id_runner);
         result(null, res);
     });
 };

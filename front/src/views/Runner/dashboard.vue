@@ -93,6 +93,7 @@ export default {
       this.$router.push("/");
     },
     reload() {
+      console.log("reload")
       let url2 = `http://localhost:5000/products/${this.$store.state.runnerId}`;
       axios
         .get(url2)
@@ -101,10 +102,12 @@ export default {
             console.log("Products", response.data);
             this.products = response.data;
           }
+          else this.products =[]
         })
         .catch((error) => {
           console.log("ERREUR", error);
         });
+        console.log("reload ended")
     },
     update(newRunner) {
       console.log("New Runner", newRunner);
