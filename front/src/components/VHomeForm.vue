@@ -12,10 +12,8 @@
         </v-text-field>
         <v-text-field
           class="textarea"
-          label="Mot de passe :"
+          label="Mot de passe"
           v-model="object.password"
-          :counter="10"
-          :rules="required"
           :append-icon="value ? 'mdi-eye-off' : 'mdi-eye'"
           @click:append="() => (value = !value)"
           :type="value ? 'password' : 'text'"
@@ -25,13 +23,21 @@
         <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
       <div class="btn-wrapper">
+<<<<<<< HEAD
         <button class="round sign-in" @click="log">Connexion</button>
+=======
+        <button class="round sign-in" @click="log()">Connexion</button>
+>>>>>>> customer-address
         <router-link :to="{ name: 'Inscription Client' }">
           <button class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
+<<<<<<< HEAD
         <router-link :to="{ name : 'Connexion Partenaire'}">
+=======
+        <router-link :to="{name :'Connexion Partenaire'}">
+>>>>>>> customer-address
           <button class="round runner-sign-in">Connexion Runner</button>
         </router-link>
       </div>
@@ -45,6 +51,8 @@ import axios from "axios";
 export default {
   data: () => ({
     valid: false,
+    value: String,
+    message: "",
     object: {
       mail: "",
       password: "",
@@ -55,9 +63,15 @@ export default {
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),
+  mounted() {
+    if (this.$store.state.customerId) {
+      this.$router.push("/client/profil");
+    }
+  },
 
   methods: {
     log() {
+      // const self=this
       let url = "http://localhost:5000/customers/login";
       this.$refs.form.validate();
       axios
@@ -65,10 +79,22 @@ export default {
           params: { mail: this.object.mail, password: this.object.password },
         })
         .then((response) => {
-          if (response.data) console.log("CONNECTE", response.data);
-          else console.log("PAS CONNECTE");
+          if (response.data) {
+            console.log("CONNECTE", response.data);
+            this.$store.commit('loginCustomer', response.data.id)
+            this.$router.push("/client/profil");
+          } 
+          else { 
+            console.log("PAS CONNECTE");
+            this.message = "Email et/ou password invalide";
+          
+          }
         })
-        .catch((error) => console.log("PAS CONNECTE", error));
+        .catch((error) => {
+          console.log("PAS CONNECTE", error);
+          this.message = "Email et/ou password invalide";
+        })
+
     },
   },
 };
@@ -81,8 +107,13 @@ $color1-btn: #FFAAAA;
 
 .container {
   background-color: white;
+<<<<<<< HEAD
   height: 60vh;
   width: 35em;
+=======
+  height: 70vh;
+  width: 30em;
+>>>>>>> customer-address
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
   z-index: 1;

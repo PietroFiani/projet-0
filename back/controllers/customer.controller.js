@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt');
 exports.create = (req, res) => {
     // Validate request
 
-    console.log("body", req.body)
+    // console.log("body", req.body)
+    // console.log(req.body.departmentsId)
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
@@ -33,26 +34,41 @@ exports.create = (req, res) => {
             });
         else {
             let idCustomer = data.id
-            req.body.departmentsIds.forEach(idDepartment => {
-                    let addrCustomer = new AddrCustomer({
-                        idRunner,
-                        idDepartment
-                    })
-                    AddrCustomer.create(addrCustomer, (err, deliverydata => {
-                        if (err)
-                            res.status(500).send({
-                                message: err.message || "Some error occurred while creating the Delivery."
-                            });
+                // req.body.departmentsIds.forEach(idDepartment => {
+            let addrCustomer = new AddrCustomer({
+                road: req.body.road,
+                zip: req.body.zip,
+                idDepartment: req.body.departmentsId,
+                idCustomer
+            })
+            AddrCustomer.create(addrCustomer, (err, addrCustomerdata => {
+                    if (err)
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while creating the Delivery."
+                        });
 
-                    }))
-                },
-                res.send(data)
+                }))
+                // },
+            res.send(data)
 
-            )
+            // )
 
         }
     });
 };
+
+// exports.addressByIdCustomer = (req, res) => {
+
+//     // console.log('test')
+//     AddrCustomer.addressByIdCustomer((err, data) => {
+//         if (err) {
+//             res.status(500).send({
+//                 message: err.message || "Some error occurred while finding address of customer."
+//             })
+//         } else res.send({ message: `addr of customer` });
+
+//     })
+// }
 
 exports.login = async function(req, res) {
     var mail = req.query.mail;
@@ -101,16 +117,24 @@ exports.findOne = (req, res) => {
 
 // Update a Customer identified by the customerId in the request
 exports.update = (req, res) => {
+
     // Validate Request
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
     }
+    const password = req.body.password;
+    const encryptedPassword = bcrypt.hashSync(password, 10)
 
+    const customer = new Customer({
+        mail: req.body.mail,
+        phone: req.body.phone,
+        password: encryptedPassword
+    });
     Customer.updateById(
         req.params.customerId,
-        new Customer(req.body),
+        customer,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

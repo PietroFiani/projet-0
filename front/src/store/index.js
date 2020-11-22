@@ -12,7 +12,7 @@ export default new Vuex.Store({
     state: {
         customerId: null,
         runnerId: null,
-
+        addrCustomerId: null
     },
     // mutations sont les fonctions quoi permettent de modifier les state
     mutations: {
@@ -32,6 +32,12 @@ export default new Vuex.Store({
         logoutRunner(state) {
             state.runnerId = null;
         },
+        addAddrCustomer(state, addrCustomerId) {
+            state.addrCustomerId = addrCustomerId
+        },
+        removeAddrCustomer(state) {
+            state.addrCustomerId = null
+        }
 
     },
     actions: {

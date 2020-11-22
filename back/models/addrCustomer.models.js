@@ -4,7 +4,7 @@ const sql = require("./dbServices.js");
 const AddrCustomer = function(addrCustomer) {
     this.road = addrCustomer.road;
     this.zip = addrCustomer.zip;
-    this.idDepartement = addrCustomer.idDepartement;
+    this.idDepartment = addrCustomer.idDepartment;
     this.idCustomer = addrCustomer.idCustomer
 };
 
@@ -20,6 +20,23 @@ AddrCustomer.create = (newAddrCustomer, result) => {
         result(null, { id: res.insertId, ...newAddrCustomer });
     });
 };
+
+// AddrCustomer.addressByIdCustomer = (customerId, result) => {
+//     sql.query("SELECT * FROM address WHERE idCustomer = ?", customerId, (err, res) => {
+//         if (err) {
+//             console.log('error: ', err);
+//             result(err, null);
+//             return;
+//         }
+//         if (res.length) {
+//             console.log("fond address", res[0])
+//             result(null, res[0])
+//             return
+//         }
+//         result({ kind: "not_found" }, null);
+
+//     });
+// }
 
 AddrCustomer.findById = (addrCustomerId, result) => {
     sql.query(`SELECT * FROM address WHERE id = ${addrCustomerId}`, (err, res) => {
@@ -81,46 +98,46 @@ AddrCustomer.getAll = result => {
     });
 };
 
-// AddrCustomer.updateById = (id, customer, result) => {
-//     sql.query(
-//         "UPDATE customer SET email = ?, lastname = ?, firstname = ? WHERE id = ?", [customer.email, customer.lastname, customer.firstname, id],
-//         (err, res) => {
-//             if (err) {
-//                 console.log("error: ", err);
-//                 result(null, err);
-//                 return;
-//             }
+AddrCustomer.updateById = (id, addrCustomer, result) => {
+    sql.query(
+        "UPDATE address SET road = ?, zip = ?, idDepartment = ? WHERE id = ?", [addrCustomer.road, addrCustomer.zip, addrCustomer.idDepartment, id],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
 
-//             if (res.affectedRows == 0) {
-//                 // not found AddrCustomer with the id
-//                 result({ kind: "not_found" }, null);
-//                 return;
-//             }
+            if (res.affectedRows == 0) {
+                // not found AddrCustomer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
 
-//             console.log("updated customer: ", { id: id, ...customer });
-//             result(null, { id: id, ...customer });
-//         }
-//     );
-// };
+            console.log("updated addrcustomer: ", { id: id, ...addrCustomer });
+            result(null, { id: id, ...addrCustomer });
+        }
+    );
+};
 
-// AddrCustomer.remove = (id, result) => {
-//     sql.query("DELETE FROM customer WHERE id = ?", id, (err, res) => {
-//         if (err) {
-//             console.log("error: ", err);
-//             result(null, err);
-//             return;
-//         }
+AddrCustomer.remove = (id, result) => {
+    sql.query("DELETE FROM address WHERE id = ?", id, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
 
-//         if (res.affectedRows == 0) {
-//             // not found AddrCustomer with the id
-//             result({ kind: "not_found" }, null);
-//             return;
-//         }
+        if (res.affectedRows == 0) {
+            // not found AddrCustomer with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
 
-//         console.log("deleted customer with id: ", id);
-//         result(null, res);
-//     });
-// };
+        console.log("deleted customer with id: ", id);
+        result(null, res);
+    });
+};
 
 // AddrCustomer.removeAll = result => {
 //     sql.query("DELETE FROM customer", (err, res) => {

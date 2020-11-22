@@ -24,9 +24,7 @@
             <v-card dark color="warning"
               ><v-card-text v-if="message">{{ message }}</v-card-text></v-card
             >
-            <v-btn color="primary" class="mt-4" @click="log" x-large rounded>
-              Connexion</v-btn
-            >
+            <v-btn color="primary" class="mt-4 zizi" @click="log" x-large rounded>Connexion</v-btn>
           </v-col>
         </v-row>
       </v-form>

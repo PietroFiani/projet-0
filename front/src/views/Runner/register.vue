@@ -18,7 +18,6 @@
             ></v-text-field>
             <v-text-field
               v-model="object.password"
-              :counter="10"
               :rules="required"
               label="Mot de passe"
               required
@@ -30,7 +29,11 @@
           <v-col cols="11" lg="4">
             <v-text-field
               v-model="object.phone"
+<<<<<<< HEAD
               :rules="phoneRules"
+=======
+              :rules="PhoneRules"
+>>>>>>> customer-address
               label="Téléphone"
               required
             ></v-text-field>
@@ -98,7 +101,11 @@ export default {
     },
     message: "",
     departments: [],
+<<<<<<< HEAD
     phoneRules:[
+=======
+    PhoneRules:[
+>>>>>>> customer-address
       (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Numéro incorrect"
     ],
     emailRules: [
@@ -115,7 +122,7 @@ export default {
     axios
       .get(url)
       .then((response) => {
-        console.log("Departements", response.data);
+        // console.log("Departements", response.data);
         this.departments = response.data;
       }) //c'est un objet
       .catch((error) => console.log(console.log("Departments error ", error)));

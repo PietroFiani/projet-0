@@ -25,7 +25,11 @@ Customer.create = (newCustomer, result) => {
 };
 
 Customer.findById = (customerId, result) => {
-    sql.query(`SELECT * FROM customer WHERE id = ${customerId}`, (err, res) => {
+    sql.query(`SELECT c.id , firstname, lastname, password, phone,image, a.id AS idAddress, road ,zip , idDepartment, d.id AS idDepartment, code, nom, mail
+               FROM customer c, address a, department d 
+               WHERE a.idDepartment = d.id 
+               AND c.id = a.idCustomer
+               AND c.id = ${customerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -33,8 +37,8 @@ Customer.findById = (customerId, result) => {
         }
 
         if (res.length) {
-            console.log("found customer: ", res[0]);
-            result(null, res[0]);
+            console.log("found customer: ", res);
+            result(null, res);
             return;
         }
 
@@ -86,7 +90,7 @@ Customer.getAll = result => {
 
 Customer.updateById = (id, customer, result) => {
     sql.query(
-        "UPDATE customer SET email = ?, lastname = ?, firstname = ? WHERE id = ?", [customer.email, customer.lastname, customer.firstname, id],
+        "UPDATE customer SET mail = ?, phone = ?, password = ? WHERE id = ?", [customer.mail, customer.phone, customer.password, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
