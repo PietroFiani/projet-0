@@ -19,8 +19,8 @@ Runner.create = (newRunner, result) => {
             return;
         }
 
-        console.log("created runner: ", { id: res.insertId, ...newRunner });
-        result(null, { id: res.insertId, ...newRunner });
+        console.log("created runner: ", { id_runner: res.insertId, ...newRunner });
+        result(null, { id_runner: res.insertId, ...newRunner });
     });
 };
 
@@ -55,7 +55,7 @@ Runner.log = (auth, result) => {
     })
 };
 Runner.findById = (runnerId, result) => {
-    sql.query(`SELECT * FROM runner WHERE id = ${runnerId}`, (err, res) => {
+    sql.query(`SELECT * FROM runner WHERE id_runner = ${runnerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -74,7 +74,7 @@ Runner.findById = (runnerId, result) => {
 };
 Runner.updateById = (id, runner, result) => {
     sql.query(
-        "UPDATE runner SET mail = ?, phone = ?, password = ? WHERE id = ?", [runner.mail, runner.phone,runner.password, id],
+        "UPDATE runner SET mail = ?, phone = ?, password = ? WHERE id_runner = ?", [runner.mail, runner.phone,runner.password, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -88,14 +88,14 @@ Runner.updateById = (id, runner, result) => {
                 return;
             }
 
-            console.log("updated runner: ", { id: id, ...runner });
-            result(null, { id: id, ...runner });
+            console.log("updated runner: ", { id_runner: id, ...runner });
+            result(null, { id_runner: id, ...runner });
         }
     );
 };
 
 Runner.remove = (runnerId, result) => {
-    sql.query(`DELETE FROM runner WHERE id = ${runnerId}`, (err, res) => {
+    sql.query(`DELETE FROM runner WHERE id_runner = ${runnerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

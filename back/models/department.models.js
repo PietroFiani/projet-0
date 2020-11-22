@@ -16,12 +16,12 @@ Department.getAll = result => {
             return;
         }
 
-        console.log("departments: ", res);
+        // console.log("departments: ", res);
         result(null, res);
     });
 };
 Department.findById = (departmentId, result) => {
-    sql.query(`SELECT * FROM department WHERE id = ${departmentId}`, (err, res) => {
+    sql.query(`SELECT * FROM department WHERE id_department = ${departmentId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

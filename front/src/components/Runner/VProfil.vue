@@ -18,7 +18,7 @@
           Lieux de travail :
           <v-chip
             v-for="delivery in runner.deliveries"
-            :key="delivery.idDepartment"
+            :key="delivery.id_department"
             class="ma-2"
           >
             {{ delivery.code }} - {{ delivery.nom }}
@@ -29,7 +29,7 @@
           v-model="newRunner.departmentsIds"
           :items="departments"
           :item-text="(item) => item.code + ' - ' + item.nom"
-          :item-value="(item) => item.id"
+          :item-value="(item) => item.id_department"
           chips
           required
           label="Lieux de travail"
@@ -123,7 +123,7 @@ export default {
     this.newRunner.repassword = "";
     (this.newRunner.departmentsIds = []),
       this.newRunner.deliveries.forEach((delivery) => {
-        this.newRunner.departmentsIds.push(delivery.id);
+        this.newRunner.departmentsIds.push(delivery.id_department);
       });
   },
   methods: {
@@ -139,7 +139,7 @@ export default {
         .catch((error) => console.log("Departments error ", error));
     },
     remove() {
-      let url = `http://localhost:5000/runners/${this.runner.id}`;
+      let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
 
       axios
         .delete(url)

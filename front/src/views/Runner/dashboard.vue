@@ -108,10 +108,10 @@ export default {
     },
     update(newRunner) {
       console.log("New Runner", newRunner);
-      let url = `http://localhost:5000/runners/${this.runner.id}`;
+      let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
       axios
         .put(url, {
-          id: this.runner.id,
+          id_runner: this.runner.id_runner,
           mail: newRunner.mail,
           phone: newRunner.phone,
           password: newRunner.password,
@@ -126,16 +126,16 @@ export default {
       newRunner.departmentsIds.forEach((element) => {
         let found = false;
         this.runner.deliveries.forEach((actualElement) => {
-          if (element == actualElement.idDepartment) found = true;
+          if (element == actualElement.id_department) found = true;
         });
         if (found == false) {
           axios({
             method: "DELETE",
-            url: `http://localhost:5000/deliveries/${this.runner.id}`,
+            url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
             headers: { "Content-Type": "application/json" },
           });
           axios.post("http://localhost:5000/deliveries/create", {
-            runnerId: this.runner.id,
+            id_runner: this.runner.id_runner,
             departmentsIds: this.runner.departmentsIds,
           });
         }

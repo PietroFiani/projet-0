@@ -56,7 +56,7 @@
               v-model="object.departmentsIds"
               :items="departments"
               :item-text="(item) => item.code + ' - ' + item.nom"
-              :item-value="(item) => item.id"
+              :item-value="(item) => item.id_department"
               chips
               :rules="required"
               required
@@ -140,7 +140,7 @@ export default {
           })
           .then((response) => {
             console.log("INSCRIT", response.data);
-            this.$store.commit("loginRunner", response.data.id);
+            this.$store.commit("loginRunner", response.data.id_runner);
             this.$router.push("/partenaire/profil");
           }) //c'est un objet
           .catch((error) => {

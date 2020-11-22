@@ -11,7 +11,7 @@ const Product = function (product) {
 };
 
 Product.findByRunner = (runnerId, result) => {
-    sql.query(`SELECT * FROM product WHERE idRunner = ${runnerId}`, (err, res) => {
+    sql.query(`SELECT * FROM product natural join category WHERE id_runner = ${runnerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -42,7 +42,7 @@ Product.create = (product, result) => {
 };
 Product.updateById = (id, product, result) => {
     sql.query(
-        "UPDATE product SET label = ?, stock = ?, description = ? , price = ? , photo = ? , idCategory = ? WHERE id = ?", [product.label, product.stock, product.description, product.price, product.photo, product.idCategory, id],
+        "UPDATE product SET label = ?, stock = ?, description = ? , price = ? , photo = ? , idCategory = ? WHERE id_product = ?", [product.label, product.stock, product.description, product.price, product.photo, product.idCategory, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

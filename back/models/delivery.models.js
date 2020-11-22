@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 
 // constructor
 const Delivery = function (delivery) {
-    this.idRunner = delivery.idRunner;
-    this.idDepartment = delivery.idDepartment;
+    this.id_runner = delivery.id_runner;
+    this.id_department = delivery.id_department;
 };
 
 Delivery.create = (newDelivery, result) => {
@@ -22,7 +22,7 @@ Delivery.create = (newDelivery, result) => {
 };
 
 Delivery.findByRunner = (runnerId, result) => {
-    sql.query(`SELECT * FROM delivery, department WHERE delivery.idDepartment=department.id AND idRunner = ${runnerId}`, (err, res) => {
+    sql.query(`SELECT * FROM delivery natural join department WHERE id_runner = ${runnerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -39,9 +39,8 @@ Delivery.findByRunner = (runnerId, result) => {
         result({ kind: "not_found" }, null);
     });
 };
-Delivery.deleteByRunner = (runnerId, result) => {
-    sql.query(`DELETE FROM delivery WHERE idRunner = ${runnerId}`, (err, res) => {
-        console.log("coucou", res)
+Delivery.deleteByRunner = (id_runner, result) => {
+    sql.query(`DELETE FROM delivery WHERE id_runner = ${id_runner}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
