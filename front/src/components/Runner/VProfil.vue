@@ -140,7 +140,7 @@ export default {
     },
     remove() {
       let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
-
+      console.log("id", this.runner.id_runner)
       axios
         .delete(url)
         .then((response) => {

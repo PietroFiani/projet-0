@@ -19,14 +19,19 @@
           <v-card-actions>
             <v-btn
               class="ml-2 mt-5"
-              outlined
               rounded
               color="primary"
               @click="edit(product)"
             >
               Modifier
             </v-btn>
-            <v-btn class="ml-2 mt-5" outlined rounded color="warning">
+            <v-btn
+              class="ml-2 mt-5"
+              outlined
+              rounded
+              color="warning"
+              @click="ask(product)"
+            >
               Supprimer
             </v-btn>
           </v-card-actions>
@@ -97,6 +102,23 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="dialogConfirm" persistent max-width="600">
+      <v-card>
+        <v-card-title class="headline">
+          Etes-vous sur de vouloir supprimer ce produit ?
+        </v-card-title>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialogConfirm = false">
+            Annuler
+          </v-btn>
+          <v-btn color="warning" text @click="remove()">
+            Supprimer ce produit</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -112,6 +134,8 @@ export default {
       add: true,
       categories: [],
       dialog: false,
+      dialogConfirm: false,
+      toDeleteId: Number,
       newProduct: {
         id_product: Number,
         label: "",
@@ -155,14 +179,40 @@ export default {
         .catch((error) => console.log("Product error ", error));
       if (product) {
         this.newProduct = product;
-        console.log(this.newProduct)
+        console.log(this.newProduct);
         this.add = false;
       } else {
         this.add = true;
       }
       this.dialog = true;
     },
+    ask(product) {
+      this.toDeleteId = product.id_product;
+      console.log("product Id to delete", this.toDeleteId)
+      this.dialogConfirm = true;
+      // let url = `http://localhost:5000/products/${product.id_product}`;
+      // axios
+      //   .delete(url)
+      //   .then((response) => {
+      //     console.log("Product deleted", response.data);
 
+      //   }) //c'est un objet
+      //   .catch((error) => console.log("error ", error));
+    },
+    remove() {
+      let id=this.toDeleteId
+      console.log("ID", id)
+      let url = `http://localhost:5000/products/${id}`;
+      axios
+        .delete(url)
+        .then((response) => {
+          console.log("Product deleted", response.data)
+          this.toDeleteId=0
+          this.dialogConfirm=false
+          this.$emit("reload")
+        }) //c'est un objet
+        .catch((error) => console.log("error ", error))
+    },
     initProduct() {
       this.newProduct.id_product = 0;
       this.newProduct.label = "";

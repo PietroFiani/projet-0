@@ -62,4 +62,42 @@ Product.updateById = (id, product, result) => {
 
         });
 };
+
+Product.remove = (id_product, result) => {
+    sql.query("DELETE FROM product WHERE id_product = ?", id_product, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            // not found product with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
+
+        console.log("deleted product with id: ", id_product);
+        result(null, res);
+    });
+};
+
+Product.deleteByRunner = (id_runner, result) => {
+    sql.query("DELETE FROM product WHERE id_runner = ?", id_runner, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            // not found product with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
+
+        console.log("deleted product with id_runner: ", id_runner);
+        result(null, res);
+    });
+};
 module.exports = Product;
