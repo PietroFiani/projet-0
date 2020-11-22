@@ -31,8 +31,8 @@
                 @click:append="() => (value2 = !value2)"
                 :type="value2 ? 'password' : 'text'"
                 ></v-text-field>
-                <v-card v-if="message" dark color="warning"
-                ><v-card-text>{{ message }}</v-card-text>
+                <v-card v-if="message" dark color="warning">
+                  <v-card-text>{{ message }}</v-card-text>
                 </v-card>
             <v-btn color="primary" class="mr-4" @click="update()"> Modifier</v-btn>
       </v-form>
@@ -71,23 +71,26 @@ export default {
     
   },
   mounted() {
-     this.id = this.$store.state.customerId
-      let url = `http://localhost:5000/customers/${this.id}`
-      axios
-        .get(url)
-        .then((response) => {
-          if (response.data) {
-            console.log("Customer", response.data)
-            this.customer = response.data
+    this.id = this.$store.state.customerId
+    // recupere les info de l'utilisateur
+    let url = `http://localhost:5000/customers/${this.id}`
+    axios
+      .get(url)
+      .then((response) => {
+        if (response.data) {
+          // console.log("Customer", response.data)
+          this.customer = response.data
 
-          }
-        })
-        .catch((error) => {
-          console.log("ERREUR", error)
-        })
+        }
+      })
+      .catch((error) => {
+        console.log("ERREUR", error)
+      })
   },
   methods: {
+    // met a jour le profil et redirige vers le dashboard
     update() {
+      // verifie les password
       if (this.object.password != this.object.repassword) {
         return (this.message = "Le mot de passe est invalide");
       }
@@ -102,7 +105,7 @@ export default {
             })
             .then((response) => {
             if (response.data) {
-                console.log("customer", response.data)
+                // console.log("customer", response.data)
                 this.customer = response.data
             }
             })

@@ -4,8 +4,8 @@ const sql = require("./dbServices.js");
 const AddrCustomer = function(addrCustomer) {
     this.road = addrCustomer.road;
     this.zip = addrCustomer.zip;
-    this.idDepartment = addrCustomer.idDepartment;
-    this.idCustomer = addrCustomer.idCustomer
+    this.id_department = addrCustomer.id_department;
+    this.id_customer = addrCustomer.id_customer
 };
 
 AddrCustomer.create = (newAddrCustomer, result) => {
@@ -39,7 +39,7 @@ AddrCustomer.create = (newAddrCustomer, result) => {
 // }
 
 AddrCustomer.findById = (addrCustomerId, result) => {
-    sql.query(`SELECT * FROM address WHERE id = ${addrCustomerId}`, (err, res) => {
+    sql.query(`SELECT * FROM address WHERE id_address = ${addrCustomerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -100,7 +100,7 @@ AddrCustomer.getAll = result => {
 
 AddrCustomer.updateById = (id, addrCustomer, result) => {
     sql.query(
-        "UPDATE address SET road = ?, zip = ?, idDepartment = ? WHERE id = ?", [addrCustomer.road, addrCustomer.zip, addrCustomer.idDepartment, id],
+        "UPDATE address SET road = ?, zip = ?, id_department = ? WHERE id_address = ?", [addrCustomer.road, addrCustomer.zip, addrCustomer.id_department, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -121,7 +121,7 @@ AddrCustomer.updateById = (id, addrCustomer, result) => {
 };
 
 AddrCustomer.remove = (id, result) => {
-    sql.query("DELETE FROM address WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM address WHERE id_address = ?", id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

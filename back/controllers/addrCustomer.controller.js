@@ -14,8 +14,8 @@ exports.create = (req, res) => {
     const addrCustomer = new AddrCustomer({
         road: req.body.road,
         zip: req.body.zip,
-        idDepartment: req.body.idDepartment,
-        idCustomer: req.body.idCustomer
+        id_department: req.body.id_department,
+        id_customer: req.body.id_customer
     });
 
     // Save address customer in the database
@@ -67,10 +67,14 @@ exports.update = (req, res) => {
         });
     }
     // console.log(req.params)
-
+    const addrCustomer = new AddrCustomer({
+        road: req.body.road,
+        zip: req.body.zip,
+        id_department: req.body.id_department
+    });
     AddrCustomer.updateById(
         req.params.addrCustomerId,
-        new AddrCustomer(req.body),
+        addrCustomer,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

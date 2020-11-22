@@ -15,10 +15,10 @@
             required
             ></v-text-field>
             <v-autocomplete
-                v-model="object.departmentsId"
+                v-model="object.id_department"
                 :items="departments"
                 :item-text="(item) => item.code + ' - ' + item.nom"
-                :item-value="(item) => item.id"
+                :item-value="(item) => item.id_department"
                 chips
                 :rules="required"
                 required
@@ -42,7 +42,7 @@ export default {
             message: "",
             departments: [],
             object: {
-                departmentsId: "",
+                id_department: "",
                 road: "",
                 zip: "",
             },
@@ -54,6 +54,7 @@ export default {
         }
     },
     mounted() {
+        //recupere la liste des departements
         let url = "http://localhost:5000/departments"
         axios
         .get(url)
@@ -64,7 +65,9 @@ export default {
         .catch((error) => console.log(console.log("Departments error ", error)))
     },
     methods: {
+        //ajoute une adresse et redirige vers le dashboard
         add() {
+            // fait appel a la requete add de l'api
             let url = "http://localhost:5000/addrCustomer/add"
             console.log(this.object)
             if (this.$refs.form.validate()) {
@@ -72,11 +75,11 @@ export default {
                 .post(url, {
                     road: this.object.road,
                     zip: this.object.zip,
-                    idDepartment: this.object.departmentsId,
-                    idCustomer: this.$store.state.customerId
+                    id_department: this.object.id_department,
+                    id_customer: this.$store.state.customerId
                 })
-                .then((response) => {
-                    console.log("Ajouter", response)
+                .then(() => {
+                    // console.log("Ajouter", response)
                     this.$router.push("/client/profil")
                 })
                  //c'est un objet

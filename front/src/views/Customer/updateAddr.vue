@@ -12,10 +12,10 @@
           
         ></v-text-field>
          <v-autocomplete
-              v-model="address.idDepartment"
+              v-model="address.id_department"
               :items="departments"
               :item-text="(item) => item.code + ' - ' + item.nom"
-              :item-value="(item) => item.id"
+              :item-value="(item) => item.id_department"
               chips
               label="Departement"
               
@@ -44,30 +44,33 @@ export default {
     
   },
   mounted() {
-     this.id = this.$store.state.addrCustomerId
-      let url = `http://localhost:5000/addrCustomer/${this.id}`
-      axios
-        .get(url)
-        .then((response) => {
-          if (response.data) {
-            // console.log("Address", response.data)
-            this.address = response.data
+    this.id = this.$store.state.addrCustomerId
+    // recupere les donnes de l'adresse selectionné
+    let url = `http://localhost:5000/addrCustomer/${this.id}`
+    axios
+      .get(url)
+      .then((response) => {
+        if (response.data) {
+          console.log("Address", response.data)
+          this.address = response.data
 
-          }
-        })
-        .catch((error) => {
-          console.log("ERREUR", error)
-        })
-      url = "http://localhost:5000/departments";
-      axios
-        .get(url)
-        .then((response) => {
-          // console.log("Departements", response.data);
-          this.departments = response.data;
-        }) //c'est un objet
-        .catch((error) => console.log(console.log("Departments error ", error)));
+        }
+      })
+      .catch((error) => {
+        console.log("ERREUR", error)
+      })
+    // recupere la liste des departements
+    url = "http://localhost:5000/departments";
+    axios
+      .get(url)
+      .then((response) => {
+        // console.log("Departements", response.data);
+        this.departments = response.data;
+      }) //c'est un objet
+      .catch((error) => console.log(console.log("Departments error ", error)));
   },
   methods: {
+    // met a jour l'addresse selectionné et redirigie vers le dashboard
     update() {
       let url = `http://localhost:5000/addrCustomer/${this.id}`
       console.log(url)
@@ -75,11 +78,11 @@ export default {
         .put(url, {
           road: this.address.road,
           zip: this.address.zip,
-          idDepartment: this.address.idDepartment,
+          id_department: this.address.id_department,
         })
         .then((response) => {
           if (response.data) {
-            console.log("Address", response.data)
+            // console.log("Address", response.data)
             this.address = response.data
           }
         })
