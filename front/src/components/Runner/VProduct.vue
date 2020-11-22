@@ -21,7 +21,7 @@
               class="ml-2 mt-5"
               outlined
               rounded
-              color="secondary"
+              color="primary"
               @click="edit(product)"
             >
               Modifier
@@ -65,11 +65,11 @@
             required
           ></v-text-field>
           <v-select
-            v-model="newProduct.idCategory"
+            v-model="newProduct.id_category"
             label="Catégorie"
             :items="categories"
             :item-text="(item) => item.name"
-            :item-value="(item) => item.id"
+            :item-value="(item) => item.id_category"
           ></v-select>
           <v-text-field
             v-model="newProduct.stock"
@@ -113,13 +113,13 @@ export default {
       categories: [],
       dialog: false,
       newProduct: {
-        id: Number,
+        id_product: Number,
         label: "",
         stock: 0,
         description: "",
         price: 0,
         photo: "",
-        idCategory: 1,
+        id_category: 1,
       },
     };
   },
@@ -133,8 +133,8 @@ export default {
           description: this.newProduct.description,
           price: this.newProduct.price,
           photo: this.newProduct.photo,
-          idCategory: this.newProduct.idCategory,
-          idRunner: this.$store.state.runnerId,
+          id_category: this.newProduct.id_category,
+          id_runner: this.$store.state.runnerId,
         })
         .then((response) => {
           console.log("New Product", response.data);
@@ -155,6 +155,7 @@ export default {
         .catch((error) => console.log("Product error ", error));
       if (product) {
         this.newProduct = product;
+        console.log(this.newProduct)
         this.add = false;
       } else {
         this.add = true;
@@ -163,26 +164,26 @@ export default {
     },
 
     initProduct() {
-      this.newProduct.id = 0;
+      this.newProduct.id_product = 0;
       this.newProduct.label = "";
       this.newProduct.stock = 0;
       this.newProduct.description = "";
       this.newProduct.price = 0;
       this.newProduct.photo = "";
-      this.newProduct.idCategory = 1;
+      this.newProduct.id_category = 1;
     },
 
     updateProduct() {
-      let url = `http://localhost:5000/products/${this.newProduct.id}`;
+      let url = `http://localhost:5000/products/${this.newProduct.id_product}`;
       axios
         .put(url, {
-          id: this.newProduct.id,
+          id: this.newProduct.id_product,
           label: this.newProduct.label,
           stock: this.newProduct.stock,
           description: this.newProduct.description,
           price: this.newProduct.price,
           photo: this.newProduct.photo,
-          idCategory: this.newProduct.idCategory,
+          id_category: this.newProduct.id_category,
           idRunner: this.$store.state.runnerId,
         })
         .then((response) => {

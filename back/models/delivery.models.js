@@ -18,6 +18,7 @@ Delivery.create = (newDelivery, result) => {
 
         console.log("created delivery: ", { id: res.insertId, ...newDelivery });
         result(null, { id: res.insertId, ...newDelivery });
+        return
     });
 };
 

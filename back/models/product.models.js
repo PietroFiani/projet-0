@@ -6,8 +6,8 @@ const Product = function (product) {
     this.description = product.description;
     this.price = product.price
     this.photo = product.photo;
-    this.idRunner = product.idRunner;
-    this.idCategory = product.idCategory
+    this.id_runner = product.id_runner;
+    this.id_category = product.id_category
 };
 
 Product.findByRunner = (runnerId, result) => {
@@ -42,7 +42,7 @@ Product.create = (product, result) => {
 };
 Product.updateById = (id, product, result) => {
     sql.query(
-        "UPDATE product SET label = ?, stock = ?, description = ? , price = ? , photo = ? , idCategory = ? WHERE id_product = ?", [product.label, product.stock, product.description, product.price, product.photo, product.idCategory, id],
+        "UPDATE product SET label = ?, stock = ?, description = ? , price = ? , photo = ? , id_category = ? WHERE id_product = ?", [product.label, product.stock, product.description, product.price, product.photo, product.id_category, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
