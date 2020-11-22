@@ -14,8 +14,20 @@ export default {
     //
   }),
   asyncData() {},
-  mounted() {
-  },
+  mounted() {},
   methods: {},
 };
 </script>
+<style>
+.body::-webkit-scrollbar {
+  display: none;
+} 
+.body{
+overflow: hidden;
+overflow-y: hidden;
+ height:100%;
+   top:0;
+  bottom:0;
+}
+
+</style>

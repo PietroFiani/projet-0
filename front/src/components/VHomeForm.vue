@@ -31,7 +31,7 @@
         </router-link>
       </div>
       <div class="btn-wrapper">
-        <router-link :to="{ name : 'Connexion Partenaire'}">
+        <router-link :to="{ name: 'Connexion Partenaire' }">
           <button class="round runner-sign-in">Connexion Runner</button>
         </router-link>
       </div>
@@ -44,7 +44,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
-    value: String, 
+    value: String,
     valid: false,
     object: {
       mail: "",
@@ -75,10 +75,9 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 //Variables
-$color1-btn: #FFAAAA;
+$color1-btn: #6FCE91;
 
 .container {
   background-color: white;
@@ -109,19 +108,22 @@ $color1-btn: #FFAAAA;
 }
 //buttons
 .round {
-  height: 3em;
+  font-size: 1.5em;
+  height: 2em;
   border-radius: 50px;
   font-family: Monsserrat, sans-serif;
   transition: 300ms;
-  outline: none;  
+  outline: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .sign-up {
   background-color: $color1-btn;
   border: 2px solid $color1-btn;
   color: white;
-  width: 15em;
+  width: 10em;
   transition: 200ms;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
   &:hover {
     color: $color1-btn;
     background-color: white;
@@ -130,7 +132,7 @@ $color1-btn: #FFAAAA;
 .sign-in {
   border: solid 2px $color1-btn;
   color: $color1-btn;
-  width: 15em;
+  width: 10em;
   &:hover {
     color: white;
     background-color: $color1-btn;
@@ -139,7 +141,7 @@ $color1-btn: #FFAAAA;
 .runner-sign-in {
   border: solid 2px $color1-btn;
   color: $color1-btn;
-  width: 32em;
+  width: 21em;
   justify-self: center;
   margin-top: -1em;
   &:hover {
