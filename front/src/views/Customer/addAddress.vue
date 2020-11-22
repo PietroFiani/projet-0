@@ -15,16 +15,15 @@
             required
             ></v-text-field>
             <v-autocomplete
-                v-model="object.departmentsId"
-                :items="departments"
-                :item-text="(item) => item.code + ' - ' + item.nom"
-                :item-value="(item) => item.id"
-                chips
-                :rules="required"
-                required
-                label="Departement"
-                
-                ></v-autocomplete>
+            v-model="object.departmentsId"
+            :items="departments"
+            :item-text="(item) => item.code + ' - ' + item.nom"
+            :item-value="(item) => item.id"
+            chips
+            :rules="required"
+            required
+            label="Departement"
+            ></v-autocomplete>
         <v-btn color="error" class="mr-4" @click="add()"> Ajouter</v-btn>
 
       </v-form>
