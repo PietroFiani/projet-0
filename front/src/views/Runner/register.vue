@@ -59,7 +59,7 @@
               v-model="object.departmentsIds"
               :items="departments"
               :item-text="(item) => item.code + ' - ' + item.nom"
-              :item-value="(item) => item.id"
+              :item-value="(item) => item.id_department"
               chips
               :rules="required"
               required
@@ -134,6 +134,9 @@ export default {
       if (this.object.password != this.object.repassword) {
         return (this.message = "Le mot de passe est invalide");
       }
+      if (!this.object.departmentsIds.length){
+        return (this.message ="Veuillez rentrer les départements dans lesquels vous travaillez")
+      }
       if (this.$refs.form.validate()) {
         axios
           .post(url, {
@@ -147,7 +150,7 @@ export default {
           })
           .then((response) => {
             console.log("INSCRIT", response.data);
-            this.$store.commit("loginRunner", response.data.id);
+            this.$store.commit("loginRunner", response.data.id_runner);
             this.$router.push("/partenaire/profil");
           }) //c'est un objet
           .catch((error) => {

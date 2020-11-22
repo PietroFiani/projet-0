@@ -13,7 +13,7 @@
       >
 
       <v-col cols="7" class="mt-14">
-        <v-card
+        <v-card height="700" class="scroll"
           ><v-tabs grow v-model="tab" align-with-title>
             <v-tabs-slider color="primary"></v-tabs-slider>
             <v-tab class="ma-0"> Commande </v-tab>
@@ -21,17 +21,17 @@
             <v-tab> Profil </v-tab>
             <v-tabs-items v-model="tab">
               <v-tab-item>
-                <v-card flat>
-                  <v-card-text>mes commandes</v-card-text>
-                </v-card>
+                <v-card flat> </v-card>
               </v-tab-item>
               <v-tab-item>
-                <v-card flat>
-                  <v-card-text>produit</v-card-text>
-                </v-card>
+                <v-product :products="products" @reload="reload()"></v-product>
               </v-tab-item>
               <v-tab-item>
-                <v-profil :runner="runner" @update="update"></v-profil>
+                <v-profil
+                  :runner="runner"
+                  @update="update"
+                  @logout="logout"
+                ></v-profil>
               </v-tab-item>
             </v-tabs-items> </v-tabs
         ></v-card>
@@ -43,14 +43,17 @@
 <script>
 import axios from "axios";
 import VProfil from "../../components/Runner/VProfil";
+import VProduct from "../../components/Runner/VProduct";
 export default {
   components: {
     VProfil,
+    VProduct,
   },
   data() {
     return {
       tab: null,
       runner: {},
+      products: [],
     };
   },
   mounted() {
@@ -70,6 +73,18 @@ export default {
         .catch((error) => {
           console.log("ERREUR", error);
         });
+      let url2 = `http://localhost:5000/products/${this.$store.state.runnerId}`;
+      axios
+        .get(url2)
+        .then((response) => {
+          if (response.data) {
+            console.log("Products", response.data);
+            this.products = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
     }
   },
   methods: {
@@ -77,14 +92,29 @@ export default {
       this.$store.commit("logoutRunner");
       this.$router.push("/");
     },
+    reload() {
+      let url2 = `http://localhost:5000/products/${this.$store.state.runnerId}`;
+      axios
+        .get(url2)
+        .then((response) => {
+          if (response.data) {
+            console.log("Products", response.data);
+            this.products = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
+    },
     update(newRunner) {
       console.log("New Runner", newRunner);
-      let url = `http://localhost:5000/runners/${this.runner.id}`;
+      let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
       axios
         .put(url, {
-          id: this.runner.id,
+          id_runner: this.runner.id_runner,
           mail: newRunner.mail,
           phone: newRunner.phone,
+          password: newRunner.password,
         })
         .then((response) => {
           console.log("Runner updated", response.data);
@@ -96,22 +126,21 @@ export default {
       newRunner.departmentsIds.forEach((element) => {
         let found = false;
         this.runner.deliveries.forEach((actualElement) => {
-          if (element == actualElement.idDepartment) found = true;
+          if (element == actualElement.id_department) found = true;
         });
         if (found == false) {
           axios({
             method: "DELETE",
-            url: `http://localhost:5000/deliveries/${this.runner.id}`,
+            url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
             headers: { "Content-Type": "application/json" },
           });
-          axios
-            .post("http://localhost:5000/deliveries/create", {
-              runnerId: this.runner.id,
-              departmentsIds: this.runner.departmentsIds,
-            })
+          axios.post("http://localhost:5000/deliveries/create", {
+            id_runner: this.runner.id_runner,
+            departmentsIds: this.runner.departmentsIds,
+          });
         }
       });
-      this.$router.go()
+      this.$router.go();
     },
   },
 };
@@ -128,5 +157,8 @@ button {
   position: absolute;
   right: 2%;
   top: 3%;
+}
+.scroll {
+   overflow-y: scroll
 }
 </style>

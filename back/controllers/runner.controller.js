@@ -35,20 +35,21 @@ exports.create = (req, res) => {
                 message: err.message || "Some error occurred while creating the Runner."
             });
         else {
-            let idRunner = data.id
-            req.body.departmentsIds.forEach(idDepartment => {
-                    let delivery = new Delivery({
-                        idRunner,
-                        idDepartment
-                    })
-                    Delivery.create(delivery, (err, deliverydata => {
-                        if (err)
-                            res.status(500).send({
-                                message: err.message || "Some error occurred while creating the Delivery."
-                            });
+            let id_runner = data.id_runner
+            console.log("id", id_runner)
+            req.body.departmentsIds.forEach(id_department => {
+                let delivery = new Delivery({
+                    id_runner,
+                    id_department
+                })
+                Delivery.create(delivery, (err, deliverydata => {
+                    if (err)
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while creating the Delivery."
+                        });
 
-                    }))
-                },
+                }))
+            },
                 res.send(data)
 
             )
@@ -103,7 +104,7 @@ exports.findOne = (req, res) => {
             else {
                 data.deliveries = deliveryData;
                 res.send(data)
-                
+
             }
         });
     })
@@ -116,24 +117,64 @@ exports.update = (req, res) => {
             message: "Content can not be empty!"
         });
     }
+    const encryptedPassword = bcrypt.hashSync(req.body.password, 10)
 
-    Runner.updateById(req.body.id,
-        new Runner(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Runner with id ${req.params.customerId}.`
-                    });
+    const runner = new Runner({
+        mail: req.body.mail,
+        password: encryptedPassword,
+        phone: req.body.phone,
+    });
+
+    Runner.updateById(req.body.id_runner,
+        new Runner(runner),
+            (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found Runner with id ${req.body.id}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Error updating Runner with id " + req.body.id
+                        });
+                    }
                 } else {
-                    res.status(500).send({
-                        message: "Error updating Runner with id " + req.params.customerId
-                    });
-                }
-            } else {
-                res.send(data)
-                
-            }
-        })
+                    res.send(data)
 
+                }
+            })
+}
+exports.delete = (req, res) => {
+    Delivery.deleteByRunner(req.params.id_runner, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found delivery with runnerId ${req.params.id_runner}.`
+                });
+            }
+            else {
+                res.status(500).send({
+                    message: "Error retrieving delivery with runnerId " + req.params.id_runner
+                });
+            }
+        }
+        else {
+
+            Runner.remove(req.params.id_runner, (err, runnerData) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found Runner with id ${req.params.id_runner}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Could not delete Customer with id " + req.params.id_runner
+                        });
+                    }
+                }
+                else res.send({ message: `Runner was deleted successfully!` });
+            })
+
+        }
+    })
 }

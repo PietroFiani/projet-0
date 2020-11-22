@@ -67,7 +67,7 @@ export default {
         .then((response) => {
           if (response.data) {
             console.log("CONNECTE", response.data);
-            this.$store.commit("loginRunner", response.data.id);
+            this.$store.commit("loginRunner", response.data.id_runner);
             this.$router.push("/partenaire/profil");
           } else {
             console.log("PAS CONNECTE");

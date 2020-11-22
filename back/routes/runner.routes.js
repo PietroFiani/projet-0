@@ -15,8 +15,8 @@ module.exports = app => {
     // Update a Runner with runnerId
   app.put("/runners/:runnerId", runners.update);
 
-    // Delete a Customer with customerId
-    // app.delete("/customers/:customerId", customers.delete);
+    // Delete a Runner with runnerId
+    app.delete("/runners/:runnerId", runners.delete);
 
     // 
     // app.delete("/customers", customers.deleteAll);
