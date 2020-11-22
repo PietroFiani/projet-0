@@ -23,21 +23,13 @@
         <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
       <div class="btn-wrapper">
-<<<<<<< HEAD
-        <button class="round sign-in" @click="log">Connexion</button>
-=======
         <button class="round sign-in" @click="log()">Connexion</button>
->>>>>>> customer-address
         <router-link :to="{ name: 'Inscription Client' }">
           <button class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
-<<<<<<< HEAD
-        <router-link :to="{ name : 'Connexion Partenaire'}">
-=======
         <router-link :to="{name :'Connexion Partenaire'}">
->>>>>>> customer-address
           <button class="round runner-sign-in">Connexion Runner</button>
         </router-link>
       </div>
@@ -50,6 +42,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
+    value: String,
     valid: false,
     value: String,
     message: "",
@@ -100,20 +93,14 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 //Variables
-$color1-btn: #FFAAAA;
+$color1-btn: #6FCE91;
 
 .container {
   background-color: white;
-<<<<<<< HEAD
   height: 60vh;
   width: 35em;
-=======
-  height: 70vh;
-  width: 30em;
->>>>>>> customer-address
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -139,18 +126,22 @@ $color1-btn: #FFAAAA;
 }
 //buttons
 .round {
-  height: 3em;
+  font-size: 1.5em;
+  height: 2em;
   border-radius: 50px;
   font-family: Monsserrat, sans-serif;
   transition: 300ms;
-  outline: none;  
+  outline: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .sign-up {
   background-color: $color1-btn;
   border: 2px solid $color1-btn;
   color: white;
-  width: 15em;
+  width: 10em;
   transition: 200ms;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
   &:hover {
     color: $color1-btn;
     background-color: white;
@@ -159,7 +150,7 @@ $color1-btn: #FFAAAA;
 .sign-in {
   border: solid 2px $color1-btn;
   color: $color1-btn;
-  width: 15em;
+  width: 10em;
   &:hover {
     color: white;
     background-color: $color1-btn;
@@ -168,7 +159,7 @@ $color1-btn: #FFAAAA;
 .runner-sign-in {
   border: solid 2px $color1-btn;
   color: $color1-btn;
-  width: 32em;
+  width: 21em;
   justify-self: center;
   margin-top: -1em;
   &:hover {
