@@ -44,7 +44,6 @@ export default {
   data: () => ({
     value: String,
     valid: false,
-    value: String,
     message: "",
     object: {
       mail: "",
