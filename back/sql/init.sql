@@ -235,3 +235,19 @@ INNER JOIN address ON department.id_department = address.id_department;
 SELECT id_runner, lastname, firstname, mail, password, phone, image
 FROM runner
 INNER JOIN customer ON runner.id_runner = customer.id_runner;
+
+SELECT id_category, name
+FROM category
+INNER JOIN product ON category.id_category = product.id_category;
+
+SELECT id_customer, lastname, firstname, mail, password, phone, image
+FROM customer
+INNER JOIN address ON customer.id_customer = address.id_customer;
+
+SELECT id_delivery, id_runner, id_department
+FROM delivery
+INNER JOIN runner ON delivery.id_delivery = runner.id_delivery
+
+SELECT id_delivery, id_runner, id_department
+FROM delivery
+INNER JOIN department ON delivery.id_delivery = department.id_delivery
