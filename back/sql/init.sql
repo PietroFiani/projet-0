@@ -223,3 +223,15 @@ INSERT INTO customer (id_customer, lastname, firstname, mail, password, phone) V
 
 INSERT INTO runner (id_runner, lastname, firstname, mail, password, phone) VALUES
 (01, 'Vaudelle', 'Catherine', 'Vaudellekty@gmail.com', 'Sherlock', '0625670115');
+
+SELECT id_customer, lastname, firstname, mail, password, phone, image
+FROM customer
+INNER JOIN product ON customer.id_customer = product.id_customer;
+
+SELECT id_department, code, nom, nom_uppercase, slug, nom_soundex
+FROM department
+INNER JOIN address ON department.id_department = address.id_department;
+
+SELECT id_runner, lastname, firstname, mail, password, phone, image
+FROM runner
+INNER JOIN customer ON runner.id_runner = customer.id_runner;
