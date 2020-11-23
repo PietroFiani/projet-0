@@ -63,6 +63,12 @@ const routes = [{
         name: 'Profil Partenaire',
         component: () =>
             import ( /* webpackChunkName: "profile" */ '../views/Runner/dashboard.vue')
+    },
+    {
+        path: '/test',
+        name: 'Test',
+        component: () =>
+            import ( /* webpackChunkName: "test" */ '../views/test.vue')
     }
 ]
 

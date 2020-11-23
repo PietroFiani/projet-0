@@ -62,6 +62,44 @@ exports.create = (req, res) => {
 
 
 };
+exports.findByDepartment = (req, res) => {
+    console.log("REQ", req.params)
+    Runner.findByDepartment(req.params.id_department, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Runner with id_department ${req.params.id_department}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Runner with id_department " + req.params.id_department
+                });
+            }
+        } else {
+            console.log("DATA", data)
+            console.log("DATALENGTH", data.length)
+            data.forEach((runner,index) => {
+                Product.findByRunner(runner.id_runner, (err, productData) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            data[index].products=[]
+                        }
+                        else {
+                            res.status(500).send({
+                                message: "Error retrieving products with runnerId " + runner.id_runner
+                            });
+                        }
+                    }
+                    else data[index].products = productData
+                    console.log("INDEX", index)
+                    if (index==data.length-1) res.send(data)
+                })
+
+            }) 
+
+        }
+    })
+};
 
 exports.login = async function (req, res) {
     var mail = req.query.mail;

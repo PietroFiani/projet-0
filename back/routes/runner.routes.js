@@ -12,6 +12,10 @@ module.exports = app => {
     // Retrieve a single Runner with runnerId
   app.get("/runners/:runnerId", runners.findOne);
 
+  // Retrieve all Runner that work in the id_department
+  app.get("/runners/from/:id_department", runners.findByDepartment);
+
+
     // Update a Runner with runnerId
   app.put("/runners/:runnerId", runners.update);
 
