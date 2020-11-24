@@ -3,48 +3,66 @@ CREATE DATABASE IF NOT EXISTS brocoli;
 USE brocoli;
 
 CREATE TABLE IF NOT EXISTS  customer(
-    id INT(11) NOT NULL AUTO_INCREMENT, 
+    id_customer INT(11) NOT NULL AUTO_INCREMENT, 
+    id_runner INT NOT NULL,
     lastname VARCHAR(255) NOT NULL, 
     firstname VARCHAR(255) NOT NULL,
     mail VARCHAR(255) NOT NULL, 
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL, 
     image VARCHAR(255) NULL, 
-    PRIMARY KEY(id)
+    PRIMARY KEY(id_customer),
+    FOREIGN KEY (id_runner) REFERENCES runner(id_runner)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS runner(
-    id INT(11) NOT NULL AUTO_INCREMENT,
+    id_runner INT(11) NOT NULL AUTO_INCREMENT,
+    id_delivery INT NOT NULL,
     lastname VARCHAR(255) NOT NULL,
     firstname VARCHAR(255) NOT NULL,
     mail VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL,
     image VARCHAR(255),
-    PRIMARY KEY(id)
+    PRIMARY KEY(id_runner),
+    FOREIGN KEY (id_delivery) REFERENCES delivery(id_delivery)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS category(
+    id_category INT(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(55) NOT NULL,
+    PRIMARY KEY(id_category)
 ) ENGINE = InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS product(
-    id INT(11) NOT NULL AUTO_INCREMENT,
+    id_product INT(11) NOT NULL AUTO_INCREMENT,
     stock INT NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    price INT NOT NULL,
+    label VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     photo VARCHAR(255),
-    idRunner INT NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY (idRunner) REFERENCES runner(id)
+    id_customer INT NOT NULL,
+    id_runner INT NOT NULL,
+    id_category INT NOT NULL,
+    PRIMARY KEY(id_product),
+    FOREIGN KEY (id_customer) REFERENCES customer(id_customer),
+    FOREIGN KEY (id_runner) REFERENCES runner(id_runner),
+    FOREIGN KEY (id_category) REFERENCES category(id_category)
+
 
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS department(
-    id int(11) NOT NULL AUTO_INCREMENT,
+    id_department int(11) NOT NULL AUTO_INCREMENT,
     code varchar(3) CHARACTER SET utf8 DEFAULT NULL,
     nom varchar(255) CHARACTER SET utf8 DEFAULT NULL,
     nom_uppercase varchar(255) CHARACTER SET utf8 DEFAULT NULL,
     slug varchar(255) CHARACTER SET utf8 DEFAULT NULL,
     nom_soundex varchar(20) DEFAULT NULL,
-    PRIMARY KEY (id),
+    id_delivery INT NOT NULL,
+    PRIMARY KEY (id_department),
+    FOREIGN KEY (id_delivery) REFERENCES delivery(id_delivery),
     KEY slug (slug),
     KEY code (code),
     KEY nom_soundex (nom_soundex)
@@ -52,50 +70,50 @@ CREATE TABLE IF NOT EXISTS department(
 
 
 CREATE TABLE IF NOT EXISTS address(
-    id INT(11) NOT NULL AUTO_INCREMENT,
+    id_address INT(11) NOT NULL AUTO_INCREMENT,
     road VARCHAR(255) NOT NULL,
     zip VARCHAR(255) NOT NULL,
-    idDepartment INT NOT NULL,
-    idCustomer INT NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY (idDepartment) REFERENCES department(id),
-    FOREIGN KEY (idCustomer) REFERENCES customer(id)
+    id_department INT NOT NULL,
+    id_customer INT NOT NULL,
+    PRIMARY KEY(id_address),
+    FOREIGN KEY (id_department) REFERENCES department(id_department),
+    FOREIGN KEY (id_customer) REFERENCES customer(id_customer)
     
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS delivery(
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    idRunner INT NOT NULL,
-    idDepartment INT NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY (idRunner) REFERENCES runner(id),
-    FOREIGN KEY (idDepartment) REFERENCES department(id)
+    id_delivery INT(11) NOT NULL AUTO_INCREMENT,
+    id_runner INT NOT NULL,
+    id_department INT NOT NULL,
+    PRIMARY KEY(id_delivery),
+    FOREIGN KEY (id_runner) REFERENCES runner(id_runner),
+    FOREIGN KEY (id_department) REFERENCES department(id_department)
 
 ) ENGINE = InnoDB;
 
 
 CREATE TABLE IF NOT EXISTS `order` (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    idRunner INT NOT NULL,
-    idCustomer INT NOT NULL,
-    idAddress INT NOT NULL,
+    id_order INT(11) NOT NULL AUTO_INCREMENT,
+    id_runner INT NOT NULL,
+    id_customer INT NOT NULL,
+    id_address INT NOT NULL,
     date DATETIME NOT NULL,
     workflow VARCHAR(255) NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY (idRunner) REFERENCES runner(id),
-    FOREIGN KEY (idCustomer) REFERENCES customer(id),
-    FOREIGN KEY (idAddress) REFERENCES address(id)
+    PRIMARY KEY(id_order),
+    FOREIGN KEY (id_runner) REFERENCES runner(id_runner),
+    FOREIGN KEY (id_customer) REFERENCES customer(id_customer),
+    FOREIGN KEY (id_address) REFERENCES address(id_address)
 
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS orderRow(
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    idOrder INT NOT NULL,
-    idProduct INT NOT NULL,
+    id_orderRow INT(11) NOT NULL AUTO_INCREMENT,
+    id_order INT NOT NULL,
+    id_product INT NOT NULL,
     qty INT NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY (idOrder) REFERENCES `order`(id),
-    FOREIGN KEY (idProduct) REFERENCES product(id)
+    PRIMARY KEY(id_orderRow),
+    FOREIGN KEY (id_order) REFERENCES `order`(id_order),
+    FOREIGN KEY (id_product) REFERENCES product(id_product)
 
 
 ) ENGINE = InnoDB;
@@ -104,7 +122,8 @@ CREATE TABLE IF NOT EXISTS orderRow(
 -- Dumping data for table `departement`
 --
 
-INSERT INTO department (id, code, nom, nom_uppercase, slug, nom_soundex) VALUES
+INSERT INTO category(name) VALUES ('Fines Herbes'), ('Champignons'),( 'Vitamines');
+INSERT INTO department (id_department, code, nom, nom_uppercase, slug, nom_soundex) VALUES
 (1, '01', 'Ain', 'AIN', 'ain', 'A500'),
 (2, '02', 'Aisne', 'AISNE', 'aisne', 'A250'),
 (3, '03', 'Allier', 'ALLIER', 'allier', 'A460'),
@@ -206,3 +225,37 @@ INSERT INTO department (id, code, nom, nom_uppercase, slug, nom_soundex) VALUES
 (99, '973', 'Guyane', 'GUYANE', 'guyane', 'G500'),
 (100, '972', 'Martinique', 'MARTINIQUE', 'martinique', 'M6352'),
 (101, '974', 'Réunion', 'RÉUNION', 'reunion', 'R500');
+
+INSERT INTO customer (id_customer, lastname, firstname, mail, password, phone) VALUES
+(01, 'Cousin-Vaudelle', 'Rodolphe', 'cousinvaudelle@gmail.com', 'Rodolphe98', '0619863702');
+
+INSERT INTO runner (id_runner, lastname, firstname, mail, password, phone) VALUES
+(01, 'Vaudelle', 'Catherine', 'Vaudellekty@gmail.com', 'Sherlock', '0625670115');
+
+SELECT id_customer, lastname, firstname, mail, password, phone, image
+FROM customer
+INNER JOIN product ON customer.id_customer = product.id_customer;
+
+SELECT id_department, code, nom, nom_uppercase, slug, nom_soundex
+FROM department
+INNER JOIN address ON department.id_department = address.id_department;
+
+SELECT id_runner, lastname, firstname, mail, password, phone, image
+FROM runner
+INNER JOIN customer ON runner.id_runner = customer.id_runner;
+
+SELECT id_category, name
+FROM category
+INNER JOIN product ON category.id_category = product.id_category;
+
+SELECT id_customer, lastname, firstname, mail, password, phone, image
+FROM customer
+INNER JOIN address ON customer.id_customer = address.id_customer;
+
+SELECT id_delivery, id_runner, id_department
+FROM delivery
+INNER JOIN runner ON delivery.id_delivery = runner.id_delivery
+
+SELECT id_delivery, id_runner, id_department
+FROM delivery
+INNER JOIN department ON delivery.id_delivery = department.id_delivery
