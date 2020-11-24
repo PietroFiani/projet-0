@@ -254,8 +254,8 @@ INNER JOIN address ON customer.id_customer = address.id_customer;
 
 SELECT id_delivery, id_runner, id_department
 FROM delivery
-INNER JOIN runner ON delivery.id_delivery = runner.id_delivery
+INNER JOIN runner ON delivery.id_delivery = runner.id_delivery;
 
 SELECT id_delivery, id_runner, id_department
 FROM delivery
-INNER JOIN department ON delivery.id_delivery = department.id_delivery
+INNER JOIN department ON delivery.id_delivery = department.id_delivery;
