@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { component } from 'vue/types/umd'
 import Home from '../views/Home.vue'
 
 
@@ -57,6 +58,12 @@ const routes = [{
         name: 'Profil Partenaire',
         component: () =>
             import ( /* webpackChunkName: "profile" */ '../views/Runner/dashboard.vue')
+    }, 
+    {
+        path :'/test_upload', 
+        name :'Test Upload Photo', 
+        component: () => 
+        import ('../views/testUpload.vue')
     }
 ]
 
