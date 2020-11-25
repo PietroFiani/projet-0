@@ -227,10 +227,10 @@ INSERT INTO department (id_department, code, nom, nom_uppercase, slug, nom_sound
 (101, '974', 'Réunion', 'RÉUNION', 'reunion', 'R500');
 
 INSERT INTO customer (id_customer, lastname, firstname, mail, password, phone) VALUES
-(01, 'Cousin-Vaudelle', 'Rodolphe', 'cousinvaudelle@gmail.com', 'Rodolphe98', '0619863702');
+(1, 'Cousin-Vaudelle', 'Rodolphe', 'cousinvaudelle@gmail.com', 'Rodolphe98', '0619863702');
 
 INSERT INTO runner (id_runner, lastname, firstname, mail, password, phone) VALUES
-(01, 'Vaudelle', 'Catherine', 'Vaudellekty@gmail.com', 'Sherlock', '0625670115');
+(1, 'Vaudelle', 'Catherine', 'Vaudellekty@gmail.com', 'Sherlock', '0625670115');
 
 SELECT id_customer, lastname, firstname, mail, password, phone, image
 FROM customer
