@@ -44,6 +44,10 @@ const routes = [
     path: '/partenaire/profil',
     name: 'Profil Partenaire',
     component: () => import(/* webpackChunkName: "profile" */ '../views/Runner/dashboard.vue')
+  },
+  {
+    name: 'MySQL',
+    component: () => import('../views/Express.js')
   }
 ]
 
