@@ -13,6 +13,30 @@
     <v-card v-if="message" dark color="warning">
       <v-card-text>{{ message }}</v-card-text>
     </v-card>
+    <div>
+      <!-- <v-text-field
+      v-model="id_department"
+      label="ID du département"
+      required
+      type="number"
+      ></v-text-field>
+      <v-btn @click="search">Rechercher :</v-btn> -->
+      <div v-for="runner of runners" :key="runner.id_runner">
+        <div>
+          <h1>Livreur</h1>
+          <p> {{runner.lastname}} {{runner.firstname}} </p>
+          <div v-for="product of runner.products" :key="product.id_product">
+            <h2>Produit</h2>
+            <p> {{product.name}} {{product.label}}</p>
+            <p>stock: {{product.stock}} kg</p>
+            <p>prix: {{product.price}} €/g</p>
+          </div>
+          
+        </div>
+      </div>
+      {{runners}}
+    </div>
+
     <v-btn @click="logout()"> Se deconnecter </v-btn>
   </div>
 </template>
@@ -28,7 +52,9 @@ export default {
         firstname : "",
         lastname : ""
       }],
-      id : null
+      id : null,
+      id_department: 1,
+      runners: [],
     }
   },
   mounted() {
@@ -45,6 +71,7 @@ export default {
           if (response.data) {
             console.log("ADDRCUSTOMER", response.data)
             this.customers = response.data
+            this.search()
           }
         })
         .catch((error) => {
@@ -52,6 +79,7 @@ export default {
         })
         
     }
+    
     // this.findAddr()
   },
   methods: {
@@ -85,6 +113,20 @@ export default {
           }); 
       // this.$router.push({name: 'Profil Client'})
 
+    },
+    search() {
+      let url = `http://localhost:5000/runners/from/${this.customers[0].id_department}`;
+      axios
+        .get(url)
+        .then((response) => {
+          if (response.data) {
+            console.log("RUNNERs", response.data);
+            this.runners = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
     },
   },
 }

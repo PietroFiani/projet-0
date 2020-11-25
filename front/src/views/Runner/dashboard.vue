@@ -138,22 +138,22 @@ export default {
           console.log("erreur", error);
         });
 
-      newRunner.departmentsIds.forEach((element) => {
-        axios({
-          method: "DELETE",
-          url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
-          headers: { "Content-Type": "application/json" },
-        }).then((response) => {
-          axios
-            .post("http://localhost:5000/deliveries/create", {
-              id_runner: this.runner.id_runner,
-              departmentsIds: this.runner.departmentsIds,
-            })
-            .then((response) => {
-              this.reload();
-            });
-        });
-      });
+      // newRunner.departmentsIds.forEach((element) => {
+      //   axios({
+      //     method: "DELETE",
+      //     url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
+      //     headers: { "Content-Type": "application/json" },
+      //   }).then((response) => {
+      //     axios
+      //       .post("http://localhost:5000/deliveries/create", {
+      //         id_runner: this.runner.id_runner,
+      //         departmentsIds: this.runner.departmentsIds,
+      //       })
+      //       .then((response) => {
+      //         this.reload();
+      //       });
+      //   });
+      // });
     },
   },
 };
