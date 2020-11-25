@@ -72,6 +72,25 @@ Runner.findById = (runnerId, result) => {
         result({ kind: "not_found" }, null);
     });
 };
+Runner.findByDepartment = (id_department, result) => {
+    console.log("id",id_department )
+    sql.query(`SELECT * FROM runner natural join delivery WHERE id_department = ${id_department}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found runner: ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found Runner with the id
+        result({ kind: "not_found" }, null);
+    });
+};
 Runner.updateById = (id, runner, result) => {
     sql.query(
         "UPDATE runner SET mail = ?, phone = ?, password = ? WHERE id_runner = ?", [runner.mail, runner.phone,runner.password, id],

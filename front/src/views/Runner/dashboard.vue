@@ -93,7 +93,20 @@ export default {
       this.$router.push("/");
     },
     reload() {
-      console.log("reload")
+      console.log("reload");
+      let id = this.$store.state.runnerId;
+      let url = `http://localhost:5000/runners/${id}`;
+      axios
+        .get(url)
+        .then((response) => {
+          if (response.data) {
+            console.log("RUNNER", response.data);
+            this.runner = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
       let url2 = `http://localhost:5000/products/${this.$store.state.runnerId}`;
       axios
         .get(url2)
@@ -101,13 +114,12 @@ export default {
           if (response.data) {
             console.log("Products", response.data);
             this.products = response.data;
-          }
-          else this.products =[]
+          } else this.products = [];
         })
         .catch((error) => {
           console.log("ERREUR", error);
         });
-        console.log("reload ended")
+      console.log("reload ended");
     },
     update(newRunner) {
       console.log("New Runner", newRunner);
@@ -127,23 +139,21 @@ export default {
         });
 
       newRunner.departmentsIds.forEach((element) => {
-        let found = false;
-        this.runner.deliveries.forEach((actualElement) => {
-          if (element == actualElement.id_department) found = true;
+        axios({
+          method: "DELETE",
+          url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
+          headers: { "Content-Type": "application/json" },
+        }).then((response) => {
+          axios
+            .post("http://localhost:5000/deliveries/create", {
+              id_runner: this.runner.id_runner,
+              departmentsIds: this.runner.departmentsIds,
+            })
+            .then((response) => {
+              this.reload();
+            });
         });
-        if (found == false) {
-          axios({
-            method: "DELETE",
-            url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
-            headers: { "Content-Type": "application/json" },
-          });
-          axios.post("http://localhost:5000/deliveries/create", {
-            id_runner: this.runner.id_runner,
-            departmentsIds: this.runner.departmentsIds,
-          });
-        }
       });
-      this.$router.go();
     },
   },
 };
@@ -162,6 +172,6 @@ button {
   top: 3%;
 }
 .scroll {
-   overflow-y: scroll
+  overflow-y: scroll;
 }
 </style>

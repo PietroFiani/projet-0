@@ -121,10 +121,10 @@ export default {
     this.newRunner = this.runner;
     this.newRunner.password = "";
     this.newRunner.repassword = "";
-    (this.newRunner.departmentsIds = []),
-      this.newRunner.deliveries.forEach((delivery) => {
-        this.newRunner.departmentsIds.push(delivery.id_department);
-      });
+    this.newRunner.departmentsIds = []
+    this.newRunner.deliveries.forEach((delivery) => {
+      this.newRunner.departmentsIds.push(delivery.id_department);
+    });
   },
   methods: {
     edit() {
@@ -155,8 +155,7 @@ export default {
         return (this.message = "Le mot de passe est invalide");
       }
       if (!this.newRunner.departmentsIds.length) {
-        return (this.message =
-          "Veuillez rentrer les départements dans lesquels vous travaillez");
+        return (this.message = "Veuillez rentrer les départements dans lesquels vous travaillez");
       }
       this.$emit("update", this.runner);
       this.editMode = false;
