@@ -1,76 +1,85 @@
 <template>
-    <div class="container">
-      <v-form id="form" ref="form" v-model="valid" lazy-validation>
-        <div class="text-field-container">
+  <div class="container">
+    <v-form id="form" ref="form" v-model="valid" lazy-validation>
+      <div class="text-field-container">
+        <div class="name-container">
           <v-text-field
-            class="text-field"
+          class="text-field"
             v-model="object.firstname"
             :rules="required"
             label="Prénom"
             required
           ></v-text-field>
           <v-text-field
-            class="text-field"
+          class="text-field"
             v-model="object.lastname"
             :rules="required"
             label="Nom"
             required
           ></v-text-field>
-          <v-text-field
-            class="text-field"
-            v-model="object.password"
-            :rules="required"
-            label="Mot de passe"
-            required
-            :append-icon="value1 ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append="() => (value1 = !value1)"
-            :type="value1 ? 'password' : 'text'"
-          ></v-text-field>
-          <v-text-field
-            class="text-field"
-            v-model="object.repassword"
-            :rules="required"
-            label="Confirmation mot de passe"
-            required
-            :append-icon="value2 ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append="() => (value2 = !value2)"
-            :type="value2 ? 'password' : 'text'"
-          ></v-text-field>
-          <v-text-field
-            class="text-field"
-            v-model="object.phone"
-            :rules="PhoneRules"
-            label="Téléphone"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            class="text-field"
-            v-model="object.mail"
-            :rules="emailRules"
-            label="E-mail"
-            required
-          ></v-text-field>
-
-          <v-autocomplete
-            class="text-field"
-            v-model="object.departmentsIds"
-            :items="departments"
-            :item-text="(item) => item.code + ' - ' + item.nom"
-            :item-value="(item) => item.id_department"
-            chips
-            :rules="required"
-            required
-            label="Lieux de travail"
-            multiple
-          ></v-autocomplete>
-          <span v-if="message" class="alert"> <img id="warning-icon" src="../../assets/warning.svg" alt="warning logo">{{ message }}</span>
-          <v-btn rounded color="primary" class="btn-large" @click="register">
-            Inscription</v-btn
-          >
         </div>
-      </v-form>
-    </div>
+
+        <v-text-field
+          class="text-field"
+          v-model="object.password"
+          :rules="required"
+          label="Mot de passe"
+          required
+          :append-icon="value1 ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append="() => (value1 = !value1)"
+          :type="value1 ? 'password' : 'text'"
+        ></v-text-field>
+        <v-text-field
+          class="text-field"
+          v-model="object.repassword"
+          :rules="required"
+          label="Confirmation mot de passe"
+          required
+          :append-icon="value2 ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append="() => (value2 = !value2)"
+          :type="value2 ? 'password' : 'text'"
+        ></v-text-field>
+        <v-text-field
+          class="text-field"
+          v-model="object.phone"
+          :rules="PhoneRules"
+          label="Téléphone"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          class="text-field"
+          v-model="object.mail"
+          :rules="emailRules"
+          label="E-mail"
+          required
+        ></v-text-field>
+
+        <v-autocomplete
+          class="text-field"
+          v-model="object.departmentsIds"
+          :items="departments"
+          :item-text="(item) => item.code + ' - ' + item.nom"
+          :item-value="(item) => item.id_department"
+          chips
+          :rules="required"
+          required
+          label="Lieux de travail"
+          multiple
+        ></v-autocomplete>
+        <span v-if="message" class="alert">
+          <img
+            id="warning-icon"
+            src="../../assets/warning.svg"
+            alt="warning logo"
+          />{{ message }}</span
+        >
+        <v-btn rounded color="primary" class="btn-large" @click="register">
+          Inscription</v-btn
+        >
+      </div>
+    </v-form>
+  </div>
 </template>
 
 <script>
@@ -123,7 +132,7 @@ export default {
     register() {
       let url = "http://localhost:5000/runners/register";
       if (this.object.password != this.object.repassword) {
-        return (this.message = "Le mot de passe est invalide");
+        return (this.message = "Les mots de passe sont différents ! ");
       }
       if (!this.object.departmentsIds.length) {
         return (this.message =
@@ -161,7 +170,7 @@ export default {
   width: 70vmin;
   height: 65vh;
   border-radius: 25px;
-  margin-top:3vh; 
+  margin-top: 4vh;
   z-index: 1;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
 }
@@ -170,24 +179,34 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top:1vh; 
+  margin-top: 1em;
   .text-field {
+    width: 60vmin;
+    height: 4em;
+  }
+  .name-container {
+    display: flex;
     width: 60vmin;
   }
 }
 //buttons
-.btn-large{
+.btn-large {
   width: 60vmin;
-  margin-top: 1.5em;
+  margin-top: 3em;
 }
-.alert{
-  color: red;
-  display:flex; 
+.alert {
+  margin-top: 2em;
+  width: 60vmin;
+  color: white;
+  display: flex;
   align-items: flex-end;
-  border: solid 1px red ;
-  padding:0.2em; 
-  #warning-icon{
-    width: 2em; 
+  justify-content: center;
+  border: solid 1px red;
+  padding: 0.2em;
+  background-color: red;
+  border-radius: 5px;
+  #warning-icon {
+    width: 1.5em;
     margin-right: 0.5em;
   }
 }

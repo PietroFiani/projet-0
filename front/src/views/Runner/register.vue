@@ -5,7 +5,7 @@
       src="../../assets/logoBlanc.svg"
       alt="icone de feuille de canabis kawaii"
     />
-    <router-link :to="{ name: 'Inscription Partenaire' }">
+    <router-link :to="{ name: 'Connexion Partenaire' }">
       <button class="rounded">Déjà inscrit</button>
     </router-link>
     <h1 class="title" data-text="Miguel la petite feuille de canabis !">
@@ -204,7 +204,7 @@ $color1-btn: #ffaaaa;
 }
 .logo {
   height: 10em;
-  margin-top: 5vh;
+  margin-top: 3vh;
   animation: 1s ease-in-out 0s 1 popLogo;
 }
 // Waves and waves animation, credits : GoodKatz (https://codepen.io/goodkatz/details/LYPGxQz)
@@ -212,7 +212,7 @@ $color1-btn: #ffaaaa;
   margin: 0px;
   position: absolute;
   bottom: 0px;
-  height:15vh;
+  height:12vh;
   width:100%;
 }
 .parallax > use {
