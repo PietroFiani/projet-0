@@ -1,12 +1,7 @@
 <template>
   <div class="home">
-    <img
-      class="logo"
-      src="../assets/logo.svg"
-      alt="icone de feuille de canabis kawaii"
-    />
-    <router-link :to="{ name: 'Inscription Partenaire' }">
-      <button class="rounded">Devenir Runner</button>
+    <router-link :to="{ name: 'Inscription Client' }">
+      <button class="rounded">Devenir yencli</button>
     </router-link>
     <h1 class="title" data-text="Miguel la petite feuille de canabis !">
       Miguel la petite feuille de canabis !
@@ -59,11 +54,11 @@
 
 <script>
 // @ is an alias to /src
-import VHomeForm from "@/components/VHomeForm.vue";
+import RunnerForm from "@/components/RunnerForm.vue";
 export default {
   name: "Home",
   components: {
-    VHomeForm,
+    RunnerForm,
   },
 };
 </script>

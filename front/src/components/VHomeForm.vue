@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <v-form class="home-form">
+    <v-form class="home-form" ref="form" v-model="valid" lazy-validation>
       <div class="text-area-wrapper">
         <v-text-field
           class="textarea"
-          label="email :"
+          label="E-mail :"
           v-model="object.mail"
           :rules="emailRules"
           required
@@ -12,24 +12,26 @@
         </v-text-field>
         <v-text-field
           class="textarea"
-          type="password"
-          label="mot de passe :"
+          label="Mot de passe"
           v-model="object.password"
-          :counter="10"
-          :rules="required"
+          :append-icon="value ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append="() => (value = !value)"
+          :type="value ? 'password' : 'text'"
           required
         >
         </v-text-field>
-        <a href="" class="forgot-psw">mot de passe oubliÃ© ?</a>
+        <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
       <div class="btn-wrapper">
-        <button class="round sign-in" @click="log">Connexion</button>
-        <router-link :to="{ name: 'Register' }">
-          <button class="round sign-up">zizi</button>
+        <button class="round sign-in" @click="log()">Connexion</button>
+        <router-link :to="{ name: 'Inscription Client' }">
+          <button class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
-        <button class="round runner-sign-in">Connexion Runner</button>
+        <router-link :to="{name :'Connexion Partenaire'}">
+          <button class="round runner-sign-in">Connexion Runner</button>
+        </router-link>
       </div>
     </v-form>
   </div>
@@ -37,23 +39,29 @@
 
 <script>
 import axios from "axios";
-
 export default {
   data: () => ({
+    value: String,
     valid: false,
+    message: "",
     object: {
       mail: "",
       password: "",
     },
     emailRules: [
       (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valid",
+      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
     required: [(v) => !!v || "Mot de passe requis"],
   }),
-
+  mounted() {
+    if (this.$store.state.customerId) {
+      this.$router.push("/client/profil");
+    }
+  },
   methods: {
     log() {
+      // const self=this
       let url = "http://localhost:5000/customers/login";
       this.$refs.form.validate();
       axios
@@ -61,30 +69,37 @@ export default {
           params: { mail: this.object.mail, password: this.object.password },
         })
         .then((response) => {
-          if (response.data) console.log("CONNECTE", response.data);
-          else console.log("PAS CONNECTE");
+          if (response.data) {
+            console.log("CONNECTE", response.data);
+            this.$store.commit('loginCustomer', response.data.id)
+            this.$router.push("/client/profil");
+          } 
+          else { 
+            console.log("PAS CONNECTE");
+            this.message = "Email et/ou password invalide";
+          
+          }
         })
-        .catch((error) => console.log("PAS CONNECTE", error));
+        .catch((error) => {
+          console.log("PAS CONNECTE", error);
+          this.message = "Email et/ou password invalide";
+        })
     },
   },
 };
 </script>
 
-
 <style lang="scss" scoped>
 //Variables
-$green: #1ead0b;
-$purple: #470063;
-
+$color1-btn: #6FCE91;
 .container {
   background-color: white;
   height: 60vh;
-  width: 30em;
+  width: 35em;
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  margin-top: 5vh;
-  max-width: 500px;
+  margin-top: 3vh;
   .home-form {
     display: flex;
     flex-direction: column;
@@ -104,3 +119,57 @@ $purple: #470063;
     }
   }
 }
+//buttons
+.round {
+  font-size: 1.5em;
+  height: 2em;
+  border-radius: 50px;
+  font-family: Monsserrat, sans-serif;
+  transition: 300ms;
+  outline: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.sign-up {
+  background-color: $color1-btn;
+  border: 2px solid $color1-btn;
+  color: white;
+  width: 10em;
+  transition: 200ms;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &:hover {
+    color: $color1-btn;
+    background-color: white;
+  }
+}
+.sign-in {
+  border: solid 2px $color1-btn;
+  color: $color1-btn;
+  width: 10em;
+  &:hover {
+    color: white;
+    background-color: $color1-btn;
+  }
+}
+.runner-sign-in {
+  border: solid 2px $color1-btn;
+  color: $color1-btn;
+  width: 21em;
+  justify-self: center;
+  margin-top: -1em;
+  &:hover {
+    color: white;
+    background-color: $color1-btn;
+  }
+}
+//textarea
+.textarea {
+  width: 38em;
+  height: 6em;
+}
+.forgot-psw {
+  color: $color1-btn;
+  &:hover {
+    color: rgb(70, 70, 236);
+  }
+}
+</style>
