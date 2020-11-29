@@ -3,20 +3,26 @@
     <v-form id="form" ref="form" v-model="valid" lazy-validation>
       <div class="text-field-container">
         <div class="name-container">
-          <v-text-field
-          class="text-field"
-            v-model="object.firstname"
-            :rules="required"
-            label="Prénom"
-            required
-          ></v-text-field>
-          <v-text-field
-          class="text-field"
-            v-model="object.lastname"
-            :rules="required"
-            label="Nom"
-            required
-          ></v-text-field>
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                class=""
+                v-model="object.firstname"
+                :rules="required"
+                label="Prénom"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                class="text-field pl-2"
+                v-model="object.lastname"
+                :rules="required"
+                label="Nom"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
         </div>
 
         <v-text-field
