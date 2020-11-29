@@ -193,6 +193,7 @@ export default {
 .btn-large {
   width: 60vmin;
   margin-top: 3em;
+  height: 5vh !important;
 }
 .alert {
   margin-top: 2em;
