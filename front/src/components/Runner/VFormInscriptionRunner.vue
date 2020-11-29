@@ -169,7 +169,7 @@ export default {
   background: white;
   width: 70vmin;
   height: 65vh;
-  border-radius: 25px;
+  border-radius: 50px;
   margin-top: 4vh;
   z-index: 1;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);

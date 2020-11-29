@@ -146,7 +146,7 @@ $color1-btn: #ffaaaa;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(180deg, #9BC9FF 0%, #515BAE 100%);;
+  background: linear-gradient(180deg, #9BC9FF 0%, #515BAE 100%);
 
 
   .rounded {

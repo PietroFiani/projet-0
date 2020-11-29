@@ -32,7 +32,7 @@
           xlink:href="#gentle-wave"
           x="48"
           y="0"
-          fill="rgba(255, 170, 170, 0.5)"
+          fill="rgba(111, 206, 145, 0.5)"
         />
         <use
           xlink:href="#gentle-wave"
@@ -44,13 +44,13 @@
           xlink:href="#gentle-wave"
           x="48"
           y="5"
-          fill="rgba(255, 170, 170, 0.7)"
+          fill="rgba(111, 206, 145, 0.7)"
         />
         <use
           xlink:href="#gentle-wave"
           x="48"
           y="7"
-          fill="rgba(255, 170, 170, 1)"
+          fill="rgba(111, 206, 145, 1)"
         />
       </g>
     </svg>
@@ -78,7 +78,7 @@ $color1-btn: #ffaaaa;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(135deg, #8ee2cf 0%, #6fce91 100%);
+  background: linear-gradient(180deg, #9BC9FF 0%, #515BAE 100%);
 
 
   .rounded {
@@ -146,7 +146,7 @@ $color1-btn: #ffaaaa;
   margin: 0px;
   position: absolute;
   bottom: 0px;
-  height:25vh;
+  height:20vh;
   width:100%;
 }
 .parallax > use {
