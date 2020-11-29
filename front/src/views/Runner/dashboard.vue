@@ -139,17 +139,18 @@ export default {
         });
 
       newRunner.departmentsIds.forEach((element) => {
+        console.log(element)
         axios({
           method: "DELETE",
           url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
           headers: { "Content-Type": "application/json" },
-        }).then((response) => {
+        }).then(() => {
           axios
             .post("http://localhost:5000/deliveries/create", {
               id_runner: this.runner.id_runner,
               departmentsIds: this.runner.departmentsIds,
             })
-            .then((response) => {
+            .then(() => {
               this.reload();
             });
         });
