@@ -33,13 +33,13 @@ exports.create = (req, res) => {
                 message: err.message || "Some error occurred while creating the Customer."
             });
         else {
-            let idCustomer = data.id
+            let id_customer = data.id
                 // req.body.departmentsIds.forEach(idDepartment => {
             let addrCustomer = new AddrCustomer({
                 road: req.body.road,
                 zip: req.body.zip,
-                idDepartment: req.body.departmentsId,
-                idCustomer
+                id_department: req.body.id_department,
+                id_customer
             })
             AddrCustomer.create(addrCustomer, (err, addrCustomerdata => {
                     if (err)

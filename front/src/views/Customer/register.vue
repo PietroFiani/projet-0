@@ -61,7 +61,7 @@
               v-model="object.departmentsId"
               :items="departments"
               :item-text="(item) => item.code + ' - ' + item.nom"
-              :item-value="(item) => item.id"
+              :item-value="(item) => item.id_department"
               chips
               :rules="required"
               required
@@ -106,16 +106,18 @@ export default {
       (v) => !!v || "E-mail requis",
       (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
     ],
-    CodePostalRules:[
+    codePostalRules:[
       (v) => /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/.test(v) || "Code Postal Valide", 
     ], 
     required: [(v) => !!v || "requis"],
   }),
   mounted() {
+    //Verifie si l'utilisateur est deja log 
     if (this.$store.state.custopmerId) {
       // this.$router.push("/client/profil")
       console.log('already Log')
     }
+    // recupere la liste des departements
     let url = "http://localhost:5000/departments"
     axios
       .get(url)
@@ -127,10 +129,13 @@ export default {
   },
 
   methods: {
+    // inscrit un utilisateur, stocke la variable global, redirige vers le dashboard
     register() {
+      // Verfiie si les password sont identiques
       if (this.object.password != this.object.repassword) {
         return (this.message = "Le mot de passe est invalide");
       }
+      // fait appel a l'api pour enregistrer un user
       let url = "http://localhost:5000/customers/register"
       if (this.$refs.form.validate()) {
         axios
@@ -141,13 +146,13 @@ export default {
             firstname: this.object.firstname,
             lastname: this.object.lastname,
             image: this.object.image,
-            departmentsId: this.object.departmentsId,
+            id_department: this.object.departmentsId,
             road: this.object.road,
             zip: this.object.zip
           })
           .then((response) => {
             console.log("INSCRIT", response)
-            this.$store.commit("loginCustomer", response.data.id)
+            // this.$store.commit("loginCustomer", response.data.id)
             this.$router.push("/client/profil")
           }) //c'est un objet
           .catch((error) =>{

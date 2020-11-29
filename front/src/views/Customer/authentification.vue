@@ -10,7 +10,6 @@
         ></v-text-field>
         <v-text-field
               v-model="object.password"
-              :counter="10"
               :rules="required"
               label="Mot de passe"
               :append-icon="value ? 'mdi-eye-off' : 'mdi-eye'"
@@ -49,8 +48,9 @@ export default {
   },
 
   methods: {
+    // fonction qui log un user, stocker l'id du user en global pour savoir si c'est bien lui, redirige vers le dashboard du user
     log() {
-      // const self=this
+      //On appelle la route login qui permet de log un user
       let url = "http://localhost:5000/customers/login";
       this.$refs.form.validate();
       axios
@@ -59,8 +59,8 @@ export default {
         })
         .then((response) => {
           if (response.data) {
-            console.log("CONNECTE", response.data);
-            this.$store.commit('loginCustomer', response.data.id)
+            // console.log("CONNECTE", response.data);
+            this.$store.commit('loginCustomer', response.data.id_customer)
             this.$router.push("/client/profil");
           } 
           else { 

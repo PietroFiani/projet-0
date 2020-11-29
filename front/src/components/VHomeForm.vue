@@ -73,7 +73,7 @@ export default {
         .then((response) => {
           if (response.data) {
             console.log("CONNECTE", response.data);
-            this.$store.commit('loginCustomer', response.data.id)
+            this.$store.commit('loginCustomer', response.data.id_customer)
             this.$router.push("/client/profil");
           } 
           else { 
