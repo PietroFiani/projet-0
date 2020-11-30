@@ -137,7 +137,7 @@ export default {
   }),
   mounted() {
     //Verifie si l'utilisateur est deja log 
-    if (this.$store.state.custopmerId) {
+    if (this.$store.state.customerId) {
       // this.$router.push("/client/profil")
       console.log('already Log')
     }
@@ -179,7 +179,7 @@ export default {
           })
           .then((response) => {
             console.log("INSCRIT", response)
-            // this.$store.commit("loginCustomer", response.data.id)
+            this.$store.commit("loginCustomer", response.data.id)
             this.$router.push("/client/profil")
           }) //c'est un objet
           .catch((error) =>{
