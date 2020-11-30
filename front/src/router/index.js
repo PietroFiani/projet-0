@@ -11,12 +11,6 @@ const routes = [{
         component: Home
     },
     {
-        path: '/client/connexion',
-        name: 'Connexion Client',
-        component: () =>
-            import ( /* webpackChunkName: "authCustomer" */ '../views/Customer/authentification.vue')
-    },
-    {
         path: '/client/inscription',
         name: 'Inscription Client',
         component: () =>
