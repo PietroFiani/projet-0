@@ -14,13 +14,6 @@
       <v-card-text>{{ message }}</v-card-text>
     </v-card>
     <div>
-      <!-- <v-text-field
-      v-model="id_department"
-      label="ID du département"
-      required
-      type="number"
-      ></v-text-field>
-      <v-btn @click="search">Rechercher :</v-btn> -->
       <div v-for="runner of runners" :key="runner.id_runner">
         <div>
           <h1>Livreur</h1>
@@ -30,13 +23,20 @@
             <p> {{product.name}} {{product.label}}</p>
             <p>stock: {{product.stock}} kg</p>
             <p>prix: {{product.price}} €/g</p>
+            <v-btn color="primary" class="mr-4" @click="commander()"> Commander</v-btn>
+
           </div>
           
         </div>
       </div>
-      {{runners}}
     </div>
-
+    
+    <v-dialog
+      v-model="dialog" persistent max-width="1000">
+      <v-btn icon @click="dialog = false">
+          <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-dialog>
     <v-btn @click="logout()"> Se deconnecter </v-btn>
   </div>
 </template>
@@ -55,6 +55,7 @@ export default {
       id : null,
       id_department: 1,
       runners: [],
+      dialog: false
     }
   },
   mounted() {
@@ -128,6 +129,9 @@ export default {
           console.log("ERREUR", error);
         });
     },
+    commander() {
+      this.dialog = true
+    }
   },
 }
 </script>
