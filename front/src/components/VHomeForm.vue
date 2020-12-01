@@ -57,7 +57,7 @@ export default {
   }),
   mounted() {
     if (this.$store.state.customerId) {
-      this.$router.push("/client/profil");
+      this.$router.push("/client/dashboard");
     }
   },
 
@@ -74,7 +74,7 @@ export default {
           if (response.data) {
             console.log("CONNECTE", response.data)
             this.$store.commit('loginCustomer', response.data.id_customer)
-            this.$router.push("/client/profil")
+            this.$router.push("/client/dashboard")
           } 
           else { 
             console.log("PAS CONNECTE");
