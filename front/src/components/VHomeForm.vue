@@ -23,7 +23,7 @@
         <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
       <div class="btn-wrapper">
-        <button class="round sign-in" @click="log()">Connexion</button>
+        <button class="round sign-in" type='button' @click="log()">Connexion</button>
         <router-link :to="{ name: 'Inscription Client' }">
           <button class="round sign-up">Inscription</button>
         </router-link>
