@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <v-form class="home-form" ref="form" v-model="valid" lazy-validation>
       <div class="text-area-wrapper">
         <v-text-field
           class="textarea"
@@ -29,11 +28,11 @@
         </router-link>
       </div>
       <div class="btn-wrapper">
-        <router-link :to="{name :'Connexion Partenaire'}">
+        <router-link :to="{ name: 'Connexion Partenaire' }">
           <button class="round runner-sign-in">Connexion Runner</button>
         </router-link>
       </div>
-    </v-form>
+
   </div>
 </template>
 
@@ -65,28 +64,26 @@ export default {
     log() {
       // const self=this
       let url = "http://localhost:5000/customers/login";
-      this.$refs.form.validate();
       axios
         .get(url, {
           params: { mail: this.object.mail, password: this.object.password },
         })
         .then((response) => {
           if (response.data) {
-            console.log("CONNECTE", response.data)
-            this.$store.commit('loginCustomer', response.data.id_customer)
-            this.$router.push("/client/dashboard")
-          } 
-          else { 
+            console.log("CONNECTE", response.data);
+            this.$store.commit("loginCustomer", response.data.id_customer);
+            if (this.$store.state.customerId) {
+              this.$router.push("/client/dashboard");
+            }
+          } else {
             console.log("PAS CONNECTE");
             this.message = "Email et/ou password invalide";
-          
           }
         })
         .catch((error) => {
           console.log("PAS CONNECTE", error);
           this.message = "Email et/ou password invalide";
-        })
-
+        });
     },
   },
 };
@@ -94,7 +91,7 @@ export default {
 
 <style lang="scss" scoped>
 //Variables
-$color1-btn: #6FCE91;
+$color1-btn: #6fce91;
 
 .container {
   background-color: white;
