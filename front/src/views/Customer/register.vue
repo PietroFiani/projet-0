@@ -180,7 +180,7 @@ export default {
           .then((response) => {
             console.log("INSCRIT", response)
             this.$store.commit("loginCustomer", response.data.id)
-            this.$router.push("/client/dashboard")
+            this.$router.push("/client/profil")
           }) //c'est un objet
           .catch((error) =>{
             console.log("PAS INSCRIT", error)

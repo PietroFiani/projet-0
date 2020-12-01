@@ -4,7 +4,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 
 dotenv.config()
-var history = require('connect-history-api-fallback');
+
 
 app.use(cors())
 app.use(express.json())
@@ -21,9 +21,7 @@ require("./routes/department.routes.js")(app);
 require("./routes/product.routes.js")(app);
 require("./routes/category.routes.js")(app);
 
-app.get('/', (req, res) => {
-    res.sendFile('../views/Home.vue');
-  });
+
 app.listen(process.env.PORT, () => {
     console.log(`app is running on port ${process.env.PORT}`)
-}).use(history())
+})
