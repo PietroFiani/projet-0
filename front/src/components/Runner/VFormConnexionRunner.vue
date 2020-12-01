@@ -28,7 +28,7 @@
             alt="warning logo"
           />{{ message }}</span
         >
-        <button class="btn-sign-in" @click="log">Connexion</button>
+        <button class="btn-sign-in" type='button' @click="log">Connexion</button>
       </div>
     </v-form>
   </div>
