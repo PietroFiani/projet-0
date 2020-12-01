@@ -1,23 +1,9 @@
-import init.sql in phpmyadmin
+# codemix-basic-vue
 
-in a terminal
-```	
-	$ cd back
-	$ touch .env
-	$ nano .env
-			PORT=5000 
-			USER=[user]
-			PASSWORD=[psswd]
-			DATABASE="brocoli"
-			HOST="localhost"
-			DB_PORT=3306
-	$ npm install
-	$ node app.js
-```
-in an other terminal
+Template for project creation of Vue inside CodeMix
 
-```	
-	$ cd front
-	$ npm install
-	$ yarn run serve
-```
+# Contents
+
+This template project is just an example Hello World that guide you through the use of Vue to build a very simple web application that display the Hello Vue Greeting.
+
+This example uses the `<script>` to include Vue and is the simplest way to get started with Vue development.

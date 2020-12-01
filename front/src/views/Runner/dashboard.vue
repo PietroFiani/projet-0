@@ -1,5 +1,16 @@
 <template>
   <div>
+    <v-toolbar class="brown darken-3">
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title class="title">
+                <v-icon class="mr-2">data_usage</v-icon>Vue.js CRM
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
     <v-btn color="warning" @click="logout()"> Se deconnecter </v-btn>
     <v-img
       id="avatar"
