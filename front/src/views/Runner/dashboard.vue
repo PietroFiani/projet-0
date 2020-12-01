@@ -21,7 +21,7 @@
             <v-tab> Profil </v-tab>
             <v-tabs-items v-model="tab">
               <v-tab-item>
-                <v-card flat> </v-card>
+               <v-order :orders="runner.orders"></v-order>
               </v-tab-item>
               <v-tab-item>
                 <v-product :products="products" @reload="reload()"></v-product>
@@ -44,10 +44,12 @@
 import axios from "axios";
 import VProfil from "../../components/Runner/VProfil";
 import VProduct from "../../components/Runner/VProduct";
+import VOrder from "../../components/Runner/VOrder";
 export default {
   components: {
     VProfil,
     VProduct,
+    VOrder,
   },
   data() {
     return {

@@ -1,6 +1,7 @@
 const Runner = require("../models/runner.models.js");
 const Delivery = require("../models/delivery.models.js");
 const Product = require("../models/product.models.js");
+const Order = require("../models/order.models.js");
 
 const bcrypt = require('bcrypt');
 
@@ -78,11 +79,11 @@ exports.findByDepartment = (req, res) => {
         } else {
             console.log("DATA", data)
             console.log("DATALENGTH", data.length)
-            data.forEach((runner,index) => {
+            data.forEach((runner, index) => {
                 Product.findByRunner(runner.id_runner, (err, productData) => {
                     if (err) {
                         if (err.kind === "not_found") {
-                            data[index].products=[]
+                            data[index].products = []
                         }
                         else {
                             res.status(500).send({
@@ -92,10 +93,10 @@ exports.findByDepartment = (req, res) => {
                     }
                     else data[index].products = productData
                     console.log("INDEX", index)
-                    if (index==data.length-1) res.send(data)
+                    if (index == data.length - 1) res.send(data)
                 })
 
-            }) 
+            })
 
         }
     })
@@ -143,10 +144,26 @@ exports.findOne = (req, res) => {
             }
             else {
                 data.deliveries = deliveryData;
-                res.send(data)
+                Order.findByRunner(req.params.runnerId, (err, orderData) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.send(data)
+                        }
+                        else {
+                            res.status(500).send({
+                                message: "Error retrieving delivery with runnerId " + req.params.runnerId
+                            });
+                        }
 
+                    }
+
+                    else {
+                        data.orders = orderData
+                        res.send(data)
+                    }
+                })
             }
-        });
+        })
     })
 };
 
