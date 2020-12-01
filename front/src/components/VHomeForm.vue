@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-on:keyup.enter="log()">
     <v-form class="home-form" ref="form" v-model="valid" lazy-validation>
       <div class="text-area-wrapper">
         <v-text-field
@@ -25,12 +25,12 @@
       <div class="btn-wrapper">
         <button class="round sign-in" type='button' @click="log()">Connexion</button>
         <router-link :to="{ name: 'Inscription Client' }">
-          <button class="round sign-up">Inscription</button>
+          <button type="button" class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
         <router-link :to="{name :'Connexion Partenaire'}">
-          <button class="round runner-sign-in">Connexion Runner</button>
+          <button type="button" class="round runner-sign-in">Connexion Runner</button>
         </router-link>
       </div>
     </v-form>
