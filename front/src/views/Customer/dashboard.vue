@@ -106,6 +106,7 @@ export default {
       id_department: 1,
       runners: [],
       dialog: false,
+      // required: [(v) => !!v || "requis"],
     }
   },
   mounted() {
@@ -236,6 +237,22 @@ export default {
             this.message = "bug commande"
           })
       }
+
+      url = `http://localhost:5000/productsOrder/${this.commande.id_product}`
+      axios
+        .put(url, {
+          id: this.commande.id_product,
+          stock: this.commande.quantity,
+        })
+        .then((response) => {
+          if (response.data) {
+            console.log("PRODUCT ", response.data)
+            // this.address = response.data
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error)
+        })
     }
   },
 }

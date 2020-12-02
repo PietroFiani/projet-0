@@ -5,14 +5,12 @@ exports.getByRunner = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.send(data)
-            }
-            else {
+            } else {
                 res.status(500).send({
                     message: "Error retrieving products with runnerId " + req.params.runnerId
                 });
             }
-        }
-        else {
+        } else {
             res.send(data)
 
         }
@@ -43,6 +41,41 @@ exports.update = (req, res) => {
     );
 
     Product.updateById(req.body.id,
+        new Product(product),
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found Product with id ${req.body.id}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error updating Product with id " + req.body.id
+                    });
+                }
+            } else {
+                res.send(data)
+
+            }
+        }
+
+    );
+}
+
+exports.updateOrder = (req, res) => {
+    // Validate Request
+    console.log(req.body)
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+
+    const product = new Product(
+        req.body
+    );
+
+    Product.updateStockById(req.body.id,
         new Product(product),
         (err, data) => {
             if (err) {
