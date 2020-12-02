@@ -55,7 +55,7 @@ export default {
           if (response.data) {
             console.log("ADDRCUSTOMER", response.data)
             this.customers = response.data
-            // this.search()
+            this.search()
           }
         })
         .catch((error) => {
@@ -71,6 +71,20 @@ export default {
     logout() {
       this.$store.commit("logoutCustomer")
       this.$router.push("/")
+    },
+    search() {
+      let url = `http://localhost:5000/runners/from/${this.customers[0].id_department}`
+      axios
+        .get(url)
+        .then((response) => {
+          if (response.data) {
+            // console.log("RUNNERs", response.data)
+            this.runners = response.data
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error)
+        })
     },
   },
 }
