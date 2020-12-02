@@ -90,7 +90,7 @@ export default {
           console.log("ERREUR", error)
         })
       this.$store.commit("removeAddrCustomer")
-      this.$router.push("/client/profil")
+      this.$router.push("/client/dashboard")
     }
   }
 }

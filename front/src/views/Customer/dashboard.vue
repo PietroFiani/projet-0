@@ -6,7 +6,7 @@
 
     <v-header></v-header>
 
-    <div v-for="customer of customers" :key="customer.id_address">
+    <div  v-for="customer of customers" :key="customer.id_address">
       <p> {{customer.road}} {{customer.zip}}  {{customer.nom}}</p>
       <v-btn color="primary" class="mr-4" @click="updateAddr(customer.id_address)"> Modifier</v-btn>
       <v-btn color="error" class="mr-4" @click="deleteAddr(customer.id_address)"> Supprimer</v-btn>
@@ -192,8 +192,22 @@ export default {
             url: `http://localhost:5000/addrCustomers/${id}`,
             headers: { "Content-Type": "application/json" },
           }) 
-      // this.$router.push({name: 'Profil Client'})
-
+      this.reloadAddr()    
+    },
+    reloadAddr() {
+      let url = `http://localhost:5000/customers/${this.id}`
+      axios
+        .get(url)
+        .then((response) => {
+          if (response.data) {
+            // console.log("ADDRCUSTOMER", response.data)
+            this.customers = response.data
+            this.search()
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error)
+        })
     },
     search() {
       let url = `http://localhost:5000/runners/from/${this.customers[0].id_department}`
@@ -219,7 +233,7 @@ export default {
     },
     orderPruduct() {
 
-      // console.log('ADRESSE ELLE FONCTIONNE PUTAIN ', this.commande.id_address)
+      // console.log('ADRESSE ', this.commande.id_address)
       let url = "http://localhost:5000/orders/add"
       if (this.$refs.form.validate()) {
         axios
