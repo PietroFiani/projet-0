@@ -1,52 +1,79 @@
 <template>
   <div>
-    <v-toolbar class="brown darken-3">
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title class="title">
-                <v-icon class="mr-2">data_usage</v-icon>Vue.js
-              </v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-toolbar>
-    <v-btn color="warning" @click="logout()"> Se deconnecter </v-btn>
-    <v-img
-      id="avatar"
-      v-if="!runner.image"
-      src="../../assets/avatar.png"
-      width="200px"
-    ></v-img>
-    <v-row justify="center">
-      <v-col cols="7" class="mt-16 pl-9">
-        <h1>Bonjour, {{ runner.lastname }} {{ runner.firstname }}</h1></v-col
+    <VToolbar>
+    </VToolbar >
+    <v-btn fab dark large color="warning" @click="logout()" >
+      <v-icon dark>mdi-power</v-icon>
+    </v-btn>
+    
+    <v-row justify="left">
+      <v-col cols="12" class="mt-6 pl-9">
+      <h1>Bonjour, {{ runner.lastname }} {{ runner.firstname }}</h1>
+      </v-col
       >
+    <VMargeNavigation>
+    </VMargeNavigation>
 
-      <v-col cols="7" class="mt-14">
-        <v-card height="700" class="scroll"
-          ><v-tabs grow v-model="tab" align-with-title>
-            <v-tabs-slider color="primary"></v-tabs-slider>
-            <v-tab class="ma-0"> Commande </v-tab>
-            <v-tab> Produit </v-tab>
-            <v-tab> Profil </v-tab>
-            <v-tabs-items v-model="tab">
-              <v-tab-item>
-                <v-card flat> </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-product :products="products" @reload="reload()"></v-product>
-              </v-tab-item>
-              <v-tab-item>
-                <v-profil
-                  :runner="runner"
-                  @update="update"
-                  @logout="logout"
-                ></v-profil>
-              </v-tab-item>
-            </v-tabs-items> </v-tabs
-        ></v-card>
-      </v-col>
+      <div class="test">
+        <v-tabs height="700" weigth="450" vertical class="Navi">
+      <div class="sous-test">
+      <v-tab>
+        <v-icon left>
+          mdi-package-variant
+        </v-icon>
+        Stock
+      </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-run
+        </v-icon>
+        livraison
+      </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-account
+        </v-icon>
+        Profil
+      </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-chart-line
+        </v-icon>
+        Vente/Benefice
+      </v-tab>
+      </div>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <v-flex xs12="xs12">
+            <h1 class="display-1 mb-1">Approvisionement</h1>
+          </v-flex>
+            <v-product :products="products" @reload="reload()"></v-product>
+            <VStock></VStock>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <VLivraison></VLivraison>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <v-profil
+            :runner="runner"
+            @update="update"
+            @logout="logout"
+          ></v-profil>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-flex xs12="xs12">
+          <h1 class="display-1 mb-1">Chiffre annuelle</h1>
+        </v-flex>
+      </v-tab-item>
+    </v-tabs>
+     </div>
     </v-row>
   </div>
 </template>
@@ -55,10 +82,16 @@
 import axios from "axios";
 import VProfil from "../../components/Runner/VProfil";
 import VProduct from "../../components/Runner/VProduct";
+import VToolbar from "../../components/Runner/VToolbar";
+import VLivraison from "../../components/Runner/VLivraison";
+import VStock from "../../components/Runner/VStock";
 export default {
   components: {
     VProfil,
     VProduct,
+    VToolbar,
+    VLivraison,
+    VStock,
   },
   data() {
     return {
@@ -170,6 +203,14 @@ button {
   top: 3%;
 }
 .scroll {
-   overflow-y: scroll
+   margin: right;
+}
+
+.v-slide-group__wrapper {
+  background: blue;
+}
+
+.v-application--is-ltr theme--light {
+    background-color: green;
 }
 </style>
