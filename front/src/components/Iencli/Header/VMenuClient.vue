@@ -55,7 +55,7 @@ export default {
           if (response.data) {
             console.log("ADDRCUSTOMER", response.data)
             this.customers = response.data
-            this.search()
+            // this.search()
           }
         })
         .catch((error) => {

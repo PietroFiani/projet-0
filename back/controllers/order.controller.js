@@ -2,7 +2,7 @@ const Order = require("../models/order.models.js");
 
 // Create and Save a new Order
 exports.create = (req, res) => {
-    // console.log('test')
+    console.log(req)
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"

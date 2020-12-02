@@ -46,7 +46,6 @@
         </v-app-bar>
         <v-card-text>
           <v-form ref="form" v-model="valid" lazy-validation>
-
            <v-select
             v-model="commande.id_address"
             label="Adresse de livraison"
@@ -99,15 +98,15 @@ export default {
         lastname : ""
       }],
       commande: [{
-        id_runner: "",
-        id_address: "",
-        id_product: "",
+        id_runner: null,
+        id_address: null,
+        id_product: null,
         date: null,
         quantity: null,
         prix: null,
-        max_quantity:"",
-        name_product:"",
-        prix_init: "",
+        max_quantity:null,
+        name_product:'',
+        prix_init: null,
       }],
       id : null,
       id_department: 1,
@@ -128,7 +127,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            console.log("ADDRCUSTOMER", response.data)
+            // console.log("ADDRCUSTOMER", response.data)
             this.customers = response.data
             this.search()
           }
@@ -202,7 +201,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            console.log("RUNNERs", response.data)
+            // console.log("RUNNERs", response.data)
             this.runners = response.data
           }
         })
@@ -220,8 +219,7 @@ export default {
     },
     orderPruduct() {
 
-      console.log(this.commande)
-      console.log(this.$store.state.customerId)
+      // console.log('ADRESSE ELLE FONCTIONNE PUTAIN ', this.commande.id_address)
       let url = "http://localhost:5000/orders/add"
       if (this.$refs.form.validate()) {
         axios
@@ -243,24 +241,25 @@ export default {
             console.log("PAS COMMANDE", error)
             this.message = "bug commande"
           })
+      
+        // if (this.) {}
+        url = `http://localhost:5000/productsOrder/${this.commande.id_product}`
+        axios
+          .put(url, {
+            id: this.commande.id_product,
+            stock: this.commande.quantity,
+          })
+          .then((response) => {
+            if (response.data) {
+              console.log("PRODUCT ", response.data)
+              // this.address = response.data
+            }
+          })
+          .catch((error) => {
+            console.log("ERREUR", error)
+          })
       }
-
-      url = `http://localhost:5000/productsOrder/${this.commande.id_product}`
-      axios
-        .put(url, {
-          id: this.commande.id_product,
-          stock: this.commande.quantity,
-        })
-        .then((response) => {
-          if (response.data) {
-            console.log("PRODUCT ", response.data)
-            // this.address = response.data
-          }
-        })
-        .catch((error) => {
-          console.log("ERREUR", error)
-        })
-    }
+    },
   },
 }
 </script>
