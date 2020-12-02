@@ -57,17 +57,17 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn icon class="ma-2">
+        <v-btn icon class="ma-4">
           <v-icon v-if="!editMode" large color="primary" @click="edit()"
             >mdi-pen</v-icon
           >
         </v-btn>
-        <v-btn icon class="ma-2">
+        <v-btn icon class="ma-4">
           <v-icon v-if="!editMode" large color="warning" @click="dialog = true"
             >mdi-delete</v-icon
           >
         </v-btn>
-        <v-btn icon class="ma-2">
+        <v-btn icon class="ma-4">
           <v-icon v-if="editMode" large color="primary" @click="updateRunner"
             >mdi-check-bold</v-icon
           >

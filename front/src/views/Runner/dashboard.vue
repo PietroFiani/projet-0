@@ -1,7 +1,7 @@
 <template>
   <div>
     <VToolbar>
-    </VToolbar >
+    </VToolbar>
     <v-btn fab dark large color="warning" @click="logout()" >
       <v-icon dark>mdi-power</v-icon>
     </v-btn>
