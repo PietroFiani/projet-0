@@ -3,7 +3,7 @@
     <div class="overview">
       <img
         class="profil-pic"
-        src="../../../assets/avatar.png"
+        src="../../assets/avatar.png"
         alt="photo de profil"
       />
       <h2 class="client-name">
@@ -11,13 +11,13 @@
         {{ customers[0].lastname }}
       </h2>
       <button>
-        <img class="arrow" src="../../../assets/flechenavigation.svg" alt="fleche de découverte du menu"/>
+        <img class="arrow" src="../../assets/flechenavigation.svg" alt="fleche de découverte du menu"/>
       </button>
     </div>
 
     <div class="menu">
       <div class="link-container">
-        <router-link  class="link" :to="{ name: 'Profil Client' }"><span class="link">Profil</span></router-link>
+        <router-link  class="link" :to="{ name: 'Client Profil' }"><span class="link">Profil</span></router-link>
         <router-link  class="link" :to="{ name: 'Commandes Client' }"><span class="link">Historique des commandes</span></router-link>
         <span class="link" @click="logout()">Se deconnecter</span>
       </div>

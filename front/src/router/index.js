@@ -25,12 +25,6 @@ const routes = [{
             import ( /* webpackChunkName: "profile" */ '../views/Customer/dashboard.vue')
     },
     {
-        path: '/client/profil',
-        name: 'Profil Client',
-        component: () =>
-            import ( /* webpackChunkName: "profile" */ '../views/Customer/dashboard/profil.vue')
-    },
-    {
         path: '/client/modifier/adresse',
         name: 'UpadteAddrClient',
         component: () =>
@@ -54,6 +48,12 @@ const routes = [{
         component: () =>
             import ( /* webpackChunkName: "profile" */ '../views/Customer/dashboard/commandes.vue')
     },
+    {
+        path:'/client/profil', 
+        name:'Client Profil', 
+        component: () => 
+            import('../views/Customer/dashboard/profil.vue')
+    }, 
 
     //Routes Partenaires
     {

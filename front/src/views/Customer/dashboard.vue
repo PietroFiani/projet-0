@@ -4,7 +4,7 @@
     <v-btn color="primary" class="mr-4" @click="updateProfil()"> Modifier Profil</v-btn>
     <v-btn color="primary" class="mr-4" @click="addAddr()"> Ajouter un adresse de livraison</v-btn>
 
-    <v-header></v-header>
+    <v-menu-client></v-menu-client>
 
     <div  v-for="customer of customers" :key="customer.id_address">
       <p> {{customer.road}} {{customer.zip}}  {{customer.nom}}</p>
@@ -80,12 +80,11 @@
 
 <script>
 import axios from "axios"
-import VHeader from '../../components/Iencli/VHeader.vue'
-
+import VMenuClient from "@/components/DashboardClient/VMenuClient"
 export default {
   name: "dashboard",
   components : {
-    VHeader
+    VMenuClient
   }, 
 
   data() {
