@@ -20,6 +20,8 @@ require("./routes/addrCustomer.routes.js")(app);
 require("./routes/department.routes.js")(app);
 require("./routes/product.routes.js")(app);
 require("./routes/category.routes.js")(app);
+require("./routes/order.routes.js")(app);
+
 
 
 app.listen(process.env.PORT, () => {
