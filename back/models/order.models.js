@@ -12,15 +12,21 @@ const Order = function(order) {
 };
 
 Order.findByRunner = (runnerId, result) => {
-    sql.query(`SELECT * FROM ` + "`order`" + ` WHERE id_runner = ${runnerId}`, (err, res) => {
+    sql.query(`SELECT * FROM ` + "`order`" + `NATURAL JOIN customer NATURAL JOIN address WHERE id_runner = ${runnerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
 
-        console.log("created order: ", { id: res.insertId, ...newOrder });
-        result(null, { id: res.insertId, ...newOrder });
+        if (res.length) {
+            console.log("found deliveries: ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found Runner with the id
+        result({ kind: "not_found" }, null);
     });
 };
 
