@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-on:keyup.enter="log()">
     <v-form class="home-form" ref="form" v-model="valid" lazy-validation>
       <div class="text-area-wrapper">
         <v-text-field
@@ -23,14 +23,14 @@
         <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
       <div class="btn-wrapper">
-        <button class="round sign-in" @click="log()">Connexion</button>
+        <button class="round sign-in" type='button' @click="log()">Connexion</button>
         <router-link :to="{ name: 'Inscription Client' }">
-          <button class="round sign-up">Inscription</button>
+          <button type="button" class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
         <router-link :to="{name :'Connexion Partenaire'}">
-          <button class="round runner-sign-in">Connexion Runner</button>
+          <button type="button" class="round runner-sign-in">Connexion Runner</button>
         </router-link>
       </div>
     </v-form>
@@ -57,7 +57,7 @@ export default {
   }),
   mounted() {
     if (this.$store.state.customerId) {
-      this.$router.push("/client/profil");
+      this.$router.push("/client/dashboard");
     }
   },
 
@@ -72,9 +72,9 @@ export default {
         })
         .then((response) => {
           if (response.data) {
-            console.log("CONNECTE", response.data);
+            console.log("CONNECTE", response.data)
             this.$store.commit('loginCustomer', response.data.id_customer)
-            this.$router.push("/client/profil");
+            this.$router.push("/client/dashboard")
           } 
           else { 
             console.log("PAS CONNECTE");

@@ -45,18 +45,39 @@
               @click:append="() => (value2 = !value2)"
               :type="value2 ? 'password' : 'text'"
             ></v-text-field>
-        <v-text-field
+        <!-- <v-autocomplete
           v-model="object.road"
+          @input="search()"
+
+          :items="roads"
+          :item-text="(item) => item.name"
+          :item-value="(item) => item.name"
+          chips
           :rules="required"
-          label="Rue"
           required
-        ></v-text-field>
+          label="Rue"
+        ></v-autocomplete> -->
+        <div>
+          <v-text-field class="road" list="road"
+            v-model.lazy="object.road"
+            @input="search()"
+            :rules="required"
+            label="Rue"
+            required
+          ></v-text-field>
+          <datalist id="road">
+
+          </datalist>
+        </div>
         <v-text-field
           v-model="object.zip"
           :rules="codePostalRules"
           label="Code postal"
           required
         ></v-text-field>
+        <div>
+          {{ object.road }}
+        </div>
          <v-autocomplete
               v-model="object.departmentsId"
               :items="departments"
@@ -82,6 +103,8 @@ import axios from "axios"
 
 export default {
   data: () => ({
+    apiUrl: "https://api-adresse.data.gouv.fr/search/?q=",
+    limit: "&limit=15",
     valid: false,
     value1: String,
     value2: String,
@@ -99,6 +122,7 @@ export default {
     },
     message: "",
     departments: [],
+    roads: [],
     PhoneRules:[
       (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Numéro incorrect"
     ],
@@ -113,7 +137,7 @@ export default {
   }),
   mounted() {
     //Verifie si l'utilisateur est deja log 
-    if (this.$store.state.custopmerId) {
+    if (this.$store.state.customerId) {
       // this.$router.push("/client/profil")
       console.log('already Log')
     }
@@ -126,6 +150,9 @@ export default {
         this.departments = response.data
       }) //c'est un objet
       .catch((error) => console.log(console.log("Departments error ", error)))
+
+      // this.search()
+      // document.querySelector('road').on
   },
 
   methods: {
@@ -152,7 +179,7 @@ export default {
           })
           .then((response) => {
             console.log("INSCRIT", response)
-            // this.$store.commit("loginCustomer", response.data.id)
+            this.$store.commit("loginCustomer", response.data.id)
             this.$router.push("/client/profil")
           }) //c'est un objet
           .catch((error) =>{
@@ -161,7 +188,54 @@ export default {
           })
       }
     },
+    search(){
+      // let road = this.object.road
+      // this.object.road.onchange = function() {
+      //   console.log('heelo')
+      // }
+      // docu.addEventListener("change", console.log('hello'));
+      // console.log(this.object.road)
+      this.roads = []
+      let url = this.apiUrl + this.object.road
+      console.log(url)
+      fetch(url)
+      .then(response => response.json())
+      .then(results => {
+        // console.log(results.features)
+        results.features.forEach(result => {
+          // console.log(result.properties)
+          this.roads.push(result.properties)
+        });
+        console.log(this.roads)
+        // this.roads = results.features
+      })
+    },
+    
   },
+  // computed: {
+  //   search(){
+  //     // let road = this.object.road
+  //     // this.object.road.onchange = function() {
+  //     //   console.log('heelo')
+  //     // }
+  //     // docu.addEventListener("change", console.log('hello'));
+  //     // console.log(this.object.road)
+  //     let url = this.apiUrl + this.object.road
+  //     console.log(url)
+  //     fetch(url)
+  //     .then(response => response.json())
+  //     .then(results => {
+  //       // console.log(results.features)
+  //       results.features.forEach(result => {
+  //         console.log(result.properties)
+  //         this.roads.push(result.properties)
+  //       });
+  //       console.log(this.roads)
+  //       // this.roads = results.features
+  //     })
+  //     return this.roads
+  //   },
+  // }
 }
 </script>
 
