@@ -1,21 +1,38 @@
 <template>
   <div>
-    <VToolbar>
-    </VToolbar>
+    <VToolbar></VToolbar>
     <v-btn fab dark large color="warning" @click="logout()" >
       <v-icon dark>mdi-power</v-icon>
     </v-btn>
     
     <v-row justify="left">
       <v-col cols="12" class="mt-6 pl-9">
-      <h1>Bonjour, {{ runner.lastname }} {{ runner.firstname }}</h1>
-      </v-col
-      >
-    <VMargeNavigation>
-    </VMargeNavigation>
+        <v-list>
+            <v-list-item class="px-2">
+              <v-list-item-avatar>
+                <v-img
+      id="avatar"
+      v-if="!runner.image"
+      src="../../assets/avatar.png"
+      width="200px"
+    ></v-img>
+              </v-list-item-avatar>
+            </v-list-item>
+  
+            <v-list-item link>
+              <v-list-item-content>
+                <v-list-item-title class="title">
+                  Bonjour
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ runner.lastname }} {{ runner.firstname }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+      </v-col>
+      
 
       <div class="test">
-        <v-tabs height="700" weigth="450" vertical class="Navi">
+        <v-tabs height="700" weigth="450" background-color="primary" vertical class="Navi">
       <div class="sous-test">
       <v-tab>
         <v-icon left>
@@ -42,7 +59,7 @@
         Vente/Benefice
       </v-tab>
       </div>
-      <v-tab-item>
+      <v-tab-item class="full-height-tab">
         <v-card flat>
           <v-card-text>
             <v-flex xs12="xs12">
@@ -54,7 +71,7 @@
         </v-card>
       </v-tab-item>
       <v-tab-item>
-        <VLivraison></VLivraison>
+        <VOrder :orders="runner.orders"></VOrder>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
@@ -83,15 +100,15 @@ import axios from "axios";
 import VProfil from "../../components/Runner/VProfil";
 import VProduct from "../../components/Runner/VProduct";
 import VToolbar from "../../components/Runner/VToolbar";
-import VLivraison from "../../components/Runner/VLivraison";
+import VOrder from "../../components/Runner/VOrder";
 import VStock from "../../components/Runner/VStock";
 export default {
   components: {
     VProfil,
     VProduct,
     VToolbar,
-    VLivraison,
     VStock,
+    VOrder,
   },
   data() {
     return {
@@ -208,6 +225,11 @@ button {
 
 .v-slide-group__wrapper {
   background: blue;
+}
+
+.v-tabs-items.full-height-tab  .v-window-item {
+  height: calc(100vh - 270px); /* Adjust 270px to suits your needs */
+  overflow-y: auto;
 }
 
 .v-application--is-ltr theme--light {
