@@ -49,10 +49,10 @@ const routes = [{
             import ( /* webpackChunkName: "profile" */ '../views/Customer/dashboard/commandes.vue')
     },
     {
-        path:'/client/profil', 
-        name:'Client Profil', 
+        path:'/client/profile', 
+        name:'Client Profile', 
         component: () => 
-            import('../views/Customer/dashboard/profil.vue')
+            import('../views/Customer/dashboard/profile.vue')
     }, 
 
     //Routes Partenaires

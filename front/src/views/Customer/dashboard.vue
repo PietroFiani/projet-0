@@ -1,16 +1,8 @@
 <template>
-  <div>
-    <h1>BIEN OU QUOI {{ customers[0].firstname }} {{ customers[0].lastname }}</h1>
-    <v-btn color="primary" class="mr-4" @click="updateProfil()"> Modifier Profil</v-btn>
-    <v-btn color="primary" class="mr-4" @click="addAddr()"> Ajouter un adresse de livraison</v-btn>
-
+  <div class="container">
+    <h1>Dashboard</h1>
     <v-menu-client></v-menu-client>
 
-    <div  v-for="customer of customers" :key="customer.id_address">
-      <p> {{customer.road}} {{customer.zip}}  {{customer.nom}}</p>
-      <v-btn color="primary" class="mr-4" @click="updateAddr(customer.id_address)"> Modifier</v-btn>
-      <v-btn color="error" class="mr-4" @click="deleteAddr(customer.id_address)"> Supprimer</v-btn>
-    </div>
     <v-card v-if="message" dark color="warning">
       <v-card-text>{{ message }}</v-card-text>
     </v-card>
@@ -74,7 +66,6 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-btn @click="logout()"> Se deconnecter </v-btn>
   </div>
 </template>
 

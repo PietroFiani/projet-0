@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <v-menu-client></v-menu-client>
-        {{customers[0].firstname}}
-        <h1>Test</h1>
+        <v-profile-infos></v-profile-infos>
+        <v-profile-address></v-profile-address>
     </div>
 </template>
 
@@ -10,10 +10,14 @@
 <script>
 import axios from "axios"
 import VMenuClient from "@/components/DashboardClient/VMenuClient"
+import VProfileAddress from '../../../components/DashboardClient/VProfileAddress.vue'
+import VProfileInfos from '../../../components/DashboardClient/VProfileInfos.vue'
 export default {
   name: "dashboard",
   components : {
-    VMenuClient
+    VMenuClient,
+    VProfileAddress,
+    VProfileInfos
   }, 
 
   data() {
