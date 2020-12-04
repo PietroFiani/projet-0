@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-    <h1>Mon Profil</h1>
+    <h1>Mon Profile</h1>
     <p>Prénom : {{customers[0].firstname}}</p>
     <p>Nom : {{customers[0].lastname}} </p>
     <p>E-mail : {{customers[0].mail}} </p>

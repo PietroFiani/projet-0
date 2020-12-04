@@ -26,7 +26,7 @@
         <v-list-item>
           <v-list-item
             ><router-link class="link" :to="{ name: 'Dashboard Client' }"
-              ><span class="link">Acceuil</span></router-link
+              ><span class="link">Accueil</span></router-link
             ></v-list-item
           >
           <v-list-item>

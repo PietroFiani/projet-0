@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>Modifie l'adresse poto</h1>
+      
       <v-text-field
           v-model="address.road"
           label="Rue"
