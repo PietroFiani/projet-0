@@ -1,13 +1,18 @@
 <template>
   <v-app>
     <router-view></router-view>
+    <Footer/>
   </v-app>
 </template>
 
 <script>
 // import axios from "axios";
+import Footer from '@/components/Runner/Footer'
 export default {
   name: "App",
+  components: {
+    Footer,
+  },
 
   data: () => ({
     customers: {},

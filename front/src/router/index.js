@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
+import Team from '../views/Runner/Team.vue'
 
 Vue.use(VueRouter)
 
@@ -63,7 +64,32 @@ const routes = [{
         name :'Test Upload Photo', 
         component: () => 
         import ('../views/testUpload.vue')
+    },
+
+    
+    {
+        path: '/partenaire/profil/stock',
+        name: 'Stock',
+        component: () =>
+        import ('../views/Runner/Stock.vue')
+    },
+    {
+        path: '/partenaire/profil/commande',
+        name: 'Commande',
+        component: () => 
+        import ('../views/Runner/Commande.vue')
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        //component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    },
+    {
+        path: '/partenaire/profil/vente',
+        name: 'team',
+        component: Team
     }
+
+
 ]
 
 const router = new VueRouter({
