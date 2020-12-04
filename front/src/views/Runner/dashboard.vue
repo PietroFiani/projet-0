@@ -152,10 +152,10 @@ export default {
   },
   data : () => ({
     team: [
-      {name: 'Iyad', role: 'web developer', avatar:'/img1.png'},
-      {name: 'Reda', role: 'Graphic designer', avatar:'/img2.png'},
-      {name: 'Zineb', role: 'web developer', avatar:'/img3.png'},
-      {name: 'Hu TechGroup', role: 'Desktop developer', avatar:'/img4.png'},
+      {name: 'beuh', role: 'Type : herbe', avatar:'/img1.png'},
+      {name: 'shit', role: 'Type : herbe', avatar:'/img2.png'},
+      {name: 'indica', role: 'Type : herbe', avatar:'/img3.png'},
+      {name: 'blue weed', role: 'Type : herbe', avatar:'/img4.png'},
     ]
   }),
   mounted() {

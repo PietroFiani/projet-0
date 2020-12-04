@@ -85,7 +85,7 @@ const routes = [{
     },
     {
         path: '/partenaire/profil/vente',
-        name: 'team',
+        name: 'Mes ventes',
         component: Team
     }
 

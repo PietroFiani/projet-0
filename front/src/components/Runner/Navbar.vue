@@ -59,9 +59,9 @@ export default {
    data: () => ({
       drawer: true,
       links :[
-          {icon: 'dashboard', text:'Dashboard', route: '/'},
-          {icon: 'folder', text:'My Project', route: '/projects'},
-          {icon: 'person', text:'Team', route: '/team'}
+          {icon: 'mdi-package-variant', text:'Stock', route: '/partenaire/profil/stock'},
+          {icon: 'mdi-run', text:'Livraison', route: '/partenaire/profil/commande'},
+          {icon: 'mdi-chart-line', text:'Vente/Benefice', route: '/partenaire/profil/vente'}
       ]
      
     }),

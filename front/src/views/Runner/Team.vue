@@ -1,6 +1,6 @@
 <template>
   <div class="team">
-    <h1 class="subheading grey--text">Team</h1>
+    <h1 class="subheading grey--text">Mes ventes</h1>
     <v-container >
       <v-layout row wrap>
          <v-flex
