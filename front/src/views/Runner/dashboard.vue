@@ -14,8 +14,8 @@
 
       <v-col cols="7" class="mt-14">
         <v-card height="700" class="scroll"
-          ><v-tabs grow v-model="tab" align-with-title>
-            <v-tabs-slider color="primary"></v-tabs-slider>
+          ><v-tabs grow v-model="tab" background-color="primary" align-with-title>
+            <v-tabs-slider></v-tabs-slider>
             <v-tab class="ma-0"> Commande </v-tab>
             <v-tab> Produit </v-tab>
             <v-tab> Profil </v-tab>
@@ -59,17 +59,23 @@ export default {
     };
   },
   mounted() {
+    const moment= require('moment') 
     if (!this.$store.state.runnerId) {
       this.$router.push("/");
     } else {
       let id = this.$store.state.runnerId;
       let url = `http://localhost:5000/runners/${id}`;
+
       axios
         .get(url)
         .then((response) => {
           if (response.data) {
             console.log("RUNNER", response.data);
             this.runner = response.data;
+            this.runner.orders.forEach(order=>{
+              order.name=order.lastname + " " + order.firstname
+              order.date=moment(order.date).format('DD/MM/YYYY');
+            })
           }
         })
         .catch((error) => {

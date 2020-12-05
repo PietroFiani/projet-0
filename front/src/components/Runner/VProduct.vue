@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn block dark color="primary" class="mb-8 mt-8" @click="edit()"
+    <v-btn block dark color="secondary" class="mb-8 mt-8" @click="edit()"
       >Ajouter un nouveau produit</v-btn
     >
     <v-card v-for="(product, index) in products" class="ma-3" :key="index">

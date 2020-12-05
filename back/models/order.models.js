@@ -12,7 +12,7 @@ const Order = function(order) {
 };
 
 Order.findByRunner = (runnerId, result) => {
-    sql.query(`SELECT * FROM ` + "`order`" + `NATURAL JOIN customer NATURAL JOIN address WHERE id_runner = ${runnerId}`, (err, res) => {
+    sql.query(`SELECT * FROM ` + "`order`" + `NATURAL JOIN customer NATURAL JOIN address NATURAL JOIN product WHERE id_runner = ${runnerId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
