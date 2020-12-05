@@ -112,7 +112,7 @@ export default {
             .catch((error) => {
             console.log("ERREUR", error)
             })
-        this.$router.push("/client/profil")
+        this.$router.push("/client/dashborad")
       }
     }
   }

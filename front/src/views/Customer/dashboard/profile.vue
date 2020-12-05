@@ -1,84 +1,27 @@
 <template>
-  <div class="container">
-    <h1>Dashboard</h1>
-    <v-menu-client></v-menu-client>
-
-    <v-card v-if="message" dark color="warning">
-      <v-card-text>{{ message }}</v-card-text>
-    </v-card>
-    <div>
-      <div v-for="runner of runners" :key="runner.id_runner">
-        <div>
-          <div v-if="runner.products.length > 0">
-            <h1>Livreur</h1>
-            <p> {{runner.lastname}} {{runner.firstname}} </p>
-            <h2>Produit</h2>
-          </div>
-          <div v-for="product of runner.products" :key="product.id_product">
-            <p> {{product.name}} {{product.label}}</p>
-            <p>stock: {{product.stock}} g</p>
-            <p>prix: {{product.price}} €/g</p>
-            <v-btn color="primary" class="mr-4" @click="commander(product, runner.id_runner)"> Commander</v-btn>
-
-          </div>
-          
-        </div>
-      </div>
+    <div class="container">
+        <v-menu-client></v-menu-client>
+        <v-profile-infos></v-profile-infos>
+        <v-profile-address></v-profile-address>
     </div>
-    
-    <v-dialog
-      v-model="dialog" persistent max-width="1000">
-      <v-card>
-        <v-app-bar  color="secondary" dark>
-          Commander du {{ commande.name_product}}
-          <v-spacer />
-          <v-btn icon @click="dialog = false">
-            <v-icon>mdi-close</v-icon></v-btn
-          >
-        </v-app-bar>
-        <v-card-text>
-          <v-form ref="form" v-model="valid" lazy-validation>
-           <v-select
-            v-model="commande.id_address"
-            label="Adresse de livraison"
-            required
-            :items="customers"
-            :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
-            :item-value="(item) => item.id_address"
-            ></v-select>
-           <v-text-field
-            v-model="commande.quantity"
-            :label="'Quantité (' + commande.max_quantity + ')'" 
-            required
-            type="number"
-            min="0"
-            :max="commande.max_quantity"
-            ></v-text-field>
-            <p>
-              Prix : <span v-if="commande.quantity">{{ commande.prix = commande.quantity * commande.prix_init}} €</span>
-            </p>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="orderPruduct()">
-            commander</v-btn>
-        </v-card-actions>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </div>
 </template>
+
 
 <script>
 import axios from "axios"
 import VMenuClient from "@/components/DashboardClient/VMenuClient"
+import VProfileAddress from '../../../components/DashboardClient/VProfileAddress.vue'
+import VProfileInfos from '../../../components/DashboardClient/VProfileInfos.vue'
 export default {
   name: "dashboard",
   components : {
-    VMenuClient
+    VMenuClient,
+    VProfileAddress,
+    VProfileInfos
   }, 
 
   data() {
+    VMenuClient
     return {
       valid: false,
 
@@ -267,6 +210,3 @@ export default {
   },
 }
 </script>
-
-<style>
-</style>
