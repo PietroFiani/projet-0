@@ -120,6 +120,14 @@ font-size: 1.5em;
   font-family: Monsserrat, sans-serif;
   outline: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: rgba(111, 206, 145, 1);
+  color: white; 
+  margin-top: 2em;
+  &:hover{
+  background-color:white;
+  border:solid 2px rgba(111, 206, 145, 1); 
+  color: rgba(111, 206, 145, 1); 
+  }
 }
 //textarea
 .text-field {
