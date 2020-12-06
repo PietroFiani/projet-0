@@ -128,6 +128,7 @@ export default {
           max_quantity: null,
           name_product: "",
           prix_init: null,
+          addrRunner: null
         },
       ],
       id: null,
@@ -237,7 +238,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("RUNNERs", response.data)
+            console.log("RUNNERs", response.data)
             this.runners = response.data;
           }
         })
@@ -251,9 +252,25 @@ export default {
       this.commande.max_quantity = produit.stock;
       this.commande.prix_init = produit.price;
       this.commande.id_runner = runner;
-      this.dialog = true;
+      this.commande.addrRunner 
+      // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
+      // axios
+      //   .get(url)
+      //   .then((response) => {
+      //     if (response.data) {
+      //       console.log("addr Order", response.data)
+      //       // this.customers = response.data;
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log("ERREUR", error);
+      //   });this.dialog = true;
+
     },
     orderPruduct() {
+
+      
+
       let url = "http://localhost:5000/orders/add";
       if (this.commande.quantity == 0) {
         this.message = "Vous ne pouvez pas commander 0g"
