@@ -20,32 +20,57 @@
       </div>
 
       <div class="runners-infos">
-        <v-row>
-          <v-col cols="2">Nom</v-col>
-          <v-col cols="2">Produit</v-col>
-          <v-col cols="2">Quantité dispnible</v-col>
-          <v-col cols="2">Prix</v-col>
-        </v-row>
+        <h1>Autour de chez moi :</h1>
+
         <div
           class="runners-data"
           v-for="runner of runners"
           :key="runner.id_runner"
         >
-          <v-row v-for="product of runner.products" :key="product.id_product">
-            <v-col cols="2" v-if="runner.products.length > 0">
+          <v-card
+            v-for="product of runner.products"
+            :key="product.id_product"
+            class="mx-auto"
+      max-width="344"
+          >
+          <div v-if="runner.products.length > 0 && product.stock != 0">
+            <v-card-title>
+              {{ runner.lastname }} {{ runner.firstname }}
+            </v-card-title>
+            <v-card-subtitle>
+              {{ product.label }}
+            </v-card-subtitle>
+            <p>
+              {{ product.name }} {{ product.label }} <br />
+              {{ product.stock }} <br />
+              {{ product.price }}
+            </p>
+            <v-btn
+              v-if="runner.products.length > 0 && product.stock != 0"
+              color="primary"
+              class="mr-4"
+              @click="commander(product, runner.id_runner)"
+            >
+              Commander</v-btn
+            ></div>
+            
+          </v-card>
+          <!-- <v-row v-for="product of runner.products" :key="product.id_product">
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0">
               {{ runner.lastname }} {{ runner.firstname }}
             </v-col>
-            <v-col cols="2"> {{ product.name }} {{ product.label }}</v-col>
-            <v-col cols="2"> {{ product.stock }} g</v-col>
-            <v-col cols="2"> {{ product.price }} €/g</v-col>
-            <v-btn
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.name }} {{ product.label }}</v-col>
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.stock }} g</v-col>
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.price }} €/g</v-col>
+            <v-btn 
+              v-if="runner.products.length > 0 && product.stock != 0"
               color="primary"
               class="mr-4"
               @click="commander(product, runner.id_runner)"
             >
               Commander</v-btn
             >
-          </v-row>
+          </v-row> -->
         </div>
       </div>
     </div>
@@ -137,6 +162,7 @@ export default {
           max_quantity: null,
           name_product: "",
           prix_init: null,
+          addrRunner: null,
         },
       ],
       id: null,
@@ -246,7 +272,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("RUNNERs", response.data)
+            console.log("RUNNERs", response.data);
             this.runners = response.data;
           }
         })
@@ -260,11 +286,31 @@ export default {
       this.commande.max_quantity = produit.stock;
       this.commande.prix_init = produit.price;
       this.commande.id_runner = runner;
+      this.commande.addrRunner;
       this.dialog = true;
+      // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
+      // axios
+      //   .get(url)
+      //   .then((response) => {
+      //     if (response.data) {
+      //       console.log("addr Order", response.data)
+      //       // this.customers = response.data;
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log("ERREUR", error);
+      //   });this.dialog = true;
     },
     orderPruduct() {
+<<<<<<< HEAD
       console.log(this.commande.quantity, this.commande.max_quantity);
+=======
+>>>>>>> 61c1cf734d57a7f0ae33918455a67089c3eca059
       let url = "http://localhost:5000/orders/add";
+      if (this.commande.quantity == 0) {
+        this.message = "Vous ne pouvez pas commander 0g";
+        return this.message;
+      }
       if (this.commande.quantity > this.commande.max_quantity) {
         this.message = "Il n'y a pas assez de stock";
         return this.message;
@@ -360,4 +406,3 @@ export default {
   }
 }
 </style>
-

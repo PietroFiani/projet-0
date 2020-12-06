@@ -101,7 +101,7 @@ Order.updateById = (id, order, result) => {
 };
 Order.updateWorkflow = (orderId, order, result) => {
     sql.query(
-        "UPDATE" + "`order`"+ "SET workflow = ? WHERE id_order = ?", [order.workflow, orderId],
+        "UPDATE" + "`order`" + "SET workflow = ? WHERE id_order = ?", [order.workflow, orderId],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -153,4 +153,24 @@ Order.removeAll = result => {
     });
 };
 
+Order.getAllByCustomer = (customerId, result) => {
+    sql.query(`SELECT id_order, date, workflow, qtte, prix, label, lastname,firstname
+               FROM ` + "`order`" +
+        `NATURAL JOIN product NATURAL JOIN runner WHERE id_customer = ${customerId}`, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                console.log("found order: ", res);
+                result(null, res);
+                return;
+            }
+
+            // not found Order with the id
+            result({ kind: "not_found" }, null);
+        });
+};
 module.exports = Order;
