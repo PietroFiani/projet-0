@@ -1,25 +1,51 @@
 <template>
   <div class="ma-16">
-    <v-data-table :headers="headers" :items="orders" @click:row="handleClick">
-      <template v-slot:items="props">
-        <td>{{ props.item.id_order }}</td>
-        <td>{{ props.item.name }}</td>
-        <td>{{ props.item.date }}</td>
-        <td>{{ props.item.workflow }}</td>
-      </template>
-      <template v-slot:no-results>
-        <v-alert :value="true" color="error" icon="warning">
-          Vous n'avez pas encore de commande ? Patience !
-        </v-alert>
+    <v-data-table
+      :headers="headers"
+      :items="orders"
+      :page.sync="page"
+      :items-per-page="itemsPerPage"
+      hide-default-footer
+      class="elevation-1"
+      @page-count="pageCount = $event"
+    >
+      <template v-slot:body="{ items }">
+        <tbody name="list" is="transition-group" v-if="items.length">
+          <tr v-for="item in items" :key="item.id_order" class="item-row" @click="handleClick(item)">
+            <td>{{ item.id_order }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.date }}</td>
+            <v-chip
+              :color="color(item.workflow)"
+              dark
+              class="mt-2"
+              style="width: 100px; justify-content: center"
+            >
+              {{ item.workflow }}
+            </v-chip>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td :colspan="headers.length" style="text-align: center">
+              Pas de commande ? Patience, proposez vos meilleurs produit !
+            </td>
+          </tr>
+        </tbody>
       </template>
     </v-data-table>
+    <v-pagination
+      v-model="page"
+      color="#515bae"
+      :length="pageCount"
+    ></v-pagination>
 
     <v-dialog v-model="dialogConfirm" persistent max-width="600">
       <v-card>
         <v-app-bar color="secondary" dark>
           Commande numéro {{ order.id }} - {{ order.workflow }}
           <v-spacer />
-          <v-btn icon @click="confirmDialog = false">
+          <v-btn icon @click="dialogConfirm = false">
             <v-icon>mdi-close</v-icon></v-btn
           >
         </v-app-bar>
@@ -76,6 +102,9 @@ export default {
   data() {
     return {
       dialogConfirm: false,
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
       order: {
         id: "",
         workflow: "",
@@ -117,6 +146,11 @@ export default {
       };
       this.dialogConfirm = true;
     },
+    color(workflow) {
+      if (workflow == "Validée") return "primary";
+      if (workflow == "En attente") return "orange";
+      if (workflow == "Annulée") return "warning";
+    },
     initOrder() {
       this.order = {
         id: "",
@@ -139,7 +173,7 @@ export default {
         })
         .then((response) => {
           console.log("Updated Order Workflow", response.data);
-          this.dialogConfirm = true;
+          this.dialogConfirm = false;
           this.initOrder();
           this.$emit("reload");
         })
