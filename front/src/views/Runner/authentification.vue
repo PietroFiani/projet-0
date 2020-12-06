@@ -1,13 +1,18 @@
 <template>
   <div class="home">
-    <img
-      class="logo"
-      src="../../assets/logoBlanc.svg"
-      alt="icone de feuille de canabis kawaii"
-    />
-    <router-link :to="{ name: 'Inscription Partenaire' }">
-      <button class="rounded">Devenir Runner</button>
-    </router-link>
+    <div class="header">
+      <router-link :to="{ name: 'Home' }">
+        <button class="rounded rounded-left">Client ?</button>
+      </router-link>
+      <img
+        class="logo"
+        src="../../assets/logoBlanc.svg"
+        alt="icone de feuille de canabis kawaii"
+      />
+      <router-link :to="{ name: 'Inscription Partenaire' }">
+        <button class="rounded rounded-right">S'inscire</button>
+      </router-link>
+    </div>
     <h1 class="title" data-text="Miguel la petite feuille de canabis !">
       Miguel la petite feuille de canabis !
     </h1>
@@ -72,32 +77,43 @@ export default {
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
 
+
 .home {
   height: 100%;
   padding: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(180deg, #9BC9FF 0%, #515BAE 100%);
+  background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
 
-
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
   .rounded {
     font-family: Rubik, sans-serif;
+    margin: 2em;
     font-size: 1.5em;
-    border: solid 2px $color1-btn;
+    border: solid 2px rgba(111, 206, 145, 1);
     color: white;
-    width: 10em;
+    width: 20vmin;
     border-radius: 50px !important;
-    position: absolute;
-    top: 20px;
-    right: 20px;
     height: 2em;
-
     outline: none;
     transition: 300ms;
-    background-color: $color1-btn;
+    background-color: rgba(111, 206, 145, 1);
     &:hover {
-      color: $color1-btn;
+      color: rgba(111, 206, 145, 1);
+      background-color: white;
+    }
+  }
+  .rounded-left{
+    background-color:  #ffaaaa; 
+    border: #ffaaaa;
+    &:hover {
+      color:#ffaaaa;
       background-color: white;
     }
   }
