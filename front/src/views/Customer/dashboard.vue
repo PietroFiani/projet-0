@@ -21,7 +21,7 @@
       <h1>Autour de chez moi :</h1>
       <div class="runner-cards">
         <v-card
-            v-for="runner of runnersTable"
+            v-for="runner in orderBy (runnersTable,runner.price)"
             :key="runner.id_product"
             max-width="344"
             class="ma-5"
@@ -123,7 +123,10 @@
 <script>
 import axios from "axios";
 import VMenuClient from "@/components/DashboardClient/VMenuClient";
+import Vue2Filters from 'vue2-filters'; 
 export default {
+
+  mixins: [Vue2Filters.mixin],
   name: "dashboard",
   components: {
     VMenuClient,
