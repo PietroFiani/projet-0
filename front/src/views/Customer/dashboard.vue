@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <v-dialog v-model="dialog" persistent max-width="1000">
+    <v-dialog v-model="dialog" max-width="1000">
       <v-card>
         <v-app-bar color="secondary" dark>
           Commander du {{ commande.name_product }}
@@ -280,7 +280,9 @@ export default {
           .catch((error) => {
             console.log("ERREUR", error);
           });
+          this.dialog= false
       }
+      
     },
   },
 };
