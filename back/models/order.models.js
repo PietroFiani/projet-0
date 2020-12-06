@@ -99,6 +99,27 @@ Order.updateById = (id, order, result) => {
         }
     );
 };
+Order.updateWorkflow = (orderId, order, result) => {
+    sql.query(
+        "UPDATE" + "`order`"+ "SET workflow = ? WHERE id_order = ?", [order.workflow, orderId],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Order with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated order: ", { id: orderId, ...order });
+            result(null, { id: orderId, ...order });
+        }
+    );
+};
 
 Order.remove = (id, result) => {
     sql.query("DELETE FROM order WHERE id = ?", id, (err, res) => {

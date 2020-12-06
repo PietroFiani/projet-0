@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background: linear-gradient(180deg, #9BC9FF 0%, #515BAE 100%); height:100%">
     <v-btn color="warning" @click="logout()"> Se deconnecter </v-btn>
     <v-img
       id="avatar"
@@ -12,9 +12,9 @@
         <h1>Bonjour, {{ runner.lastname }} {{ runner.firstname }}</h1></v-col
       >
 
-      <v-col cols="7" class="mt-14">
-        <v-card height="700" class="scroll"
-          ><v-tabs grow v-model="tab" background-color="primary" align-with-title>
+      <v-col cols="12" lg="8" md="10" class="mt-14">
+        <v-card height="700" rounded class="scroll"
+          ><v-tabs grow v-model="tab" align-with-title>
             <v-tabs-slider></v-tabs-slider>
             <v-tab class="ma-0"> Commande </v-tab>
             <v-tab> Produit </v-tab>
@@ -169,6 +169,8 @@ export default {
 </script>
 
 <style scoped>
+body{
+}
 #avatar {
   position: absolute;
   left: 11%;
