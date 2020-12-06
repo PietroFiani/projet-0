@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar></Navbar>
     <v-card flat>
       <v-card-text class="pa-16">
         <h2>{{ runner.lastname }} {{ runner.firstname }}</h2>
@@ -11,7 +12,7 @@
         ></v-text-field>
         <v-text-field
           v-model="newRunner.phone"
-          label="TÃ©lÃ©phone"
+          label="Téléphone"
           :disabled="!editMode"
         ></v-text-field>
         <span v-if="!editMode">
@@ -57,17 +58,17 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn icon class="ma-4">
+        <v-btn icon class="ma-2">
           <v-icon v-if="!editMode" large color="primary" @click="edit()"
             >mdi-pen</v-icon
           >
         </v-btn>
-        <v-btn icon class="ma-4">
+        <v-btn icon class="ma-2">
           <v-icon v-if="!editMode" large color="warning" @click="dialog = true"
             >mdi-delete</v-icon
           >
         </v-btn>
-        <v-btn icon class="ma-4">
+        <v-btn icon class="ma-2">
           <v-icon v-if="editMode" large color="primary" @click="updateRunner"
             >mdi-check-bold</v-icon
           >
@@ -80,7 +81,7 @@
           Etes-vous surs de vouloir supprimer votre compte ?
         </v-card-title>
         <v-card-text
-          >Toutes vos donnÃ©es seront dÃ©finitivement supprimÃ©es.</v-card-text
+          >Toutes vos données seront définitivement supprimées.</v-card-text
         >
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -98,10 +99,13 @@
 
 <script>
 import axios from "axios";
-
+import Navbar from '@/components/Runner/Navbar'
 export default {
   props: {
     runner: {},
+  },
+  components: {
+    Navbar,
   },
   data: () => ({
     value1: String,

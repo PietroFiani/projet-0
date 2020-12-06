@@ -1,8 +1,51 @@
 <template>
   <div>
-    <v-btn block dark color="primary" class="mb-8 mt-8" @click="edit()"
+    <Navbar></Navbar>
+    <v-col cols="12" class="mt-1 pl-9">
+    </v-col>
+    <v-card
+    class="mx-auto"
+    max-width="800"
+  >
+    <v-card-text>
+      <div>Word of the Day</div>
+      <p class="display-1 text--primary">
+        Approvisionement
+      </p>
+      <p>adjective</p>
+      <div class="text--primary">
+        <v-btn block dark color="primary" class="mb-8 mt-8" @click="edit()"
       >Ajouter un nouveau produit</v-btn
     >
+      </div>
+    </v-card-text>
+    
+  </v-card>
+
+  <v-col cols="12" class="mt-1 pl-9">
+    </v-col>
+    <v-card
+    class="mx-auto"
+    max-width="800"
+  >
+    <v-card-text>
+      <div>Word of the Day</div>
+      <p class="display-1 text--primary">
+        Suggestion...
+      </p>
+      
+      <div class="text--primary">
+        
+      </div>
+    </v-card-text>
+    
+  </v-card>
+    <v-card
+    class="mx-auto"
+    max-width="344"
+  >
+  
+    </v-card>
     <v-card v-for="(product, index) in products" class="ma-3" :key="index">
       <div class="d-flex flex-no-wrap justify-space-between">
         <div>
@@ -13,20 +56,25 @@
           <v-card-subtitle v-text="product.description"></v-card-subtitle>
           <v-card-text>
             En stock : {{ product.stock }} grammes<br />
-            Prix au gramme : {{ product.price }} â‚¬
+            Prix au gramme : {{ product.price }} €
           </v-card-text>
 
           <v-card-actions>
             <v-btn
               class="ml-2 mt-5"
-              outlined
               rounded
-              color="secondary"
+              color="primary"
               @click="edit(product)"
             >
               Modifier
             </v-btn>
-            <v-btn class="ml-2 mt-5" outlined rounded color="warning">
+            <v-btn
+              class="ml-2 mt-5"
+              outlined
+              rounded
+              color="warning"
+              @click="ask(product)"
+            >
               Supprimer
             </v-btn>
           </v-card-actions>
@@ -40,7 +88,7 @@
     <v-dialog v-model="dialog" persistent max-width="1000">
       <v-card>
         <v-app-bar v-if="add" color="secondary" dark>
-          CrÃ©ation d'un produit
+          Création d'un produit
           <v-spacer />
           <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon></v-btn
@@ -65,15 +113,15 @@
             required
           ></v-text-field>
           <v-select
-            v-model="newProduct.idCategory"
-            label="CatÃ©gorie"
+            v-model="newProduct.id_category"
+            label="Catégorie"
             :items="categories"
             :item-text="(item) => item.name"
-            :item-value="(item) => item.id"
+            :item-value="(item) => item.id_category"
           ></v-select>
           <v-text-field
             v-model="newProduct.stock"
-            label="QuantitÃ© disponible"
+            label="Quantité disponible"
             required
             type="number"
             suffix="gr"
@@ -83,7 +131,7 @@
             label="Prix"
             required
             type="number"
-            suffix="â‚¬/gr"
+            suffix="€/gr"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
@@ -97,29 +145,52 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="dialogConfirm" persistent max-width="600">
+      <v-card>
+        <v-card-title class="headline">
+          Etes-vous sur de vouloir supprimer ce produit ?
+        </v-card-title>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialogConfirm = false">
+            Annuler
+          </v-btn>
+          <v-btn color="warning" text @click="remove()">
+            Supprimer ce produit</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
-<script>
-import axios from "axios";
 
+<script>
+import Navbar from '@/components/Runner/Navbar'
+import axios from "axios";
 export default {
   props: {
     products: {},
+  },
+  components: {
+    Navbar,
   },
   data() {
     return {
       add: true,
       categories: [],
       dialog: false,
+      dialogConfirm: false,
+      toDeleteId: Number,
       newProduct: {
-        id: Number,
+        id_product: Number,
         label: "",
         stock: 0,
         description: "",
         price: 0,
         photo: "",
-        idCategory: 1,
+        id_category: 1,
       },
     };
   },
@@ -133,8 +204,8 @@ export default {
           description: this.newProduct.description,
           price: this.newProduct.price,
           photo: this.newProduct.photo,
-          idCategory: this.newProduct.idCategory,
-          idRunner: this.$store.state.runnerId,
+          id_category: this.newProduct.id_category,
+          id_runner: this.$store.state.runnerId,
         })
         .then((response) => {
           console.log("New Product", response.data);
@@ -155,34 +226,59 @@ export default {
         .catch((error) => console.log("Product error ", error));
       if (product) {
         this.newProduct = product;
+        console.log(this.newProduct);
         this.add = false;
       } else {
         this.add = true;
       }
       this.dialog = true;
     },
-
+    ask(product) {
+      this.toDeleteId = product.id_product;
+      console.log("product Id to delete", this.toDeleteId)
+      this.dialogConfirm = true;
+      // let url = `http://localhost:5000/products/${product.id_product}`;
+      // axios
+      //   .delete(url)
+      //   .then((response) => {
+      //     console.log("Product deleted", response.data);
+      //   }) //c'est un objet
+      //   .catch((error) => console.log("error ", error));
+    },
+    remove() {
+      let id=this.toDeleteId
+      console.log("ID", id)
+      let url = `http://localhost:5000/products/${id}`;
+      axios
+        .delete(url)
+        .then((response) => {
+          console.log("Product deleted", response.data)
+          this.toDeleteId=0
+          this.dialogConfirm=false
+          this.$emit("reload")
+        }) //c'est un objet
+        .catch((error) => console.log("error ", error))
+    },
     initProduct() {
-      this.newProduct.id = 0;
+      this.newProduct.id_product = 0;
       this.newProduct.label = "";
       this.newProduct.stock = 0;
       this.newProduct.description = "";
       this.newProduct.price = 0;
       this.newProduct.photo = "";
-      this.newProduct.idCategory = 1;
+      this.newProduct.id_category = 1;
     },
-
     updateProduct() {
-      let url = `http://localhost:5000/products/${this.newProduct.id}`;
+      let url = `http://localhost:5000/products/${this.newProduct.id_product}`;
       axios
         .put(url, {
-          id: this.newProduct.id,
+          id: this.newProduct.id_product,
           label: this.newProduct.label,
           stock: this.newProduct.stock,
           description: this.newProduct.description,
           price: this.newProduct.price,
           photo: this.newProduct.photo,
-          idCategory: this.newProduct.idCategory,
+          id_category: this.newProduct.id_category,
           idRunner: this.$store.state.runnerId,
         })
         .then((response) => {
@@ -198,4 +294,5 @@ export default {
 </script>
 
 <style>
+
 </style>

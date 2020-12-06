@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
 import Team from '../views/Runner/Team.vue'
 
 Vue.use(VueRouter)
@@ -87,8 +86,13 @@ const routes = [{
         path: '/partenaire/profil/vente',
         name: 'Mes ventes',
         component: Team
+    },
+    {
+        path: '/partenaire/profil/profil',
+        name: 'Profil',
+        component: () => 
+        import ('../views/Runner/VProfil.vue')
     }
-
 
 ]
 

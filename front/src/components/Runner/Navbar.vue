@@ -1,7 +1,8 @@
 <template>
    <nav>
-       <v-app-bar  color="green" dark app >
+       <v-app-bar color="blue-grey darken-2" dark app >
            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+           <v-img class="logo" max-height="130" max-width="50" src="../../assets/logoBlanc.svg"/>
            <v-toolbar-title class="text-uppercase ">
                <span class="font-weight-light">O</span>
                <span>'Shit</span>
@@ -13,18 +14,20 @@
                 <v-icon right>mdi-power</v-icon>
              </v-btn>
        </v-app-bar>
-      <v-navigation-drawer  v-model="drawer" dark app class="green darken-4">
+      <v-navigation-drawer  v-model="drawer" dark app class="blue-grey darken-4">
           <v-layout column align-center>
                <v-flex class="mt-5"> 
                     <v-avatar size="100">
                         <v-img id="avatar" src="../../assets/avatar.png" width="200px"></v-img>
                     </v-avatar>
-                    <p class="white--text subheading mt-1 text-center">Bonjour,</p>
-					<h1 class="white--text subheading mt-1 text-center" > {{ runner.lastname }} {{ runner.firstname }} </h1>
+                    <p class="white--text subheading mt-1 text-center">Bonjour,</p><br>
+                    <!--  ça marche pas!! <h1>{{ runner.lastname }} {{ runner.firstname }}</h1>-->
                </v-flex>
-               <v-flex class="mt-4 mb-4">
-                <Popup />
-               </v-flex>
+                <v-flex class="mt-4 mb-4">
+                  <router-link :to="{name: 'Profil'}">
+                  <v-btn outlined color="teal lighten-3" dark v-on="on">Modifier mon profil</v-btn>
+                  </router-link>
+                </v-flex>
           </v-layout>
           <v-list flat>
               <v-list-item v-for="link in links"  :key="link.text" router :to="link.route" active-class="border">
@@ -41,19 +44,19 @@
 </template>
 <script>
 import axios from "axios";
-import Popup from './Popup.vue'
+
 export default {
    data: () => ({
       drawer: true,
       links :[
           {icon: 'mdi-package-variant', text:'Stock', route: '/partenaire/profil/stock'},
           {icon: 'mdi-run', text:'Livraison', route: '/partenaire/profil/commande'},
-          {icon: 'mdi-chart-line', text:'Vente/Benefice', route: '/partenaire/profil/vente'}
+          
       ]
      
     }),
     components: {
-    Popup
+    
   },
   mounted() {
     if (!this.$store.state.runnerId) {
