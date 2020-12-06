@@ -189,36 +189,48 @@ export default {
     update(newRunner) {
       console.log("New Runner", newRunner);
       let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
-      axios
-        .put(url, {
-          id_runner: this.runner.id_runner,
-          mail: newRunner.mail,
-          phone: newRunner.phone,
-          password: newRunner.password,
-        })
-        .then((response) => {
-          console.log("Runner updated", response.data);
-        }) //c'est un objet
-        .catch((error) => {
-          console.log("erreur", error);
-        });
-
-      newRunner.departmentsIds.forEach((element) => {
-        console.log(element);
-        axios({
-          method: "DELETE",
-          url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
-          headers: { "Content-Type": "application/json" },
-        }).then(() => {
-          axios
-            .post("http://localhost:5000/deliveries/create", {
-              id_runner: this.runner.id_runner,
-              departmentsIds: this.runner.departmentsIds,
-            })
-            .then(() => {
-              this.reload();
-            });
-        });
+      if (newRunner.password) {
+        axios
+          .put(url, {
+            id_runner: this.runner.id_runner,
+            mail: newRunner.mail,
+            phone: newRunner.phone,
+            password: newRunner.password,
+          })
+          .then((response) => {
+            console.log("Runner updated", response.data);
+          }) //c'est un objet
+          .catch((error) => {
+            console.log("erreur", error);
+          });
+      } 
+      else {
+        axios
+          .put(url, {
+            id_runner: this.runner.id_runner,
+            mail: newRunner.mail,
+            phone: newRunner.phone,
+          })
+          .then((response) => {
+            console.log("Runner updated", response.data);
+          }) //c'est un objet
+          .catch((error) => {
+            console.log("erreur", error);
+          });
+      }
+      axios({
+        method: "DELETE",
+        url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
+        headers: { "Content-Type": "application/json" },
+      }).then(() => {
+        axios
+          .post("http://localhost:5000/deliveries/create", {
+            id_runner: this.runner.id_runner,
+            departmentsIds: this.runner.departmentsIds,
+          })
+          .then(() => {
+            this.reload();
+          });
       });
     },
   },
