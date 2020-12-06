@@ -2,7 +2,11 @@
   <div class="container">
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
-      <v-menu-client></v-menu-client>
+      
+      <div class="menu-container">
+        <v-menu-client></v-menu-client>
+      </div>
+      
 
       <div class="runners-infos">
         <v-row>
@@ -304,23 +308,32 @@ export default {
 .container {
   height: 100%;
   min-width: 100%;
-  margin: 0px;
   background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   .wrapper {
     background-color: white;
-    height: 70vh;
+    height: 85vh;
     width: 90vw;
     border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    .menu-container{
+    width: auto;
+    display: flex;
+    justify-content: flex-end;
+}
   }
 }
 
+
 .white-logo {
-  height: 10vmin;
+  position: absolute;
   width: 10vmin;
+  top: 3vh;
 }
 .alert {
   margin-top: 2em;
