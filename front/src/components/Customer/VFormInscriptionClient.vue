@@ -111,13 +111,13 @@
                 label="Departement"
                 
             ></v-autocomplete>
-                <span v-if="message" class="alert">
-                    <img
-                        id="warning-icon"
-                        src="../../assets/warning.svg"
-                        alt="warning logo"
-                    />{{ message }}
-                </span>
+            <span v-if="message" class="alert">
+                <img
+                    id="warning-icon"
+                    src="../../assets/warning.svg"
+                    alt="warning logo"
+                />{{ message }}
+            </span>
             <v-btn rounded color="primary" class="btn-large" @click="register"> Inscription</v-btn>
         </div>
       </v-form>

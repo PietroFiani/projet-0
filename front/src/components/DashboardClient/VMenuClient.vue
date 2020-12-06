@@ -125,11 +125,6 @@ export default {
 $width: 150px;
 //containers architecture
 .menu-container {
-  position: absolute;
-  margin: 0px;
-  padding: 0px;
-  right:0px;
-  margin-right:6em; 
   border-radius: 50px;
   height: auto;
   width: $width;

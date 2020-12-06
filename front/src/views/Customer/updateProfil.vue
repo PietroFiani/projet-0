@@ -57,8 +57,8 @@ export default {
         }],
         required: [(v) => !!v || "requis"],
         object: {
-            password: "",
-            repassword: "",
+            password: null,
+            repassword: null,
         },
         PhoneRules:[
         (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Numéro incorrect"
@@ -96,8 +96,8 @@ export default {
       }
       let url = `http://localhost:5000/customers/${this.id}`
       if (this.$refs.form.validate()) {
-
-        axios
+        if (this.object.password) {
+          axios
             .put(url, {
                 mail: this.customer[0].mail,
                 phone: this.customer[0].phone,
@@ -112,6 +112,23 @@ export default {
             .catch((error) => {
             console.log("ERREUR", error)
             })
+        } else {
+          axios
+            .put(url, {
+                mail: this.customer[0].mail,
+                phone: this.customer[0].phone,
+            })
+            .then((response) => {
+            if (response.data) {
+                // console.log("customer", response.data)
+                this.customer = response.data
+            }
+            })
+            .catch((error) => {
+            console.log("ERREUR", error)
+            })
+        }
+        
         this.$router.push("/client/dashborad")
       }
     }
