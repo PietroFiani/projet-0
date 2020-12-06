@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS  customer(
     id_customer INT(11) NOT NULL AUTO_INCREMENT, 
     lastname VARCHAR(255) NOT NULL, 
     firstname VARCHAR(255) NOT NULL,
-    mail VARCHAR(255) NOT NULL, 
+    mail VARCHAR(255) NOT NULL UNIQUE, 
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL, 
     image VARCHAR(255) NULL, 
@@ -89,26 +89,31 @@ CREATE TABLE IF NOT EXISTS `order` (
     id_runner INT NOT NULL,
     id_customer INT NOT NULL,
     id_address INT NOT NULL,
+    id_product int(11) NOT NULL,
     date DATETIME NOT NULL,
     workflow VARCHAR(255) NOT NULL,
+    qtte int(11) NOT NULL,
+    prix int(11) NOT NULL,
     PRIMARY KEY(id_order),
     FOREIGN KEY (id_runner) REFERENCES runner(id_runner),
     FOREIGN KEY (id_customer) REFERENCES customer(id_customer),
     FOREIGN KEY (id_address) REFERENCES address(id_address)
-
-) ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS orderRow(
-    id_orderRow INT(11) NOT NULL AUTO_INCREMENT,
-    id_order INT NOT NULL,
-    id_product INT NOT NULL,
-    qty INT NOT NULL,
-    PRIMARY KEY(id_orderRow),
-    FOREIGN KEY (id_order) REFERENCES `order`(id_order),
     FOREIGN KEY (id_product) REFERENCES product(id_product)
 
 
 ) ENGINE = InnoDB;
+
+-- CREATE TABLE IF NOT EXISTS orderRow(
+--     id_orderRow INT(11) NOT NULL AUTO_INCREMENT,
+--     id_order INT NOT NULL,
+--     id_product INT NOT NULL,
+--     qty INT NOT NULL,
+--     PRIMARY KEY(id_orderRow),
+--     FOREIGN KEY (id_order) REFERENCES `order`(id_order),
+--     FOREIGN KEY (id_product) REFERENCES product(id_product)
+
+
+-- ) ENGINE = InnoDB;
 
 --
 -- Dumping data for table `departement`
