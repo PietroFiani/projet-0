@@ -5,42 +5,10 @@
       height: 100%;
     "
   >
-    <v-flex xs12 offset-xs10 class="mt-10">
-      <v-menu offset-y min-width="230">
-        <template v-slot:activator="{ on, attrs }">
-          <v-row>
-            <v-btn v-bind="attrs" rounded v-on="on" x-large class="arrow-btn" width="230">
-              <img
-                width="50"
-                height="50"
-                class="profil-pic"
-                src="../../assets/avatar.png"
-                alt="photo de profil"
-              />
-              <h2 class="client-name">
-                {{ runner.lastname }}
-                {{ runner.firstname }}
-              </h2>
-
-              <v-img
-                width="20"
-                height="20"
-                class="arrow mb-2"
-                src="../../assets/flechenavigation.svg"
-                alt="fleche de découverte du menu"
-              />
-            </v-btn>
-          </v-row>
-        </template>
-        <v-list>
-          <v-list-item
-            ><v-btn text class="link" @click="logout()"
-              >Se deconnecter</v-btn
-            ></v-list-item
-          >
-        </v-list>
-      </v-menu>
-    </v-flex>
+    <v-menu-client
+      :firstname="runner.firstname"
+      :lastname="runner.lastname"
+    ></v-menu-client>
     <!-- <v-img
       id="avatar"
       v-if="!runner.image"
@@ -81,11 +49,13 @@ import axios from "axios";
 import VProfil from "../../components/Runner/VProfil";
 import VProduct from "../../components/Runner/VProduct";
 import VOrder from "../../components/Runner/VOrder";
+import VMenuClient from '../../components/DashboardClient/VMenuClient.vue';
 export default {
   components: {
     VProfil,
     VProduct,
     VOrder,
+    VMenuClient,
   },
   data() {
     return {
@@ -165,6 +135,13 @@ export default {
         });
       console.log("reload ended");
     },
+    rotate() {
+      let arrow=document.getElementById('arrow')
+      console.log(arrow)
+      if (arrow.style.transform == "rotate(180deg)")
+       arrow.style.transform = "rotate(0deg)"
+      else arrow.style.transform = "rotate(180deg)"
+    },
     update(newRunner) {
       console.log("New Runner", newRunner);
       let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
@@ -221,7 +198,5 @@ body {
 .scroll {
   overflow-y: scroll;
 }
-.v-menu__content {
-  border-radius:50px;
-}
+
 </style>
