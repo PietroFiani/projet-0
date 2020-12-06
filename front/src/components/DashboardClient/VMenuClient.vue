@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="menu-container">
     <div class="text-center">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -13,7 +13,7 @@
               {{ customers[0].firstname }} <br />
               {{ customers[0].lastname }}
             </h2>
-            <button v-bind="attrs" v-on="on" class="arrow-btn">
+            <button v-bind="attrs" v-on="on" class="arrow-btn" @click="dislpayMenu()">
               <img
                 class="arrow"
                 src="../../assets/flechenavigation.svg"
@@ -110,39 +110,58 @@ export default {
           console.log("ERREUR", error);
         });
     },
+    //fonction d'affichage du menu
+    dislpayMenu(){
+      let pills = document.querySelector('.overview')
+      pills.classList.toggle("menu-display")
+      let arrow = document.querySelector('.arrow')
+      arrow.classList.toggle('.arrow-rotate')
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-$width: 10em;
+$width: 150px;
 //containers architecture
-.container {
-  width: 0px;
+.menu-container {
+  position: absolute;
+  margin: 0px;
   padding: 0px;
-  background-color: red;
+  right:0px;
+  margin-right:6em; 
   border-radius: 50px;
+  height: auto;
+  width: $width;
+
   .overview {
-    z-index: 1;
-    position: absolute;
-    width: 11em;
+    width: $width;
     height: 3em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: blue;
+    border-radius:50px;
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: white;
+  }
+  .menu-display{
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius:0px;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
-
+    box-shadow: 0px 0px ;
   }
 }
 .v-menu__content {
   position: absolute;
-  top: 1000px;
-  width: 11em;
+  width: $width;
   height: 18em;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: white;
   .v-list-item {
     display: flex;
     flex-direction: column;
@@ -157,10 +176,11 @@ $width: 10em;
 }
 .client-name {
   height: 3em;
-  font-size: 2em;
+  font-size: 2em; 
+  padding-right: 0.5em;
 }
 .client-name {
-  color: white;
+  color: black;
   font-size: 1em;
 }
 .arrow-btn{
