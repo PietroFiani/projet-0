@@ -13,15 +13,21 @@
         <v-icon>mdi-alarm-light-outline </v-icon>
       </v-btn>
     </v-fab-transition>
+
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-      <h1>Autour de chez moi :</h1>
+      <h1>Autour de chez moi : </h1>
+      <v-select
+            :items="items"
+            label="Standard"
+            v-model="keyword"
+          ></v-select>
       <div class="runner-cards">
         <v-card
-            v-for="runner in orderBy (runnersTable,runner.price)"
+            v-for="runner in orderBy(runnersTable,keyword)"
             :key="runner.id_product"
             max-width="344"
             class="ma-5"
@@ -121,9 +127,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from "axios";
 import VMenuClient from "@/components/DashboardClient/VMenuClient";
 import Vue2Filters from 'vue2-filters'; 
+
+Vue.use(Vue2Filters); 
 export default {
 
   mixins: [Vue2Filters.mixin],
@@ -135,7 +144,8 @@ export default {
   data() {
     return {
       valid: false,
-
+      items: ['name', 'price'],
+      keyword:'', 
       message: null,
       customers: [
         {
