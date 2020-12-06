@@ -22,15 +22,26 @@
         </v-text-field>
         <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
+      <span v-if="message" class="alert ma-auto mt-10">
+        <img
+          id="warning-icon"
+          src="./../assets/warning.svg"
+          alt="warning logo"
+        />{{ message }}</span
+      >
       <div class="btn-wrapper">
-        <button class="round sign-in" type='button' @click="log()">Connexion</button>
+        <button class="round sign-in" type="button" @click="log()">
+          Connexion
+        </button>
         <router-link :to="{ name: 'Inscription Client' }">
           <button type="button" class="round sign-up">Inscription</button>
         </router-link>
       </div>
       <div class="btn-wrapper">
-        <router-link :to="{name :'Connexion Partenaire'}">
-          <button type="button" class="round runner-sign-in">Connexion Runner</button>
+        <router-link :to="{ name: 'Connexion Partenaire' }">
+          <button type="button" class="round runner-sign-in">
+            Connexion Runner
+          </button>
         </router-link>
       </div>
     </v-form>
@@ -72,21 +83,18 @@ export default {
         })
         .then((response) => {
           if (response.data) {
-            console.log("CONNECTE", response.data)
-            this.$store.commit('loginCustomer', response.data.id_customer)
-            this.$router.push("/client/dashboard")
-          } 
-          else { 
+            console.log("CONNECTE", response.data);
+            this.$store.commit("loginCustomer", response.data.id_customer);
+            this.$router.push("/client/dashboard");
+          } else {
             console.log("PAS CONNECTE");
             this.message = "Email et/ou password invalide";
-          
           }
         })
         .catch((error) => {
           console.log("PAS CONNECTE", error);
           this.message = "Email et/ou password invalide";
-        })
-
+        });
     },
   },
 };
@@ -94,7 +102,7 @@ export default {
 
 <style lang="scss" scoped>
 //Variables
-$color1-btn: #6FCE91;
+$color1-btn: #6fce91;
 
 .container {
   background-color: white;
@@ -175,6 +183,22 @@ $color1-btn: #6FCE91;
   color: $color1-btn;
   &:hover {
     color: rgb(70, 70, 236);
+  }
+}
+.alert {
+  margin-top: 1em;
+  width: 30em;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border: solid 1px red;
+  padding: 0.2em;
+  background-color: red;
+  border-radius: 5px;
+  #warning-icon {
+    width: 1.5em;
+    margin-right: 0.5em;
   }
 }
 </style>

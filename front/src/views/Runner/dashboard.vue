@@ -1,19 +1,55 @@
 <template>
-  <div style="background: linear-gradient(180deg, #9BC9FF 0%, #515BAE 100%); height:100%">
-    <v-btn color="warning" @click="logout()"> Se deconnecter </v-btn>
-    <v-img
+  <div
+    style="
+      background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
+      height: 100%;
+    "
+  >
+    <v-flex xs12 offset-xs10 class="mt-10">
+      <v-menu offset-y min-width="230">
+        <template v-slot:activator="{ on, attrs }">
+          <v-row>
+            <v-btn v-bind="attrs" rounded v-on="on" x-large class="arrow-btn" width="230">
+              <img
+                width="50"
+                height="50"
+                class="profil-pic"
+                src="../../assets/avatar.png"
+                alt="photo de profil"
+              />
+              <h2 class="client-name">
+                {{ runner.lastname }}
+                {{ runner.firstname }}
+              </h2>
+
+              <v-img
+                width="20"
+                height="20"
+                class="arrow mb-2"
+                src="../../assets/flechenavigation.svg"
+                alt="fleche de découverte du menu"
+              />
+            </v-btn>
+          </v-row>
+        </template>
+        <v-list>
+          <v-list-item
+            ><v-btn text class="link" @click="logout()"
+              >Se deconnecter</v-btn
+            ></v-list-item
+          >
+        </v-list>
+      </v-menu>
+    </v-flex>
+    <!-- <v-img
       id="avatar"
       v-if="!runner.image"
       src="../../assets/avatar.png"
       width="200px"
-    ></v-img>
+    ></v-img> -->
     <v-row justify="center">
-      <v-col cols="7" class="mt-16 pl-9">
-        <h1>Bonjour, {{ runner.lastname }} {{ runner.firstname }}</h1></v-col
-      >
-
-      <v-col cols="12" lg="8" md="10" class="mt-14">
-        <v-card height="700" rounded class="scroll"
+      <v-col cols="12" lg="10" md="10" class="mt-14">
+        <v-card height="750" style="border-radius: 25px"
           ><v-tabs grow v-model="tab" align-with-title>
             <v-tabs-slider></v-tabs-slider>
             <v-tab class="ma-0"> Commande </v-tab>
@@ -21,7 +57,7 @@
             <v-tab> Profil </v-tab>
             <v-tabs-items v-model="tab">
               <v-tab-item>
-               <v-order :orders="runner.orders"></v-order>
+                <v-order :orders="runner.orders"></v-order>
               </v-tab-item>
               <v-tab-item>
                 <v-product :products="products" @reload="reload()"></v-product>
@@ -59,7 +95,7 @@ export default {
     };
   },
   mounted() {
-    const moment= require('moment') 
+    const moment = require("moment");
     if (!this.$store.state.runnerId) {
       this.$router.push("/");
     } else {
@@ -72,10 +108,10 @@ export default {
           if (response.data) {
             console.log("RUNNER", response.data);
             this.runner = response.data;
-            this.runner.orders.forEach(order=>{
-              order.name=order.lastname + " " + order.firstname
-              order.date=moment(order.date).format('DD/MM/YYYY');
-            })
+            this.runner.orders.forEach((order) => {
+              order.name = order.lastname + " " + order.firstname;
+              order.date = moment(order.date).format("DD/MM/YYYY");
+            });
           }
         })
         .catch((error) => {
@@ -147,7 +183,7 @@ export default {
         });
 
       newRunner.departmentsIds.forEach((element) => {
-        console.log(element)
+        console.log(element);
         axios({
           method: "DELETE",
           url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
@@ -169,7 +205,7 @@ export default {
 </script>
 
 <style scoped>
-body{
+body {
 }
 #avatar {
   position: absolute;
@@ -177,12 +213,15 @@ body{
   top: 8%;
   z-index: 5;
 }
-button {
+/* button {
   position: absolute;
   right: 2%;
   top: 3%;
-}
+} */
 .scroll {
   overflow-y: scroll;
+}
+.v-menu__content {
+  border-radius:50px;
 }
 </style>
