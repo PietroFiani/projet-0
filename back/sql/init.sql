@@ -103,6 +103,17 @@ CREATE TABLE IF NOT EXISTS `order` (
 
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS notification(
+    id_notification INT(11) NOT NULL AUTO_INCREMENT,
+    head VARCHAR(255),
+    text VARCHAR(255),
+    id_customer INT NOT NULL,
+    `read` BOOLEAN,
+    PRIMARY KEY(id_notification),
+    FOREIGN KEY (id_customer) REFERENCES `customer`(id_customer)
+    )ENGINE = InnoDB;
+
+
 -- CREATE TABLE IF NOT EXISTS orderRow(
 --     id_orderRow INT(11) NOT NULL AUTO_INCREMENT,
 --     id_order INT NOT NULL,

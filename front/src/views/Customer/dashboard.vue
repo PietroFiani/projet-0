@@ -1,12 +1,23 @@
 <template>
   <div class="container">
+    <v-fab-transition>
+      <v-btn
+        color="pink"
+        style="align-self: flex-end"
+        class="mr-10 mb-16"
+        dark
+        bottom
+        right
+        fab
+      >
+        <v-icon>mdi-alarm-light-outline </v-icon>
+      </v-btn>
+    </v-fab-transition>
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
-      
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-      
 
       <div class="runners-infos">
         <v-row>
@@ -65,7 +76,6 @@
               type="number"
               min="0"
               :max="commande.max_quantity"
-
             ></v-text-field>
             <p>
               Prix :
@@ -85,9 +95,9 @@
           </v-form>
           <span v-if="message" class="alert">
             <img
-                id="warning-icon"
-                src="../../assets/warning.svg"
-                alt="warning logo"
+              id="warning-icon"
+              src="../../assets/warning.svg"
+              alt="warning logo"
             />{{ message }}
           </span>
         </v-card-text>
@@ -253,13 +263,13 @@ export default {
       this.dialog = true;
     },
     orderPruduct() {
-      console.log(this.commande.quantity, this.commande.max_quantity)
+      console.log(this.commande.quantity, this.commande.max_quantity);
       let url = "http://localhost:5000/orders/add";
       if (this.commande.quantity > this.commande.max_quantity) {
-        this.message = "Il n'y a pas assez de stock"
-        return this.message
+        this.message = "Il n'y a pas assez de stock";
+        return this.message;
       }
-      if (this.$refs.form.validate() ) {
+      if (this.$refs.form.validate()) {
         axios
           .post(url, {
             id_runner: this.commande.id_runner,
@@ -287,18 +297,17 @@ export default {
             stock: this.commande.quantity,
           })
           .then((response) => {
-              console.log("PRODUCT ", response.data);
-              this.address = response.data
+            console.log("PRODUCT ", response.data);
+            this.address = response.data;
           })
           .catch((error) => {
             console.log("ERREUR", error);
           });
-        this.search()
+        this.search();
 
-          this.dialog = false
-          // document.location.reload()
-      } 
-      
+        this.dialog = false;
+        // document.location.reload()
+      }
     },
   },
 };
@@ -321,14 +330,13 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: center;
-    .menu-container{
-    width: auto;
-    display: flex;
-    justify-content: flex-end;
-}
+    .menu-container {
+      width: auto;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }
-
 
 .white-logo {
   position: absolute;

@@ -64,7 +64,7 @@
             <v-tab> Profil </v-tab>
             <v-tabs-items v-model="tab">
               <v-tab-item>
-                <v-order :orders="runner.orders" @reload="reload()"></v-order>
+                <v-order :orders="runner.orders" :runner="runner" @reload="reload()"></v-order>
               </v-tab-item>
               <v-tab-item>
                 <v-product :products="products" @reload="reload()"></v-product>
