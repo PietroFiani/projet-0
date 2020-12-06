@@ -302,10 +302,6 @@ export default {
       //   });this.dialog = true;
     },
     orderPruduct() {
-<<<<<<< HEAD
-      console.log(this.commande.quantity, this.commande.max_quantity);
-=======
->>>>>>> 61c1cf734d57a7f0ae33918455a67089c3eca059
       let url = "http://localhost:5000/orders/add";
       if (this.commande.quantity == 0) {
         this.message = "Vous ne pouvez pas commander 0g";
