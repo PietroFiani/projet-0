@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <v-dialog v-model="dialog" max-width="1000">
+    <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-app-bar color="secondary" dark>
           Commander du {{ commande.name_product }}
@@ -61,6 +61,7 @@
               type="number"
               min="0"
               :max="commande.max_quantity"
+
             ></v-text-field>
             <p>
               Prix :
@@ -78,6 +79,13 @@
               >
             </v-card-actions>
           </v-form>
+          <span v-if="message" class="alert">
+            <img
+                id="warning-icon"
+                src="../../assets/warning.svg"
+                alt="warning logo"
+            />{{ message }}
+          </span>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -97,7 +105,7 @@ export default {
     return {
       valid: false,
 
-      message: "",
+      message: null,
       customers: [
         {
           firstname: "",
@@ -241,9 +249,13 @@ export default {
       this.dialog = true;
     },
     orderPruduct() {
-      // console.log('ADRESSE ', this.commande.id_address)
+      console.log(this.commande.quantity, this.commande.max_quantity)
       let url = "http://localhost:5000/orders/add";
-      if (this.$refs.form.validate()) {
+      if (this.commande.quantity > this.commande.max_quantity) {
+        this.message = "Il n'y a pas assez de stock"
+        return this.message
+      }
+      if (this.$refs.form.validate() ) {
         axios
           .post(url, {
             id_runner: this.commande.id_runner,
@@ -264,7 +276,6 @@ export default {
             this.message = "bug commande";
           });
 
-        // if (this.) {}
         url = `http://localhost:5000/productsOrder/${this.commande.id_product}`;
         axios
           .put(url, {
@@ -272,16 +283,17 @@ export default {
             stock: this.commande.quantity,
           })
           .then((response) => {
-            if (response.data) {
               console.log("PRODUCT ", response.data);
-              // this.address = response.data
-            }
+              this.address = response.data
           })
           .catch((error) => {
             console.log("ERREUR", error);
           });
-          this.dialog= false
-      }
+        this.search()
+
+          this.dialog = false
+          // document.location.reload()
+      } 
       
     },
   },
@@ -309,6 +321,22 @@ export default {
 .white-logo {
   height: 10vmin;
   width: 10vmin;
+}
+.alert {
+  margin-top: 2em;
+  // width: 60vmin;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border: solid 1px red;
+  padding: 0.2em;
+  background-color: red;
+  border-radius: 5px;
+  #warning-icon {
+    width: 1.5em;
+    margin-right: 0.5em;
+  }
 }
 </style>
 
