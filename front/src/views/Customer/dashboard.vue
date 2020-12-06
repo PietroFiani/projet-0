@@ -253,6 +253,7 @@ export default {
       this.commande.prix_init = produit.price;
       this.commande.id_runner = runner;
       this.commande.addrRunner 
+      this.dialog = true
       // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
       // axios
       //   .get(url)
