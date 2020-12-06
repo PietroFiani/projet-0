@@ -11,7 +11,12 @@
     >
       <template v-slot:body="{ items }">
         <tbody name="list" is="transition-group" v-if="items.length">
-          <tr v-for="item in items" :key="item.id_order" class="item-row" @click="handleClick(item)">
+          <tr
+            v-for="item in items"
+            :key="item.id_order"
+            class="item-row"
+            @click="handleClick(item)"
+          >
             <td>{{ item.id_order }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.date }}</td>
@@ -97,6 +102,7 @@ import axios from "axios";
 export default {
   props: {
     orders: {},
+    runner: {},
   },
 
   data() {
@@ -116,6 +122,7 @@ export default {
         },
         road: "",
         zip: "",
+        id_customer: "",
       },
       headers: [
         {
@@ -141,6 +148,7 @@ export default {
           qtte: e.qtte,
           total: e.prix,
         },
+        id_customer:e.id_customer,
         road: e.road,
         zip: e.zip,
       };
@@ -163,19 +171,54 @@ export default {
         },
         road: "",
         zip: "",
+        id_customer: "",
       };
     },
     updateWorkflow(workflow) {
+      let head;
+      let text;
+      if (workflow == "Annulée") {
+        head = "Commande annulée";
+        text =
+          "Votre commande n°" +
+          this.order.id +
+          " a malheureusement été annulée par le livreur" +
+          this.runner.firstname +
+          " " +
+          this.runner.lastname +
+          ". \n N'hésitez pas à commander auprès d'un autre de nos partenaire.";
+      }
+      if (workflow == "Validée") {
+        head = "Commande validée";
+        text =
+          "Votre commande n°" +
+          this.order.id +
+          "a bien été validée ! " +
+          this.runner.firstname +
+          " " +
+          this.runner.lastname +
+          " livrera votre commande d'ici peu.";
+      }
+      console.log(this.order)
       let url = `http://localhost:5000/order/updateWorkflow/${this.order.id}`;
       axios
         .put(url, {
           workflow: workflow,
         })
-        .then((response) => {
-          console.log("Updated Order Workflow", response.data);
-          this.dialogConfirm = false;
-          this.initOrder();
-          this.$emit("reload");
+        .then(() => {
+          axios
+            .post(`http://localhost:5000/notification/add`, {
+              head:head,
+              text:text,
+              id_customer: this.order.id_customer,
+              read: false
+            })
+            .then((response) => {
+              console.log("Updated Order Workflow", response.data)
+              this.dialogConfirm = false
+              this.initOrder()
+              this.$emit("reload")
+            });
         })
         .catch((error) => console.log("Order error ", error));
     },

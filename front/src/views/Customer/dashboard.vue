@@ -1,5 +1,18 @@
 <template>
   <div class="container">
+    <v-fab-transition>
+      <v-btn
+        color="pink"
+        style="align-self: flex-end"
+        class="mr-10 mb-16"
+        dark
+        bottom
+        right
+        fab
+      >
+        <v-icon>mdi-alarm-light-outline </v-icon>
+      </v-btn>
+    </v-fab-transition>
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
       <div class="menu-container">
