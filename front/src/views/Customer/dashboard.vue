@@ -21,13 +21,14 @@
           :key="runner.id_runner"
         >
           <v-row v-for="product of runner.products" :key="product.id_product">
-            <v-col cols="2" v-if="runner.products.length > 0">
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0">
               {{ runner.lastname }} {{ runner.firstname }}
             </v-col>
-            <v-col cols="2"> {{ product.name }} {{ product.label }}</v-col>
-            <v-col cols="2"> {{ product.stock }} g</v-col>
-            <v-col cols="2"> {{ product.price }} €/g</v-col>
-            <v-btn
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.name }} {{ product.label }}</v-col>
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.stock }} g</v-col>
+            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.price }} €/g</v-col>
+            <v-btn 
+              v-if="runner.products.length > 0 && product.stock != 0"
               color="primary"
               class="mr-4"
               @click="commander(product, runner.id_runner)"
@@ -253,8 +254,11 @@ export default {
       this.dialog = true;
     },
     orderPruduct() {
-      console.log(this.commande.quantity, this.commande.max_quantity)
       let url = "http://localhost:5000/orders/add";
+      if (this.commande.quantity == 0) {
+        this.message = "Vous ne pouvez pas commander 0g"
+        return this.message
+      }
       if (this.commande.quantity > this.commande.max_quantity) {
         this.message = "Il n'y a pas assez de stock"
         return this.message
