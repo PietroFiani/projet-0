@@ -2,25 +2,47 @@
   <div class="container">
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
-      
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-      
 
       <div class="runners-infos">
-        <v-row>
-          <v-col cols="2">Nom</v-col>
-          <v-col cols="2">Produit</v-col>
-          <v-col cols="2">Quantité dispnible</v-col>
-          <v-col cols="2">Prix</v-col>
-        </v-row>
+        <h1>Autour de chez moi :</h1>
+
         <div
           class="runners-data"
           v-for="runner of runners"
           :key="runner.id_runner"
         >
-          <v-row v-for="product of runner.products" :key="product.id_product">
+          <v-card
+            v-for="product of runner.products"
+            :key="product.id_product"
+            class="mx-auto"
+      max-width="344"
+          >
+          <div v-if="runner.products.length > 0 && product.stock != 0">
+            <v-card-title>
+              {{ runner.lastname }} {{ runner.firstname }}
+            </v-card-title>
+            <v-card-subtitle>
+              {{ product.label }}
+            </v-card-subtitle>
+            <p>
+              {{ product.name }} {{ product.label }} <br />
+              {{ product.stock }} <br />
+              {{ product.price }}
+            </p>
+            <v-btn
+              v-if="runner.products.length > 0 && product.stock != 0"
+              color="primary"
+              class="mr-4"
+              @click="commander(product, runner.id_runner)"
+            >
+              Commander</v-btn
+            ></div>
+            
+          </v-card>
+          <!-- <v-row v-for="product of runner.products" :key="product.id_product">
             <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0">
               {{ runner.lastname }} {{ runner.firstname }}
             </v-col>
@@ -35,7 +57,7 @@
             >
               Commander</v-btn
             >
-          </v-row>
+          </v-row> -->
         </div>
       </div>
     </div>
@@ -66,7 +88,6 @@
               type="number"
               min="0"
               :max="commande.max_quantity"
-
             ></v-text-field>
             <p>
               Prix :
@@ -86,9 +107,9 @@
           </v-form>
           <span v-if="message" class="alert">
             <img
-                id="warning-icon"
-                src="../../assets/warning.svg"
-                alt="warning logo"
+              id="warning-icon"
+              src="../../assets/warning.svg"
+              alt="warning logo"
             />{{ message }}
           </span>
         </v-card-text>
@@ -128,7 +149,7 @@ export default {
           max_quantity: null,
           name_product: "",
           prix_init: null,
-          addrRunner: null
+          addrRunner: null,
         },
       ],
       id: null,
@@ -238,7 +259,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            console.log("RUNNERs", response.data)
+            console.log("RUNNERs", response.data);
             this.runners = response.data;
           }
         })
@@ -252,8 +273,8 @@ export default {
       this.commande.max_quantity = produit.stock;
       this.commande.prix_init = produit.price;
       this.commande.id_runner = runner;
-      this.commande.addrRunner 
-      this.dialog = true
+      this.commande.addrRunner;
+      this.dialog = true;
       // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
       // axios
       //   .get(url)
@@ -266,22 +287,18 @@ export default {
       //   .catch((error) => {
       //     console.log("ERREUR", error);
       //   });this.dialog = true;
-
     },
     orderPruduct() {
-
-      
-
       let url = "http://localhost:5000/orders/add";
       if (this.commande.quantity == 0) {
-        this.message = "Vous ne pouvez pas commander 0g"
-        return this.message
+        this.message = "Vous ne pouvez pas commander 0g";
+        return this.message;
       }
       if (this.commande.quantity > this.commande.max_quantity) {
-        this.message = "Il n'y a pas assez de stock"
-        return this.message
+        this.message = "Il n'y a pas assez de stock";
+        return this.message;
       }
-      if (this.$refs.form.validate() ) {
+      if (this.$refs.form.validate()) {
         axios
           .post(url, {
             id_runner: this.commande.id_runner,
@@ -309,18 +326,17 @@ export default {
             stock: this.commande.quantity,
           })
           .then((response) => {
-              console.log("PRODUCT ", response.data);
-              this.address = response.data
+            console.log("PRODUCT ", response.data);
+            this.address = response.data;
           })
           .catch((error) => {
             console.log("ERREUR", error);
           });
-        this.search()
+        this.search();
 
-          this.dialog = false
-          // document.location.reload()
-      } 
-      
+        this.dialog = false;
+        // document.location.reload()
+      }
     },
   },
 };
@@ -343,14 +359,13 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: center;
-    .menu-container{
-    width: auto;
-    display: flex;
-    justify-content: flex-end;
-}
+    .menu-container {
+      width: auto;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }
-
 
 .white-logo {
   position: absolute;
@@ -374,4 +389,3 @@ export default {
   }
 }
 </style>
-
