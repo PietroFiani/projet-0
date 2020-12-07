@@ -31,48 +31,46 @@
         <v-icon>mdi-alarm-light-outline </v-icon>
       </v-btn>
     </v-fab-transition>
+
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-
-      <div class="runners-infos">
-        <h1>Autour de chez moi :</h1>
-
-        <div
-          class="runners-data"
-          v-for="runner of runners"
-          :key="runner.id_runner"
-        >
-          <v-card
-            v-for="product of runner.products"
-            :key="product.id_product"
-            class="mx-auto"
+      <h1>Autour de chez moi : </h1>
+      <v-select
+            :items="items"
+            label="Standard"
+            v-model="keyword"
+          ></v-select>
+      <div class="runner-cards">
+        <v-card
+            v-for="runner in orderBy(runnersTable,keyword)"
+            :key="runner.id_product"
             max-width="344"
+            class="ma-5"
           >
-            <div v-if="runner.products.length > 0 && product.stock != 0">
               <v-card-title>
                 {{ runner.lastname }} {{ runner.firstname }}
               </v-card-title>
               <v-card-subtitle>
-                {{ product.label }}
+                {{ runner.label }}
               </v-card-subtitle>
               <p>
-                {{ product.name }} {{ product.label }} <br />
-                {{ product.stock }} <br />
-                {{ product.price }}
+                Produit : {{  }} <br />
+                En stock : {{ runner.stock }} <br />
+                Prix : {{ runner.price }} €
               </p>
               <v-btn
-                v-if="runner.products.length > 0 && product.stock != 0"
                 color="primary"
                 class="mr-4"
                 @click="commander(product, runner.id_runner)"
               >
                 Commander</v-btn
               >
-            </div>
           </v-card>
+        </div>
+          
           <!-- <v-row v-for="product of runner.products" :key="product.id_product">
             <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0">
               {{ runner.lastname }} {{ runner.firstname }}
@@ -89,8 +87,6 @@
               Commander</v-btn
             >
           </v-row> -->
-        </div>
-      </div>
     </div>
 
     <v-dialog v-model="dialog" max-width="500">
@@ -132,8 +128,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" text @click="orderPruduct()">
-                commander</v-btn
-              >
+                commander</v-btn>
             </v-card-actions>
           </v-form>
           <span v-if="message" class="alert">
@@ -150,9 +145,15 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from "axios";
 import VMenuClient from "@/components/DashboardClient/VMenuClient";
+import Vue2Filters from 'vue2-filters'; 
+
+Vue.use(Vue2Filters); 
 export default {
+
+  mixins: [Vue2Filters.mixin],
   name: "dashboard",
   components: {
     VMenuClient,
@@ -162,7 +163,8 @@ export default {
     return {
       drawer: false,
       valid: false,
-
+      items: ['name', 'price'],
+      keyword:'', 
       message: null,
       customers: [
         {
@@ -189,6 +191,7 @@ export default {
       runners: [],
       dialog: false,
       notifications: [],
+      runnersTable: [],
       // required: [(v) => !!v || "requis"],
     };
   },
@@ -325,6 +328,14 @@ export default {
           if (response.data) {
             console.log("RUNNERs", response.data);
             this.runners = response.data;
+            this.runners.forEach((element) => {
+              element.products.forEach((product) => {
+                let item = product;
+                item.firstname = element.firstname;
+                item.lastname = element.lastname;
+                this.runnersTable.push(item)
+              });
+            });
           }
         })
         .catch((error) => {
@@ -332,11 +343,11 @@ export default {
         });
     },
     commander(produit, runner) {
-      this.commande.name_product = produit.label;
-      this.commande.id_product = produit.id_product;
-      this.commande.max_quantity = produit.stock;
-      this.commande.prix_init = produit.price;
-      this.commande.id_runner = runner;
+      this.commande.name_product = runner.label;
+      this.commande.id_product = runner.id_product;
+      this.commande.max_quantity = runner.stock;
+      this.commande.prix_init = runner.price;
+      this.commande.id_runner = runner.id_runner;
       this.commande.addrRunner;
       this.dialog = true;
       // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
@@ -451,5 +462,10 @@ export default {
     width: 1.5em;
     margin-right: 0.5em;
   }
+}
+.runner-cards {
+  width: 90vw;
+  display:flex;
+  flex-wrap: wrap;
 }
 </style>
