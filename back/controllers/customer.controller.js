@@ -1,5 +1,6 @@
 const Customer = require("../models/customer.models.js");
 const AddrCustomer = require("../models/addrCustomer.models.js");
+const Notification = require("../models/notification.models.js");
 const bcrypt = require('bcrypt');
 
 // Create and Save a new Customer
@@ -16,7 +17,7 @@ exports.create = (req, res) => {
     const password = req.body.password;
     const encryptedPassword = bcrypt.hashSync(password, 10)
     console.log("crypt psswd", encryptedPassword)
-        // Create a Customer
+    // Create a Customer
     const customer = new Customer({
         mail: req.body.mail,
         lastname: req.body.lastname,
@@ -34,7 +35,7 @@ exports.create = (req, res) => {
             });
         else {
             let id_customer = data.id
-                // req.body.departmentsIds.forEach(idDepartment => {
+            // req.body.departmentsIds.forEach(idDepartment => {
             let addrCustomer = new AddrCustomer({
                 road: req.body.road,
                 zip: req.body.zip,
@@ -42,13 +43,13 @@ exports.create = (req, res) => {
                 id_customer
             })
             AddrCustomer.create(addrCustomer, (err, addrCustomerdata => {
-                    if (err)
-                        res.status(500).send({
-                            message: err.message || "Some error occurred while creating the Delivery."
-                        });
+                if (err)
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the Delivery."
+                    });
 
-                }))
-                // },
+            }))
+            // },
             res.send(data)
 
             // )
@@ -70,7 +71,7 @@ exports.create = (req, res) => {
 //     })
 // }
 
-exports.login = async function(req, res) {
+exports.login = async function (req, res) {
     var mail = req.query.mail;
     var password = req.query.password;
     console.log("REQ", req.query)
@@ -110,8 +111,26 @@ exports.findOne = (req, res) => {
                     message: "Error retrieving Customer with id " + req.params.customerId
                 });
             }
-        } else res.send(data);
-    });
+        } else {
+            Notification.findByCustomer(req.params.customerId, (err, notificationData) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.send(data)
+                    }
+                    else {
+                        res.status(500).send({
+                            message: "Error retrieving notification with customerId " + req.params.customerId
+                        });
+                    }
+                }
+                else {
+                    data.notifications = notificationData;
+                    console.log("dATA", data)
+                    res.send(data);
+                }
+            })
+        }
+    })
 };
 
 

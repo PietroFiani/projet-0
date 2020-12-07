@@ -1,26 +1,75 @@
 <template>
   <div class="container">
+    <v-navigation-drawer v-model="drawer" absolute temporary right width="500">
+      <v-list three-line>
+        <v-list-item
+          v-for="notif in notifications"
+          :key="notif.id_notification"
+        >
+          <v-list-item-content
+            class="pink--text"
+            :style="'background-color:' + notif.color"
+          >
+            <v-list-item-title v-text="notif.head"></v-list-item-title>
+            <v-list-item-subtitle v-text="notif.text"></v-list-item-subtitle>
+            <v-divider class="mt-2"></v-divider>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-fab-transition>
+      <v-btn
+        :color="color()"
+        style="align-self: flex-end"
+        class="mr-10 mb-16"
+        dark
+        bottom
+        right
+        fab
+        @click="updateNotifications"
+      >
+        <v-icon>mdi-alarm-light-outline </v-icon>
+      </v-btn>
+    </v-fab-transition>
+
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
-      
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-      
-
-      <div class="runners-infos">
-        <v-row>
-          <v-col cols="2">Nom</v-col>
-          <v-col cols="2">Produit</v-col>
-          <v-col cols="2">Quantité dispnible</v-col>
-          <v-col cols="2">Prix</v-col>
-        </v-row>
-        <div
-          class="runners-data"
-          v-for="runner of runners"
-          :key="runner.id_runner"
-        >
-          <v-row v-for="product of runner.products" :key="product.id_product">
+      <h1>Autour de chez moi : </h1>
+      <v-select 
+            :items="items"
+            label="Trier par : "
+            v-model="selectValue"></v-select>
+      <div class="runner-cards">
+        <v-card
+            v-for="runner in orderBy(runnersTable,selectValue)"
+            :key="runner.id_product"
+            class="card-runner"
+          >
+              <v-card-title>
+                {{ runner.firstname }} {{ runner.lastname }}
+              </v-card-title>
+              <v-card-subtitle>
+                {{ runner.name }}
+              </v-card-subtitle>
+              <p class="ma-auto">
+                Produit : {{runner.label}} <br />
+                En stock : {{ runner.stock }} <br />
+                Prix : {{ runner.price }} €
+              </p>
+              <v-btn
+                color="primary"
+                class="mr-4"
+                @click="commander(product, runner.id_runner)"
+              >
+                Commander</v-btn
+              >
+          </v-card>
+        </div>
+          
+          <!-- <v-row v-for="product of runner.products" :key="product.id_product">
             <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0">
               {{ runner.lastname }} {{ runner.firstname }}
             </v-col>
@@ -35,9 +84,7 @@
             >
               Commander</v-btn
             >
-          </v-row>
-        </div>
-      </div>
+          </v-row> -->
     </div>
 
     <v-dialog v-model="dialog" max-width="500">
@@ -52,6 +99,7 @@
         <v-card-text>
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-select
+            width="10"
               v-model="commande.id_address"
               label="Adresse de livraison"
               required
@@ -66,7 +114,6 @@
               type="number"
               min="0"
               :max="commande.max_quantity"
-
             ></v-text-field>
             <p>
               Prix :
@@ -80,15 +127,14 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" text @click="orderPruduct()">
-                commander</v-btn
-              >
+                commander</v-btn>
             </v-card-actions>
           </v-form>
           <span v-if="message" class="alert">
             <img
-                id="warning-icon"
-                src="../../assets/warning.svg"
-                alt="warning logo"
+              id="warning-icon"
+              src="../../assets/warning.svg"
+              alt="warning logo"
             />{{ message }}
           </span>
         </v-card-text>
@@ -98,9 +144,15 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from "axios";
 import VMenuClient from "@/components/DashboardClient/VMenuClient";
+import Vue2Filters from 'vue2-filters'; 
+
+Vue.use(Vue2Filters); 
 export default {
+
+  mixins: [Vue2Filters.mixin],
   name: "dashboard",
   components: {
     VMenuClient,
@@ -108,8 +160,10 @@ export default {
 
   data() {
     return {
+      drawer: false,
       valid: false,
-
+      items: ['name', 'price'],
+      selectValue:'',
       message: null,
       customers: [
         {
@@ -128,13 +182,15 @@ export default {
           max_quantity: null,
           name_product: "",
           prix_init: null,
-          addrRunner: null
+          addrRunner: null,
         },
       ],
       id: null,
       id_department: 1,
       runners: [],
       dialog: false,
+      notifications: [],
+      runnersTable: [],
       // required: [(v) => !!v || "requis"],
     };
   },
@@ -150,8 +206,21 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("ADDRCUSTOMER", response.data)
+            axios
+              .get(`http://localhost:5000/notifications/${this.id}`)
+              .then((response2) => {
+                if (response2.data) {
+                  this.notifications = response2.data;
+                  console.log(this.notifications);
+                  this.notifications.forEach((notif) => {
+                    if (!notif.read) {
+                      notif.color = "pink";
+                    } else notif.color = "white";
+                  });
+                }
+              });
             this.customers = response.data;
+            console.log("customer", this.customers);
             this.search();
           }
         })
@@ -159,6 +228,7 @@ export default {
           console.log("ERREUR", error);
         });
     }
+
 
     // this.findAddr()
     let today = new Date();
@@ -187,6 +257,14 @@ export default {
       yyyy + "-" + mm + "-" + dd + " " + hh + ":" + m + ":" + ss;
   },
   methods: {
+    color() {
+      let value = false;
+      this.notifications.forEach((element) => {
+        if (!element.read) value = true;
+      });
+      if (value) return "pink";
+      else return "grey";
+    },
     // fonction de deconnexion
     logout() {
       this.$store.commit("logoutCustomer");
@@ -196,6 +274,16 @@ export default {
     updateAddr(id) {
       this.$store.commit("addAddrCustomer", id);
       this.$router.push({ name: "UpadteAddrClient" });
+    },
+    updateNotifications() {
+      this.drawer = !this.drawer;
+      axios
+        .put(`http://localhost:5000/notifications/update/${this.id}`)
+        .then((response) => {
+          if (response.data) {
+            console.log("read notifications");
+          }
+        });
     },
     // fonction poour modifier le mail, le numero de tel et le password
     updateProfil() {
@@ -224,7 +312,7 @@ export default {
         .then((response) => {
           if (response.data) {
             // console.log("ADDRCUSTOMER", response.data)
-            this.customers = response.data;
+            this.customers = response;
             this.search();
           }
         })
@@ -238,8 +326,17 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            console.log("RUNNERs", response.data)
+            console.log("RUNNERs", response.data);
             this.runners = response.data;
+            this.runners.forEach((element) => {
+              element.products.forEach((product) => {
+                let item = product;
+                item.firstname = element.firstname;
+                item.lastname = element.lastname;
+                this.runnersTable.push(item)
+                console.log(this.runnersTable)
+              });
+            });
           }
         })
         .catch((error) => {
@@ -247,13 +344,13 @@ export default {
         });
     },
     commander(produit, runner) {
-      this.commande.name_product = produit.label;
-      this.commande.id_product = produit.id_product;
-      this.commande.max_quantity = produit.stock;
-      this.commande.prix_init = produit.price;
-      this.commande.id_runner = runner;
-      this.commande.addrRunner 
-      this.dialog = true
+      this.commande.name_product = runner.label;
+      this.commande.id_product = runner.id_product;
+      this.commande.max_quantity = runner.stock;
+      this.commande.prix_init = runner.price;
+      this.commande.id_runner = runner.id_runner;
+      this.commande.addrRunner;
+      this.dialog = true;
       // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
       // axios
       //   .get(url)
@@ -266,22 +363,18 @@ export default {
       //   .catch((error) => {
       //     console.log("ERREUR", error);
       //   });this.dialog = true;
-
     },
     orderPruduct() {
-
-      
-
       let url = "http://localhost:5000/orders/add";
       if (this.commande.quantity == 0) {
-        this.message = "Vous ne pouvez pas commander 0g"
-        return this.message
+        this.message = "Vous ne pouvez pas commander 0g";
+        return this.message;
       }
       if (this.commande.quantity > this.commande.max_quantity) {
-        this.message = "Il n'y a pas assez de stock"
-        return this.message
+        this.message = "Il n'y a pas assez de stock";
+        return this.message;
       }
-      if (this.$refs.form.validate() ) {
+      if (this.$refs.form.validate()) {
         axios
           .post(url, {
             id_runner: this.commande.id_runner,
@@ -309,18 +402,17 @@ export default {
             stock: this.commande.quantity,
           })
           .then((response) => {
-              console.log("PRODUCT ", response.data);
-              this.address = response.data
+            console.log("PRODUCT ", response.data);
+            this.address = response.data;
           })
           .catch((error) => {
             console.log("ERREUR", error);
           });
-        this.search()
+        this.search();
 
-          this.dialog = false
-          // document.location.reload()
-      } 
-      
+        this.dialog = false;
+        // document.location.reload()
+      }
     },
   },
 };
@@ -343,14 +435,13 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: center;
-    .menu-container{
-    width: auto;
-    display: flex;
-    justify-content: flex-end;
-}
+    .menu-container {
+      width: auto;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }
-
 
 .white-logo {
   position: absolute;
@@ -373,5 +464,23 @@ export default {
     margin-right: 0.5em;
   }
 }
-</style>
+.runner-cards {
+  width: 90vw;
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .card-runner{
+    width: 25vw;
+    height: 20vh;
+    margin: 2.2vw;
+  }
+}
+.v-input{
+  margin: 0px;
+  padding: 0px;
+  display: block !important;
+  max-width: 20%;
+  flex: none!important;
 
+}
+</style>
