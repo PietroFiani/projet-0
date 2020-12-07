@@ -10,13 +10,13 @@
       :key="customer.id_address"
     >
       <p>{{ customer.road }} {{ customer.zip }} {{ customer.nom }}</p>
-      <v-btn
+      <!-- <v-btn
         color="error"
         class="mr-4"
         @click="deleteAddr(customer.id_address)"
       >
         Supprimer</v-btn
-      >
+      > -->
 
       <v-dialog class="update-form" v-model="dialog" persistent>
         <template v-slot:activator="{ on, attrs }">

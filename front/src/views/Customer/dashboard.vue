@@ -37,22 +37,26 @@
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-      <h1>Autour de chez moi : </h1>
-      <v-select
-        ref="addr"
-        width="10"
-        v-model="adresse"
-        label="Adresse de livraison"
-        required
-        :items="customers"
-        :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
-        :item-value="(item) => item"
-        @change="search"
-      ></v-select>
-      <v-select 
-            :items="items"
-            label="Trier par : "
-            v-model="selectValue"></v-select>
+      <!-- <div class="flex"> -->
+
+        <h1>Autour de chez moi : </h1>
+        <v-select
+          ref="addr"
+          width="10"
+          v-model="adresse"
+          label="Adresse de livraison"
+          required
+          :items="customers"
+          :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
+          :item-value="(item) => item"
+          @change="search"
+        ></v-select>
+        <v-select 
+              :items="items"
+              label="Trier par : "
+              v-model="selectValue">
+        </v-select>
+      <!-- </div> -->
       <div class="runner-cards">
         <v-card
             v-for="runner in orderBy(runnersTable,selectValue)"
@@ -78,24 +82,8 @@
                 Commander</v-btn
               >
           </v-card>
-        </div>
-          
-          <!-- <v-row v-for="product of runner.products" :key="product.id_product">
-            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0">
-              {{ runner.lastname }} {{ runner.firstname }}
-            </v-col>
-            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.name }} {{ product.label }}</v-col>
-            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.stock }} g</v-col>
-            <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0"> {{ product.price }} €/g</v-col>
-            <v-btn 
-              v-if="runner.products.length > 0 && product.stock != 0"
-              color="primary"
-              class="mr-4"
-              @click="commander(product, runner.id_runner)"
-            >
-              Commander</v-btn
-            >
-          </v-row> --> 
+          <span v-if="empty" class="">{{ empty }}</span>
+      </div>
     <v-dialog v-model="dialog">
       <v-card class="dialog">
         <v-app-bar color="secondary" dark>
@@ -163,6 +151,7 @@ export default {
 
   data() {
     return {
+      empty: 'Choisisez votre adresse de livraison !',
       drawer: false,
       valid: false,
       items: ['name', 'price'],
@@ -287,33 +276,6 @@ export default {
           }
         });
     },
-    // fonction de suppression d'addresse
-    deleteAddr(id) {
-      if (this.customers.length <= 1) {
-        return (this.message = "Vous devez avoir on moins une adresse");
-      }
-      axios({
-        method: "DELETE",
-        url: `http://localhost:5000/addrCustomers/${id}`,
-        headers: { "Content-Type": "application/json" },
-      });
-      this.reloadAddr();
-    },
-    reloadAddr() {
-      let url = `http://localhost:5000/customers/${this.id}`;
-      axios
-        .get(url)
-        .then((response) => {
-          if (response.data) {
-            // console.log("ADDRCUSTOMER", response.data)
-            this.customers = response;
-            this.search();
-          }
-        })
-        .catch((error) => {
-          console.log("ERREUR", error);
-        });
-    },
     search() {
       this.runnersTable = []
       let url = `http://localhost:5000/runners/from/${this.adresse.id_department}`;
@@ -332,10 +294,13 @@ export default {
                   this.runnersTable.push(item)
               });
             });
+            this.empty = null
           }
+
         })
         .catch((error) => {
           console.log("ERREUR", error);
+          this.empty = "Votre département ne dispose pas de livreur ! On arrive bientôt !"
           //ajouter un message si null
         });
     },
@@ -412,6 +377,7 @@ export default {
   align-items: center;
   justify-content: center;
   .wrapper {
+    padding: 2vmin;
     background-color: white;
     height: 85vh;
     width: 90vw;
@@ -468,7 +434,12 @@ export default {
   flex: none!important;
 
 }
-// .dialog{
-//  display:none; 
+// .flex{
+//  display: flex; 
+//  height: auto;
+// justify-content: space-around;
+//   h1,div {
+//     height: 6vmin
+//   }
 // }
 </style>
