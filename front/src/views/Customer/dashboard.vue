@@ -38,6 +38,15 @@
         <v-menu-client></v-menu-client>
       </div>
       <h1>Autour de chez moi : </h1>
+      <v-select
+            width="10"
+              v-model="commande.id_address"
+              label="Adresse de livraison"
+              required
+              :items="customers"
+              :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
+              :item-value="(item) => item.id_address"
+            ></v-select>
       <v-select 
             :items="items"
             label="Trier par : "
@@ -62,7 +71,7 @@
               <v-btn
                 color="primary"
                 class="mr-4"
-                @click="commander(product, runner.id_runner)"
+                @click="commander(runner, runner.id_runner)"
               >
                 Commander</v-btn
               >
@@ -220,7 +229,7 @@ export default {
                 }
               });
             this.customers = response.data;
-            console.log("customer", this.customers);
+            // console.log("customer", this.customers);
             this.search();
           }
         })
@@ -334,7 +343,7 @@ export default {
                 item.firstname = element.firstname;
                 item.lastname = element.lastname;
                 this.runnersTable.push(item)
-                console.log(this.runnersTable)
+                // console.log(this.runnersTable)
               });
             });
           }
@@ -344,13 +353,14 @@ export default {
         });
     },
     commander(produit, runner) {
-      this.commande.name_product = runner.label;
-      this.commande.id_product = runner.id_product;
-      this.commande.max_quantity = runner.stock;
-      this.commande.prix_init = runner.price;
-      this.commande.id_runner = runner.id_runner;
+      this.commande.name_product = produit.label;
+      this.commande.id_product = produit.id_product;
+      this.commande.max_quantity = produit.stock;
+      this.commande.prix_init = produit.price;
+      this.commande.id_runner = runner;
       this.commande.addrRunner;
       this.dialog = true;
+      console.log(this.runnersTable)
       // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
       // axios
       //   .get(url)
@@ -408,6 +418,7 @@ export default {
           .catch((error) => {
             console.log("ERREUR", error);
           });
+        this.runnersTable = []
         this.search();
 
         this.dialog = false;
