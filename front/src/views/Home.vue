@@ -9,7 +9,7 @@
       <button class="rounded">Devenir Runner</button>
     </router-link>
     <h1 class="title" data-text="Miguel la petite feuille de canabis !">
-      Miguel la petite feuille de canabis !
+      Just Smoke It
     </h1>
     <v-home-form></v-home-form>
     <!-- credits : GoodKatz -->
@@ -80,7 +80,6 @@ $color1-btn: #ffaaaa;
   align-items: center;
   background: linear-gradient(135deg, #8ee2cf 0%, #6fce91 100%);
 
-
   .rounded {
     font-family: Rubik, sans-serif;
     font-size: 1.5em;
@@ -114,14 +113,13 @@ $color1-btn: #ffaaaa;
 //logo animation
 
 @keyframes popLogo {
-
   0% {
     transform: scale(0);
   }
   25% {
     transform: scale(0);
   }
-  
+
   50% {
     transform: scale(1.2);
   }
@@ -146,8 +144,8 @@ $color1-btn: #ffaaaa;
   margin: 0px;
   position: absolute;
   bottom: 0px;
-  height:25vh;
-  width:100%;
+  height: 25vh;
+  width: 100%;
 }
 .parallax > use {
   animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;

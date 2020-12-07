@@ -13,9 +13,7 @@
         <button class="rounded rounded-right">Déjà inscrit ?</button>
       </router-link>
     </div>
-    <h1 class="title" data-text="Miguel la petite feuille de canabis !">
-      Miguel la petite feuille de canabis !
-    </h1>
+    <h1 class="title">Just Smoke It</h1>
     <v-form-inscription-runner></v-form-inscription-runner>
     <!-- credits : GoodKatz -->
     <svg
@@ -180,11 +178,11 @@ $color1-btn: #ffaaaa;
       background-color: white;
     }
   }
-  .rounded-left{
-    background-color:  #ffaaaa; 
+  .rounded-left {
+    background-color: #ffaaaa;
     border: #ffaaaa;
     &:hover {
-      color:#ffaaaa;
+      color: #ffaaaa;
       background-color: white;
     }
   }
