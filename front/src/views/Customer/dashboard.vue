@@ -95,11 +95,9 @@
             >
               Commander</v-btn
             >
-          </v-row> -->
-    </div>
-
-    <v-dialog v-model="dialog" max-width="500">
-      <v-card>
+          </v-row> --> 
+    <v-dialog v-model="dialog">
+      <v-card class="dialog">
         <v-app-bar color="secondary" dark>
           Commander du {{ commande.name_product }}
           <v-spacer />
@@ -141,7 +139,10 @@
           </span>
         </v-card-text>
       </v-card>
-    </v-dialog>
+    </v-dialog> 
+    </div>
+
+   
   </div>
 </template>
 
@@ -405,6 +406,7 @@ export default {
   height: 100%;
   min-width: 100%;
   background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
+  padding: 0px !important; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -428,7 +430,7 @@ export default {
 .white-logo {
   position: absolute;
   width: 10vmin;
-  top: 3vh;
+  top: 8vh;
 }
 .alert {
   margin-top: 2em;
@@ -450,9 +452,10 @@ export default {
   width: 90vw;
   display:flex;
   flex-wrap: wrap;
+  overflow-y: scroll;
   justify-content: space-between;
   .card-runner{
-    width: 25vw;
+    width: 15vw;
     height: 20vh;
     margin: 2.2vw;
   }
@@ -465,4 +468,7 @@ export default {
   flex: none!important;
 
 }
+// .dialog{
+//  display:none; 
+// }
 </style>
