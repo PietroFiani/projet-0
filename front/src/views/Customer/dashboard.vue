@@ -38,26 +38,24 @@
         <v-menu-client></v-menu-client>
       </div>
       <h1>Autour de chez moi : </h1>
-      <v-select
+      <v-select 
             :items="items"
-            label="Standard"
-            v-model="keyword"
-          ></v-select>
+            label="Trier par : "
+            v-model="selectValue"></v-select>
       <div class="runner-cards">
         <v-card
-            v-for="runner in orderBy(runnersTable,keyword)"
+            v-for="runner in orderBy(runnersTable,selectValue)"
             :key="runner.id_product"
-            max-width="344"
-            class="ma-5"
+            class="card-runner"
           >
               <v-card-title>
-                {{ runner.lastname }} {{ runner.firstname }}
+                {{ runner.firstname }} {{ runner.lastname }}
               </v-card-title>
               <v-card-subtitle>
-                {{ runner.label }}
+                {{ runner.name }}
               </v-card-subtitle>
-              <p>
-                Produit : {{  }} <br />
+              <p class="ma-auto">
+                Produit : {{runner.label}} <br />
                 En stock : {{ runner.stock }} <br />
                 Prix : {{ runner.price }} €
               </p>
@@ -101,6 +99,7 @@
         <v-card-text>
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-select
+            width="10"
               v-model="commande.id_address"
               label="Adresse de livraison"
               required
@@ -164,7 +163,7 @@ export default {
       drawer: false,
       valid: false,
       items: ['name', 'price'],
-      keyword:'', 
+      selectValue:'',
       message: null,
       customers: [
         {
@@ -229,6 +228,7 @@ export default {
           console.log("ERREUR", error);
         });
     }
+
 
     // this.findAddr()
     let today = new Date();
@@ -334,6 +334,7 @@ export default {
                 item.firstname = element.firstname;
                 item.lastname = element.lastname;
                 this.runnersTable.push(item)
+                console.log(this.runnersTable)
               });
             });
           }
@@ -467,5 +468,19 @@ export default {
   width: 90vw;
   display:flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  .card-runner{
+    width: 25vw;
+    height: 20vh;
+    margin: 2.2vw;
+  }
+}
+.v-input{
+  margin: 0px;
+  padding: 0px;
+  display: block !important;
+  max-width: 20%;
+  flex: none!important;
+
 }
 </style>
