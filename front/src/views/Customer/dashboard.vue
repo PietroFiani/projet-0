@@ -37,21 +37,29 @@
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-      <h1>Autour de chez moi : </h1>
-      <v-select
-            width="10"
-              v-model="commande.id_address"
-              label="Adresse de livraison"
-              required
-              :items="customers"
-              :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
-              :item-value="(item) => item.id_address"
-            ></v-select>
-      <v-select 
-            :items="items"
-            label="Trier par : "
-            v-model="selectValue"></v-select>
-      <div class="runner-cards">
+      <div class="header">
+         <h1 class="ml-6 mb-6">Autour de chez moi : </h1>
+                <v-select
+                      width="10"
+                        v-model="commande.id_address"
+                        label="Adresse de livraison"
+                        required
+                        :items="customers"
+                        :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
+                        :item-value="(item) => item.id_address"
+                        class="ml-6"
+                      ></v-select>
+                <v-select 
+                      :items="items"
+                      label="Trier par : "
+                      v-model="selectValue"
+                      class="ml-6">
+                      </v-select>
+      </div>
+         
+                
+        <div class="runner-cards">
+     
         <v-card
             v-for="runner in orderBy(runnersTable,selectValue)"
             :key="runner.id_product"
@@ -93,11 +101,9 @@
             >
               Commander</v-btn
             >
-          </v-row> -->
-    </div>
-
-    <v-dialog v-model="dialog" max-width="500">
-      <v-card>
+          </v-row> --> 
+    <v-dialog v-model="dialog">
+      <v-card class="dialog">
         <v-app-bar color="secondary" dark>
           Commander du {{ commande.name_product }}
           <v-spacer />
@@ -148,7 +154,10 @@
           </span>
         </v-card-text>
       </v-card>
-    </v-dialog>
+    </v-dialog> 
+    </div>
+
+   
   </div>
 </template>
 
@@ -434,6 +443,7 @@ export default {
   height: 100%;
   min-width: 100%;
   background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
+  padding: 0px !important; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -451,13 +461,15 @@ export default {
       display: flex;
       justify-content: flex-end;
     }
+    .header{
+    }
   }
 }
 
 .white-logo {
   position: absolute;
   width: 10vmin;
-  top: 3vh;
+  top: 8vh;
 }
 .alert {
   margin-top: 2em;
@@ -479,9 +491,10 @@ export default {
   width: 90vw;
   display:flex;
   flex-wrap: wrap;
+  overflow-y: scroll;
   justify-content: space-between;
   .card-runner{
-    width: 25vw;
+    width: 15vw;
     height: 20vh;
     margin: 2.2vw;
   }
@@ -494,4 +507,7 @@ export default {
   flex: none!important;
 
 }
+// .dialog{
+//  display:none; 
+// }
 </style>
