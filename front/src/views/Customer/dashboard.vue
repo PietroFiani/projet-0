@@ -1,14 +1,32 @@
 <template>
   <div class="container">
+    <v-navigation-drawer v-model="drawer" absolute temporary right width="500">
+      <v-list three-line>
+        <v-list-item
+          v-for="notif in notifications"
+          :key="notif.id_notification"
+        >
+          <v-list-item-content
+            class="pink--text"
+            :style="'background-color:' + notif.color"
+          >
+            <v-list-item-title v-text="notif.head"></v-list-item-title>
+            <v-list-item-subtitle v-text="notif.text"></v-list-item-subtitle>
+            <v-divider class="mt-2"></v-divider>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <v-fab-transition>
       <v-btn
-        color="pink"
+        :color="color()"
         style="align-self: flex-end"
         class="mr-10 mb-16"
         dark
         bottom
         right
         fab
+        @click="updateNotifications"
       >
         <v-icon>mdi-alarm-light-outline </v-icon>
       </v-btn>
@@ -31,29 +49,29 @@
             v-for="product of runner.products"
             :key="product.id_product"
             class="mx-auto"
-      max-width="344"
+            max-width="344"
           >
-          <div v-if="runner.products.length > 0 && product.stock != 0">
-            <v-card-title>
-              {{ runner.lastname }} {{ runner.firstname }}
-            </v-card-title>
-            <v-card-subtitle>
-              {{ product.label }}
-            </v-card-subtitle>
-            <p>
-              {{ product.name }} {{ product.label }} <br />
-              {{ product.stock }} <br />
-              {{ product.price }}
-            </p>
-            <v-btn
-              v-if="runner.products.length > 0 && product.stock != 0"
-              color="primary"
-              class="mr-4"
-              @click="commander(product, runner.id_runner)"
-            >
-              Commander</v-btn
-            ></div>
-            
+            <div v-if="runner.products.length > 0 && product.stock != 0">
+              <v-card-title>
+                {{ runner.lastname }} {{ runner.firstname }}
+              </v-card-title>
+              <v-card-subtitle>
+                {{ product.label }}
+              </v-card-subtitle>
+              <p>
+                {{ product.name }} {{ product.label }} <br />
+                {{ product.stock }} <br />
+                {{ product.price }}
+              </p>
+              <v-btn
+                v-if="runner.products.length > 0 && product.stock != 0"
+                color="primary"
+                class="mr-4"
+                @click="commander(product, runner.id_runner)"
+              >
+                Commander</v-btn
+              >
+            </div>
           </v-card>
           <!-- <v-row v-for="product of runner.products" :key="product.id_product">
             <v-col cols="2" v-if="runner.products.length > 0 && product.stock != 0">
@@ -142,6 +160,7 @@ export default {
 
   data() {
     return {
+      drawer: false,
       valid: false,
 
       message: null,
@@ -169,6 +188,7 @@ export default {
       id_department: 1,
       runners: [],
       dialog: false,
+      notifications: [],
       // required: [(v) => !!v || "requis"],
     };
   },
@@ -184,8 +204,21 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("ADDRCUSTOMER", response.data)
+            axios
+              .get(`http://localhost:5000/notifications/${this.id}`)
+              .then((response2) => {
+                if (response2.data) {
+                  this.notifications = response2.data;
+                  console.log(this.notifications);
+                  this.notifications.forEach((notif) => {
+                    if (!notif.read) {
+                      notif.color = "pink";
+                    } else notif.color = "white";
+                  });
+                }
+              });
             this.customers = response.data;
+            console.log("customer", this.customers);
             this.search();
           }
         })
@@ -221,6 +254,14 @@ export default {
       yyyy + "-" + mm + "-" + dd + " " + hh + ":" + m + ":" + ss;
   },
   methods: {
+    color() {
+      let value = false;
+      this.notifications.forEach((element) => {
+        if (!element.read) value = true;
+      });
+      if (value) return "pink";
+      else return "grey";
+    },
     // fonction de deconnexion
     logout() {
       this.$store.commit("logoutCustomer");
@@ -230,6 +271,16 @@ export default {
     updateAddr(id) {
       this.$store.commit("addAddrCustomer", id);
       this.$router.push({ name: "UpadteAddrClient" });
+    },
+    updateNotifications() {
+      this.drawer = !this.drawer;
+      axios
+        .put(`http://localhost:5000/notifications/update/${this.id}`)
+        .then((response) => {
+          if (response.data) {
+            console.log("read notifications");
+          }
+        });
     },
     // fonction poour modifier le mail, le numero de tel et le password
     updateProfil() {
@@ -258,7 +309,7 @@ export default {
         .then((response) => {
           if (response.data) {
             // console.log("ADDRCUSTOMER", response.data)
-            this.customers = response.data;
+            this.customers = response;
             this.search();
           }
         })
