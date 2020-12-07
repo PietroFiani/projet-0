@@ -10,9 +10,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-// app.get("/", (req, res) => {
-//     res.json({ message: "Welcome to bezkoder application." });
-// });
+app.get("/", (req, res) => {
+     res.senFIle(__dirname + 'dist/index.html');
+});
 require("./routes/delivery.routes.js")(app);
 require("./routes/customer.routes.js")(app);
 require("./routes/runner.routes.js")(app);
