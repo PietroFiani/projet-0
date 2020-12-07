@@ -39,14 +39,16 @@
       </div>
       <h1>Autour de chez moi : </h1>
       <v-select
-            width="10"
-              v-model="commande.id_address"
-              label="Adresse de livraison"
-              required
-              :items="customers"
-              :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
-              :item-value="(item) => item.id_address"
-            ></v-select>
+        ref="addr"
+        width="10"
+        v-model="adresse"
+        label="Adresse de livraison"
+        required
+        :items="customers"
+        :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
+        :item-value="(item) => item"
+        @change="search"
+      ></v-select>
       <v-select 
             :items="items"
             label="Trier par : "
@@ -107,15 +109,6 @@
         </v-app-bar>
         <v-card-text>
           <v-form ref="form" v-model="valid" lazy-validation>
-            <v-select
-            width="10"
-              v-model="commande.id_address"
-              label="Adresse de livraison"
-              required
-              :items="customers"
-              :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
-              :item-value="(item) => item.id_address"
-            ></v-select>
             <v-text-field
               v-model="commande.quantity"
               :label="'Quantité (' + commande.max_quantity + ')'"
@@ -200,6 +193,7 @@ export default {
       dialog: false,
       notifications: [],
       runnersTable: [],
+      adresse: []
       // required: [(v) => !!v || "requis"],
     };
   },
@@ -230,7 +224,7 @@ export default {
               });
             this.customers = response.data;
             // console.log("customer", this.customers);
-            this.search();
+            // this.search();
           }
         })
         .catch((error) => {
@@ -238,34 +232,37 @@ export default {
         });
     }
 
-
+    this.date()
     // this.findAddr()
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear();
-    let hh = today.getHours();
-    let m = today.getMinutes();
-    let ss = today.getSeconds();
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    if (hh < 10) {
-      hh = "0" + hh;
-    }
-    if (m < 10) {
-      m = "0" + m;
-    }
-    if (ss < 10) {
-      ss = "0" + ss;
-    }
-    this.commande.date =
-      yyyy + "-" + mm + "-" + dd + " " + hh + ":" + m + ":" + ss;
+    
   },
   methods: {
+    date(){
+      let today = new Date();
+      let dd = today.getDate();
+      let mm = today.getMonth() + 1;
+      let yyyy = today.getFullYear();
+      let hh = today.getHours();
+      let m = today.getMinutes();
+      let ss = today.getSeconds();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      if (hh < 10) {
+        hh = "0" + hh;
+      }
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (ss < 10) {
+        ss = "0" + ss;
+      }
+      this.commande.date =
+        yyyy + "-" + mm + "-" + dd + " " + hh + ":" + m + ":" + ss;
+    },
     color() {
       let value = false;
       this.notifications.forEach((element) => {
@@ -279,11 +276,6 @@ export default {
       this.$store.commit("logoutCustomer");
       this.$router.push("/");
     },
-    // fonction pour update un adresse
-    updateAddr(id) {
-      this.$store.commit("addAddrCustomer", id);
-      this.$router.push({ name: "UpadteAddrClient" });
-    },
     updateNotifications() {
       this.drawer = !this.drawer;
       axios
@@ -293,14 +285,6 @@ export default {
             console.log("read notifications");
           }
         });
-    },
-    // fonction poour modifier le mail, le numero de tel et le password
-    updateProfil() {
-      this.$router.push({ name: "UpadteProfilClient" });
-    },
-    // fonction d'ajout d'adresse
-    addAddr() {
-      this.$router.push({ name: "AddAddrClient" });
     },
     // fonction de suppression d'addresse
     deleteAddr(id) {
@@ -330,7 +314,9 @@ export default {
         });
     },
     search() {
-      let url = `http://localhost:5000/runners/from/${this.customers[0].id_department}`;
+      this.runnersTable = []
+      let url = `http://localhost:5000/runners/from/${this.adresse.id_department}`;
+      this.commande.id_address = this.adresse.id_address
       axios
         .get(url)
         .then((response) => {
@@ -342,14 +328,14 @@ export default {
                 let item = product;
                 item.firstname = element.firstname;
                 item.lastname = element.lastname;
-                this.runnersTable.push(item)
-                // console.log(this.runnersTable)
+                  this.runnersTable.push(item)
               });
             });
           }
         })
         .catch((error) => {
           console.log("ERREUR", error);
+          //ajouter un message si null
         });
     },
     commander(produit, runner) {
@@ -360,19 +346,7 @@ export default {
       this.commande.id_runner = runner;
       this.commande.addrRunner;
       this.dialog = true;
-      console.log(this.runnersTable)
-      // let url = `http://localhost:5000/adresseOrder/${this.id}/${this.commande.addrRunner}`;
-      // axios
-      //   .get(url)
-      //   .then((response) => {
-      //     if (response.data) {
-      //       console.log("addr Order", response.data)
-      //       // this.customers = response.data;
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log("ERREUR", error);
-      //   });this.dialog = true;
+      // console.log(this.runnersTable)
     },
     orderPruduct() {
       let url = "http://localhost:5000/orders/add";
@@ -418,11 +392,13 @@ export default {
           .catch((error) => {
             console.log("ERREUR", error);
           });
-        this.runnersTable = []
-        this.search();
-
+        // this.runnersTable = []
+        // this.address = []
+        // this.search();
+        // console.log('addr', this.$refs.addr)
+        // this.$refs.addr.setValue = []
+        this.$router.push("/client/commandes")
         this.dialog = false;
-        // document.location.reload()
       }
     },
   },
