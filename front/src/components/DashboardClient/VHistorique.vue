@@ -40,7 +40,7 @@
     </v-data-table>
     <v-pagination
       v-model="page"
-      color="#515bae"
+      color="primary"
       :length="pageCount"
     ></v-pagination>
 
