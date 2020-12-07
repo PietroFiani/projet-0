@@ -1,12 +1,13 @@
 <template>
-  <div class="ma-16">
+<div class="container">
+  <div class="ma-16 wrapper">
     <v-data-table
       :headers="headers"
       :items="orders"
       :page.sync="page"
       :items-per-page="itemsPerPage"
       hide-default-footer
-      class="elevation-1"
+      class="elevation-1 "
       @page-count="pageCount = $event"
     >
       <template v-slot:body="{ items }">
@@ -39,11 +40,13 @@
     </v-data-table>
     <v-pagination
       v-model="page"
-      color="#515bae"
+      color="primary"
       :length="pageCount"
     ></v-pagination>
 
   </div>
+</div>
+
 </template>
 
 <script>
@@ -129,5 +132,28 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .container {
+  height: 100%;
+  min-width: 100%;
+  background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .wrapper {
+    background-color: white;
+    height: 85vh;
+    width: 90vw;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    .menu-container {
+      width: auto;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
 </style>
