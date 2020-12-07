@@ -392,11 +392,6 @@ export default {
           .catch((error) => {
             console.log("ERREUR", error);
           });
-        // this.runnersTable = []
-        // this.address = []
-        // this.search();
-        // console.log('addr', this.$refs.addr)
-        // this.$refs.addr.setValue = []
         this.$router.push("/client/commandes")
         this.dialog = false;
       }
