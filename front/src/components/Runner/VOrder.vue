@@ -182,7 +182,7 @@ export default {
         text =
           "Votre commande n°" +
           this.order.id +
-          " a malheureusement été annulée par le livreur" +
+          " a malheureusement été annulée par le livreur " +
           this.runner.firstname +
           " " +
           this.runner.lastname +
@@ -193,7 +193,7 @@ export default {
         text =
           "Votre commande n°" +
           this.order.id +
-          "a bien été validée ! " +
+          " a bien été validée ! " +
           this.runner.firstname +
           " " +
           this.runner.lastname +

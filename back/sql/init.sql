@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `order` (
     PRIMARY KEY(id_order),
     FOREIGN KEY (id_runner) REFERENCES runner(id_runner),
     FOREIGN KEY (id_customer) REFERENCES customer(id_customer),
-    FOREIGN KEY (id_address) REFERENCES address(id_address)
+    FOREIGN KEY (id_address) REFERENCES address(id_address),
     FOREIGN KEY (id_product) REFERENCES product(id_product)
 
 
