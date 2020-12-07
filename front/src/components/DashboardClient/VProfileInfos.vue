@@ -1,10 +1,14 @@
 <template>
-    <div class="container">
+    <div class="profile-container">
     <h1>Mon Profile</h1>
-    <p>Prénom : {{customers[0].firstname}}</p>
-    <p>Nom : {{customers[0].lastname}} </p>
-    <p>E-mail : {{customers[0].mail}} </p>
-    <p>Nom : {{customers[0].lastname}} </p>
+    <table class="profile">
+      <tr>
+        <td>Prénom : {{customers[0].firstname}}</td>
+        <td>Nom : {{customers[0].lastname}} </td>
+      </tr>
+      <tr>E-mail : {{customers[0].mail}}</tr>
+      <tr>Nom : {{customers[0].lastname}}</tr>
+    </table>
     
     <v-btn color="primary" class="mr-4" @click="updateProfil()"> Modifier Profil</v-btn>
     </div>

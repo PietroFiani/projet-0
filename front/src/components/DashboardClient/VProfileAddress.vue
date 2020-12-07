@@ -1,17 +1,8 @@
 <template>
-  <div class="container">
+  <div class="addr-container">
     
     
-    <h1>Mes adresses</h1>
-   
-    <v-dialog v-model="dialog1" persistent>
-      <template v-slot:activator="{ on, attrs }">
-         <v-btn color="primary" class="mr-4" v-bind="attrs" v-on="on">
-      Ajouter un adresse de livraison</v-btn>
-      </template>
-      <v-card><h1>test</h1></v-card>
-    </v-dialog>
-    
+    <h1>Mes adresses</h1>    
     <!-- Début du v-for -->
     <div
       class="addresses-container"
