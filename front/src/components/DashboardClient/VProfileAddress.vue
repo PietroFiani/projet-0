@@ -17,33 +17,37 @@
       >
         Supprimer</v-btn
       > -->
+      <v-btn color="primary" class="mr-4" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
 
-      <v-dialog class="update-form" v-model="dialog" persistent>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">Modifier</v-btn>
-        </template>
+      <v-dialog v-if="dialog" class="update-form" v-model="dialog"  max-width="1000">
+    
         <v-card>
-          <v-text-field v-model="address.road" label="Rue"></v-text-field>
-          <v-text-field
-            v-model="address.zip"
-            label="Code postal"
-          ></v-text-field>
-          <v-autocomplete
-            v-model="address.id_department"
-            :items="departments"
-            :item-text="(item) => item.code + ' - ' + item.nom"
-            :item-value="(item) => item.id_department"
-            chips
-            label="Departement"
-          ></v-autocomplete>
+          <v-app-bar color="secondary" dark>
+            Edition du profil
+            <v-spacer />
+            <v-btn icon @click="dialog = false">
+              <v-icon>mdi-close</v-icon></v-btn
+            >
+          </v-app-bar>
+          <v-card-text>
+
+            <v-text-field v-model="address.road" label="Rue"></v-text-field>
+            <v-text-field
+              v-model="address.zip"
+              label="Code postal"
+            ></v-text-field>
+            <v-autocomplete
+              v-model="address.id_department"
+              :items="departments"
+              :item-text="(item) => item.code + ' - ' + item.nom"
+              :item-value="(item) => item.id_department"
+              chips
+              label="Departement"
+            ></v-autocomplete>
           <v-btn color="primary" class="mr-4" @click="update(),dialog=false" >
             Modifier</v-btn
           >
-          <v-btn
-              color="blue darken-1"
-              text
-              @click="dialog = false"
-            >Fermer</v-btn>
+          </v-card-text>
         </v-card>
       </v-dialog>
     </div>
@@ -77,33 +81,39 @@ export default {
   mounted() {
     // si l'utilisateur est pas connecté rentourne à l'accueil
     this.id = this.$store.state.customerId;
-    console.log(this.address)
     // On recupere les info de l'utilisateur pour pouvoir les afficher
-    let url = `http://localhost:5000/customers/${this.id}`;
-    axios
-      .get(url)
-      .then((response) => {
-        if (response.data) {
-          // console.log("ADDRCUSTOMER", response.data)
-          this.customers = response.data;
-          this.search();
-        }
-      })
-      .catch((error) => {
-        console.log("ERREUR", error);
-      });
+    this.loadCustomer()
+    this.getDepartments()
 
-      url = "http://localhost:5000/departments";
-    axios
-      .get(url)
-      .then((response) => {
-        // console.log("Departements", response.data);
-        this.departments = response.data;
-      }) //c'est un objet
-      .catch((error) => console.log(console.log("Departments error ", error)));
+    
   },
 
   methods: {
+    loadCustomer() {
+      let url = `http://localhost:5000/customers/${this.id}`;
+      axios
+        .get(url)
+        .then((response) => {
+          if (response.data) {
+            // console.log("Customer", response.data)
+            this.customers = response.data;
+            // this.search();
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
+    },
+    getDepartments() {
+      let  url = "http://localhost:5000/departments";
+      axios
+        .get(url)
+        .then((response) => {
+          // console.log("Departements", response.data);
+          this.departments = response.data;
+        }) //c'est un objet
+        .catch((error) => console.log(("Departments error ", error)));
+    },
     // fonction de deconnexion
     logout() {
       this.$store.commit("logoutCustomer");
@@ -111,8 +121,8 @@ export default {
     },
     // fonction pour update un adresse
     update() {
-      let url = `http://localhost:5000/addrCustomer/${this.id}`;
-      console.log(url);
+      let url = `http://localhost:5000/addrCustomer/${this.address.id_address}`;
+      // console.log(url);
       axios
         .put(url, {
           road: this.address.road,
@@ -123,13 +133,18 @@ export default {
           if (response.data) {
             // console.log("Address", response.data)
             this.address = response.data;
+        this.loadCustomer()
+
           }
         })
         .catch((error) => {
           console.log("ERREUR", error);
         });
       this.$store.commit("removeAddrCustomer");
-      document.location.reload(); 
+      // document.location.reload(); 
+    },
+    updateAddr(customer) {
+      this.address = customer
     },
     // fonction poour modifier le mail, le numero de tel et le password
     updateProfil() {
@@ -150,21 +165,6 @@ export default {
         headers: { "Content-Type": "application/json" },
       });
       this.reloadAddr();
-    },
-    reloadAddr() {
-      let url = `http://localhost:5000/customers/${this.id}`;
-      axios
-        .get(url)
-        .then((response) => {
-          if (response.data) {
-            // console.log("ADDRCUSTOMER", response.data)
-            this.customers = response.data;
-            this.search();
-          }
-        })
-        .catch((error) => {
-          console.log("ERREUR", error);
-        });
     },
   },
 };

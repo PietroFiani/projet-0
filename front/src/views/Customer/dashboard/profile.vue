@@ -79,32 +79,6 @@ export default {
           console.log("ERREUR", error);
         });
     }
-
-    // this.findAddr()
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear();
-    let hh = today.getHours();
-    let m = today.getMinutes();
-    let ss = today.getSeconds();
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    if (hh < 10) {
-      hh = "0" + hh;
-    }
-    if (m < 10) {
-      m = "0" + m;
-    }
-    if (ss < 10) {
-      ss = "0" + ss;
-    }
-    this.commande.date =
-      yyyy + "-" + mm + "-" + dd + " " + hh + ":" + m + ":" + ss;
   },
   methods: {
     // fonction de deconnexion
@@ -232,15 +206,16 @@ export default {
   justify-content: center;
   align-items: center;
   .menu-container {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
   }
   .wrapper{
-  background: white;
-  border-radius: 25px;
-  display: block;
-  height: 80%;
-  width: 90%;
+    padding: 2vmin;
+    background: white;
+    border-radius: 25px;
+    display: block;
+    height: 80%;
+    width: 90%;
   }
 }
 
