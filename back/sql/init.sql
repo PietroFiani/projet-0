@@ -68,7 +68,6 @@ CREATE TABLE IF NOT EXISTS department(
     KEY nom_soundex (nom_soundex)
 ) ENGINE = InnoDB AUTO_INCREMENT=102 ;
 
-
 CREATE TABLE IF NOT EXISTS address(
     id_address INT(11) NOT NULL AUTO_INCREMENT,
     road VARCHAR(255) NOT NULL,
