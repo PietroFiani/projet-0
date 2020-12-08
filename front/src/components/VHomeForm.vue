@@ -202,10 +202,9 @@ $color1-btn: #6fce91;
   }
 }
 
-@media screen and (min-width: 320px) and (max-width: 767px) and (max-height: 1027px) {
+@media screen and (max-width: 767px) and (max-height: 1027px) {
   .container {
-    height: 65vh;
-    width: 15em;
+    width: 90vw;
     margin-top: 4vh;
     .home-form {
       display: flex;
@@ -214,7 +213,7 @@ $color1-btn: #6fce91;
       .btn-wrapper {
         display: flex;
         justify-content: space-around;
-        margin-top: 3em;
+        margin-top: 1.5em;
       }
       .text-area-wrapper {
         display: flex;
@@ -227,8 +226,19 @@ $color1-btn: #6fce91;
     }
   }
   .round{
-    max-width: 100px; 
-    max-height: 20px  ; 
+    width: 35vw; 
+    height: 6vh;
+    font-size: 15px;  
+  }
+  .runner-sign-in{
+    width:78vw;
+  }
+  .alert{
+    padding:0; 
+    margin:0; 
+  }
+  .btn-wrapper{
+    margin:0;   
   }
 }
 </style>
