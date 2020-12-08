@@ -80,30 +80,26 @@ $color1-btn: #ffaaaa;
 
   .home {
   height: 100%;
-  padding: 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(135deg, #8ee2cf 0%, #6fce91 100%);
+  background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
+  
   .rounded {
     font-family: Rubik, sans-serif;
-    font-size: 1.5em;
-    border: solid 2px $color1-btn;
+    margin: 2em;
+    font-size: 0.8em;
+    border: solid 2px rgba(111, 206, 145, 1);
     color: white;
-    width: 10em;
+    width: 25vmin;
     border-radius: 50px !important;
-    position: absolute;
-    top: 20px;
     height: 2em;
     outline: none;
     transition: 300ms;
-    background-color: $color1-btn;
+    background-color: rgba(111, 206, 145, 1);
     &:hover {
-      color: $color1-btn;
+      color: rgba(111, 206, 145, 1);
       background-color: white;
     }
   }
-}
+  }
   .title {
   font-weight: 900;
   font-size: 1.5vmin !important;
@@ -130,6 +126,7 @@ $color1-btn: #ffaaaa;
     border-radius: 50px !important;
     position: absolute;
     top: 20px;
+    right: 40px;
     height: 2em;
     outline: none;
     transition: 300ms;
