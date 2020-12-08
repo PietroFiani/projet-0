@@ -1,18 +1,15 @@
 <template>
   <div class="container">
-      
-    <img src="../../../assets/logoBlanc.svg" class="white-logo"/>
-    
+    <img src="../../../assets/logoBlanc.svg" class="white-logo" />
+
     <div class="wrapper">
-      <div class="menu-container">    
+      <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
 
       <v-profile-infos></v-profile-infos>
       <v-profile-address></v-profile-address>
     </div>
-    
-    
   </div>
 </template>
 
@@ -198,23 +195,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
-.container{
+.container {
   margin: 0px !important;
   min-width: 100%;
   min-height: 100%;
-  background:linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
+  background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  .menu-container {
-    display: flex;
-    justify-content: flex-end;
-  }
-  .wrapper{
-    padding: 2vmin;
+  .wrapper {
     background: white;
     border-radius: 25px;
     display: block;
@@ -227,5 +217,8 @@ export default {
   width: 10vmin;
   top: 6vh;
 }
-
+.menu-container {
+  display: flex;
+  justify-content: flex-end;
+}
 </style>
