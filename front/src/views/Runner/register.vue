@@ -10,12 +10,10 @@
         alt="icone de feuille de canabis kawaii"
       />
       <router-link :to="{ name: 'Connexion Partenaire' }">
-        <button class="rounded rounded-right">Déjà inscrit ?</button>
+        <button class="rounded rounded-right">Dï¿½jï¿½ inscrit ?</button>
       </router-link>
     </div>
-    <h1 class="title" data-text="Miguel la petite feuille de canabis !">
-      O'Shit !
-    </h1>
+    <h1 class="title">Just Smoke It</h1>
     <v-form-inscription-runner></v-form-inscription-runner>
     <!-- credits : GoodKatz -->
     <svg
@@ -87,7 +85,7 @@ export default {
       (v) =>
         /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(
           v
-        ) || "Numéro incorrect",
+        ) || "Numï¿½ro incorrect",
     ],
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -116,7 +114,7 @@ export default {
       }
       if (!this.object.departmentsIds.length) {
         return (this.message =
-          "Veuillez rentrer les départements dans lesquels vous travaillez");
+          "Veuillez rentrer les dï¿½partements dans lesquels vous travaillez");
       }
       if (this.$refs.form.validate()) {
         axios
@@ -136,7 +134,7 @@ export default {
           }) //c'est un objet
           .catch((error) => {
             console.log("PAS INSCRIT", error);
-            this.message = "Vous etes déjà inscrit !";
+            this.message = "Vous etes dï¿½jï¿½ inscrit !";
           });
       }
     },
@@ -215,11 +213,11 @@ $color1-btn: #ffaaaa;
       background-color: white;
     }
   }
-  .rounded-left{
-    background-color:  #ffaaaa; 
+  .rounded-left {
+    background-color: #ffaaaa;
     border: #ffaaaa;
     &:hover {
-      color:#ffaaaa;
+      color: #ffaaaa;
       background-color: white;
     }
   }

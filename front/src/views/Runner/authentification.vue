@@ -13,8 +13,8 @@
         <button class="rounded rounded-right">S'inscire</button>
       </router-link>
     </div>
-    <h1 class="title" data-text="Miguel la petite feuille de canabis !">
-       O'Shit !
+        <h1 class="title">
+      Just Smoke It
     </h1>
     <v-form-connexion-runner></v-form-connexion-runner>
     <!-- credits : GoodKatz -->

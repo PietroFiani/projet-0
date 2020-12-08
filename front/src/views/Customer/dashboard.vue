@@ -1,97 +1,155 @@
 <template>
   <div class="container">
+    <v-navigation-drawer v-model="drawer" absolute temporary right width="500">
+      <v-list three-line>
+        <v-list-item
+          v-for="notif in notifications"
+          :key="notif.id_notification"
+        >
+          <v-list-item-content
+            class="pink--text"
+            :style="'background-color:' + notif.color"
+          >
+            <v-list-item-title v-text="notif.head"></v-list-item-title>
+            <v-list-item-subtitle v-text="notif.text"></v-list-item-subtitle>
+            <v-divider class="mt-2"></v-divider>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-fab-transition>
+      <v-btn
+        :color="color()"
+        style="align-self: flex-end;"
+        class="mr-10 mb-16"
+        dark
+        bottom
+        right
+        fab
+        @click="updateNotifications"
+      >
+        <v-icon>mdi-alarm-light-outline </v-icon>
+      </v-btn>
+    </v-fab-transition>
+
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
     <div class="wrapper">
-      
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-      
-
-      <div class="runners-infos">
-        <v-row>
-          <v-col cols="2">Nom</v-col>
-          <v-col cols="2">Produit</v-col>
-          <v-col cols="2">Quantité dispnible</v-col>
-          <v-col cols="2">Prix</v-col>
-        </v-row>
-        <div
-          class="runners-data"
-          v-for="runner of runners"
-          :key="runner.id_runner"
-        >
-          <v-row v-for="product of runner.products" :key="product.id_product">
-            <v-col cols="2" v-if="runner.products.length > 0">
-              {{ runner.lastname }} {{ runner.firstname }}
-            </v-col>
-            <v-col cols="2"> {{ product.name }} {{ product.label }}</v-col>
-            <v-col cols="2"> {{ product.stock }} g</v-col>
-            <v-col cols="2"> {{ product.price }} €/g</v-col>
-            <v-btn
-              color="primary"
-              class="mr-4"
-              @click="commander(product, runner.id_runner)"
-            >
-              Commander</v-btn
-            >
-          </v-row>
+      <!-- <div class="flex"> -->
+      <div class="title-select">
+        <h1>Autour de chez moi :</h1>
+        <div class="select-wrapper">
+          <v-select
+            ref="addr"
+            class="select-accueil"
+            v-model="adresse"
+            label="Adresse de livraison"
+            required
+            :items="customers"
+            :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
+            :item-value="(item) => item"
+            @change="search"
+          ></v-select>
+          <v-select
+            class="select-accueil"
+            width="12"
+            :items="items"
+            label="Trier par : "
+            v-model="selectValue"
+          >
+          </v-select>
         </div>
       </div>
-    </div>
 
-    <v-dialog v-model="dialog" max-width="1000">
-      <v-card>
-        <v-app-bar color="secondary" dark>
-          Commander du {{ commande.name_product }}
-          <v-spacer />
-          <v-btn icon @click="dialog = false">
-            <v-icon>mdi-close</v-icon></v-btn
+      <!-- </div> -->
+      <div class="runner-cards">
+        <v-card
+          v-for="runner in orderBy(runnersTable, selectValue)"
+          :key="runner.id_product"
+          class="card-runner"
+        >
+          <v-card-title>
+            {{ runner.firstname }} {{ runner.lastname }}
+          </v-card-title>
+          <v-card-subtitle>
+            {{ runner.name }}
+          </v-card-subtitle>
+          <p class="ma-auto">
+            Produit : {{ runner.label }} <br />
+            En stock : {{ runner.stock }} <br />
+            Prix : {{ runner.price }} €
+          </p>
+          <v-btn
+            color="primary"
+            class="mr-4"
+            @click="commander(runner, runner.id_runner)"
           >
-        </v-app-bar>
-        <v-card-text>
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-select
-              v-model="commande.id_address"
-              label="Adresse de livraison"
-              required
-              :items="customers"
-              :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
-              :item-value="(item) => item.id_address"
-            ></v-select>
-            <v-text-field
-              v-model="commande.quantity"
-              :label="'Quantité (' + commande.max_quantity + ')'"
-              required
-              type="number"
-              min="0"
-              :max="commande.max_quantity"
-            ></v-text-field>
-            <p>
-              Prix :
-              <span v-if="commande.quantity"
-                >{{
+            Commander</v-btn
+          >
+        </v-card>
+        <span v-if="empty" class="">{{ empty }}</span>
+      </div>
+      <v-dialog v-model="dialog" max-width="1000">
+        <v-card class="dialog">
+          <v-app-bar color="secondary" dark>
+            Commander du {{ commande.name_product }}
+            <v-spacer />
+            <v-btn icon @click="dialog = false">
+              <v-icon>mdi-close</v-icon></v-btn
+            >
+          </v-app-bar>
+          <v-card-text>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="commande.quantity"
+                :label="'Quantité (' + commande.max_quantity + ')'"
+                required
+                type="number"
+                min="0"
+                :max="commande.max_quantity"
+              ></v-text-field>
+              <p>
+                Prix :
+                <span v-if="commande.quantity"
+                  >{{
                   (commande.prix = commande.quantity * commande.prix_init)
-                }}
-                €</span
-              >
-            </p>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="orderPruduct()">
-                commander</v-btn
-              >
-            </v-card-actions>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+                  }}
+                  €</span
+                >
+              </p>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="orderPruduct()">
+                  commander</v-btn
+                >
+              </v-card-actions>
+            </v-form>
+            <span v-if="message" class="alert">
+              <img
+                id="warning-icon"
+                src="../../assets/warning.svg"
+                alt="warning logo"
+              />{{ message }}
+            </span>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 import axios from "axios";
 import VMenuClient from "@/components/DashboardClient/VMenuClient";
+import Vue2Filters from "vue2-filters";
+
+Vue.use(Vue2Filters);
 export default {
+  mixins: [Vue2Filters.mixin],
   name: "dashboard",
   components: {
     VMenuClient,
@@ -99,9 +157,12 @@ export default {
 
   data() {
     return {
+      empty: "Choisisez votre adresse de livraison !",
+      drawer: false,
       valid: false,
-
-      message: "",
+      items: ["name", "price"],
+      selectValue: "",
+      message: null,
       customers: [
         {
           firstname: "",
@@ -119,12 +180,16 @@ export default {
           max_quantity: null,
           name_product: "",
           prix_init: null,
+          addrRunner: null,
         },
       ],
       id: null,
       id_department: 1,
       runners: [],
       dialog: false,
+      notifications: [],
+      runnersTable: [],
+      adresse: [],
       // required: [(v) => !!v || "requis"],
     };
   },
@@ -140,9 +205,22 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("ADDRCUSTOMER", response.data)
+            axios
+              .get(`http://localhost:5000/notifications/${this.id}`)
+              .then((response2) => {
+                if (response2.data) {
+                  this.notifications = response2.data;
+                  console.log(this.notifications);
+                  this.notifications.forEach((notif) => {
+                    if (!notif.read) {
+                      notif.color = "pink";
+                    } else notif.color = "white";
+                  });
+                }
+              });
             this.customers = response.data;
-            this.search();
+            // console.log("customer", this.customers);
+            // this.search();
           }
         })
         .catch((error) => {
@@ -150,90 +228,85 @@ export default {
         });
     }
 
+    this.date();
     // this.findAddr()
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear();
-    let hh = today.getHours();
-    let m = today.getMinutes();
-    let ss = today.getSeconds();
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    if (hh < 10) {
-      hh = "0" + hh;
-    }
-    if (m < 10) {
-      m = "0" + m;
-    }
-    if (ss < 10) {
-      ss = "0" + ss;
-    }
-    this.commande.date =
-      yyyy + "-" + mm + "-" + dd + " " + hh + ":" + m + ":" + ss;
   },
   methods: {
+    date() {
+      let today = new Date();
+      let dd = today.getDate();
+      let mm = today.getMonth() + 1;
+      let yyyy = today.getFullYear();
+      let hh = today.getHours();
+      let m = today.getMinutes();
+      let ss = today.getSeconds();
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      if (hh < 10) {
+        hh = "0" + hh;
+      }
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (ss < 10) {
+        ss = "0" + ss;
+      }
+      this.commande.date =
+        yyyy + "-" + mm + "-" + dd + " " + hh + ":" + m + ":" + ss;
+    },
+    color() {
+      let value = false;
+      this.notifications.forEach((element) => {
+        if (!element.read) value = true;
+      });
+      if (value) return "pink";
+      else return "grey";
+    },
     // fonction de deconnexion
     logout() {
       this.$store.commit("logoutCustomer");
       this.$router.push("/");
     },
-    // fonction pour update un adresse
-    updateAddr(id) {
-      this.$store.commit("addAddrCustomer", id);
-      this.$router.push({ name: "UpadteAddrClient" });
-    },
-    // fonction poour modifier le mail, le numero de tel et le password
-    updateProfil() {
-      this.$router.push({ name: "UpadteProfilClient" });
-    },
-    // fonction d'ajout d'adresse
-    addAddr() {
-      this.$router.push({ name: "AddAddrClient" });
-    },
-    // fonction de suppression d'addresse
-    deleteAddr(id) {
-      if (this.customers.length <= 1) {
-        return (this.message = "Vous devez avoir on moins une adresse");
-      }
-      axios({
-        method: "DELETE",
-        url: `http://localhost:5000/addrCustomers/${id}`,
-        headers: { "Content-Type": "application/json" },
-      });
-      this.reloadAddr();
-    },
-    reloadAddr() {
-      let url = `http://localhost:5000/customers/${this.id}`;
+    updateNotifications() {
+      this.drawer = !this.drawer;
       axios
-        .get(url)
+        .put(`http://localhost:5000/notifications/update/${this.id}`)
         .then((response) => {
           if (response.data) {
-            // console.log("ADDRCUSTOMER", response.data)
-            this.customers = response.data;
-            this.search();
+            console.log("read notifications");
           }
-        })
-        .catch((error) => {
-          console.log("ERREUR", error);
         });
     },
     search() {
-      let url = `http://localhost:5000/runners/from/${this.customers[0].id_department}`;
+      this.runnersTable = [];
+      let url = `http://localhost:5000/runners/from/${this.adresse.id_department}`;
+      this.commande.id_address = this.adresse.id_address;
       axios
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("RUNNERs", response.data)
+            console.log("RUNNERs", response.data);
             this.runners = response.data;
+            this.runners.forEach((element) => {
+              element.products.forEach((product) => {
+                let item = product;
+                item.firstname = element.firstname;
+                item.lastname = element.lastname;
+                this.runnersTable.push(item);
+              });
+            });
+            this.empty = null;
           }
         })
         .catch((error) => {
           console.log("ERREUR", error);
+          this.empty =
+            "Votre département ne dispose pas de livreur ! On arrive bientôt !";
+          //ajouter un message si null
         });
     },
     commander(produit, runner) {
@@ -242,11 +315,20 @@ export default {
       this.commande.max_quantity = produit.stock;
       this.commande.prix_init = produit.price;
       this.commande.id_runner = runner;
+      this.commande.addrRunner;
       this.dialog = true;
+      // console.log(this.runnersTable)
     },
     orderPruduct() {
-      // console.log('ADRESSE ', this.commande.id_address)
       let url = "http://localhost:5000/orders/add";
+      if (this.commande.quantity == 0) {
+        this.message = "Vous ne pouvez pas commander 0g";
+        return this.message;
+      }
+      if (this.commande.quantity > this.commande.max_quantity) {
+        this.message = "Il n'y a pas assez de stock";
+        return this.message;
+      }
       if (this.$refs.form.validate()) {
         axios
           .post(url, {
@@ -268,7 +350,6 @@ export default {
             this.message = "bug commande";
           });
 
-        // if (this.) {}
         url = `http://localhost:5000/productsOrder/${this.commande.id_product}`;
         axios
           .put(url, {
@@ -276,17 +357,15 @@ export default {
             stock: this.commande.quantity,
           })
           .then((response) => {
-            if (response.data) {
-              console.log("PRODUCT ", response.data);
-              // this.address = response.data
-            }
+            console.log("PRODUCT ", response.data);
+            this.address = response.data;
           })
           .catch((error) => {
             console.log("ERREUR", error);
           });
-          this.dialog= false
+        this.$router.push("/client/commandes");
+        this.dialog = false;
       }
-      
     },
   },
 };
@@ -297,6 +376,7 @@ export default {
   height: 100%;
   min-width: 100%;
   background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
+  padding: 0px !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -309,19 +389,70 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: center;
-    .menu-container{
-    width: auto;
-    display: flex;
-    justify-content: flex-end;
-}
+    .menu-container {
+      width: auto;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }
-
 
 .white-logo {
   position: absolute;
   width: 10vmin;
-  top: 3vh;
+  top: 8vh;
+}
+.alert {
+  margin-top: 2em;
+  // width: 60vmin;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border: solid 1px red;
+  padding: 0.2em;
+  background-color: red;
+  border-radius: 5px;
+  #warning-icon {
+    width: 1.5em;
+    margin-right: 0.5em;
+  }
+}
+
+.runner-cards {
+  width: 90vw;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  justify-content: space-between;
+  .card-runner {
+    width: 15vw;
+    height: 20vh;
+    margin: 2.2vw;
+  }
+}
+
+.v-input {
+  margin: 0px;
+  padding: 0px;
+  display: block !important;
+  max-width: 20%;
+  flex: none !important;
+}
+.title-select {
+  padding: 2.5vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 20vmin;
+  width: 50%;
+}
+.select-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2vh;
+}
+.select-accueil {
+  min-width: 15vw;
 }
 </style>
-

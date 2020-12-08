@@ -23,7 +23,7 @@
           </div>
         </template>
 
-        <v-list-item>
+        <v-list-item class="me-content">
           <v-list-item
             ><router-link class="link" :to="{ name: 'Dashboard Client' }"
               ><span class="link">Accueil</span></router-link
@@ -31,12 +31,12 @@
           >
           <v-list-item>
             <router-link class="link" :to="{ name: 'Client Profile' }"
-              ><span class="link">Profile</span></router-link
+              ><span class="link">Profil</span></router-link
             ></v-list-item
           >
           <v-list-item
             ><router-link class="link" :to="{ name: 'Commandes Client' }"
-              ><span class="link">Historique des commandes</span></router-link
+              ><span class="link">Historique des <br> commandes</span></router-link
             ></v-list-item
           >
           <v-list-item
@@ -158,9 +158,13 @@ $width: 150px;
   box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: white;
   .v-list-item {
+    font-family: Rubik, sans-serif;
+    margin-top: 10px;
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
-    height: 20px;
+    flex-direction: column;    
+    padding: 0px !important;
+    height: 200px;
   }
 }
 
@@ -189,6 +193,7 @@ $width: 150px;
 //menu
 
 .link {
-  margin-top: 1em;
+  text-decoration: none;
+  color:#6fce91; 
 }
 </style>

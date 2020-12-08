@@ -1,17 +1,13 @@
 <template>
-  <div class="container">
+  
+  
+  <div class="addr_container">
     
     
-    <h1>Mes adresses</h1>
-   
-    <v-dialog v-model="dialog1" persistent>
-      <template v-slot:activator="{ on, attrs }">
-         <v-btn color="primary" class="mr-4" v-bind="attrs" v-on="on">
-      Ajouter un adresse de livraison</v-btn>
-      </template>
-      <v-card><h1>test</h1></v-card>
-    </v-dialog>
-    
+    <h1>Mes adresses</h1>  
+    <v-btn color="primary" class="mr-4" @click="addAddr()" >
+      Ajouter une adresse
+    </v-btn>
     <!-- Début du v-for -->
     <div
       class="addresses-container"
@@ -19,40 +15,84 @@
       :key="customer.id_address"
     >
       <p>{{ customer.road }} {{ customer.zip }} {{ customer.nom }}</p>
-      <v-btn
+      <!-- <v-btn
         color="error"
         class="mr-4"
         @click="deleteAddr(customer.id_address)"
       >
         Supprimer</v-btn
-      >
+      > -->
+      <v-btn color="primary" class="mr-4" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
 
-      <v-dialog class="update-form" v-model="dialog" persistent>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">Modifier</v-btn>
-        </template>
+      <v-dialog v-if="dialog" class="update-form" v-model="dialog"  max-width="1000">
         <v-card>
-          <v-text-field v-model="address.road" label="Rue"></v-text-field>
-          <v-text-field
-            v-model="address.zip"
-            label="Code postal"
-          ></v-text-field>
-          <v-autocomplete
-            v-model="address.id_department"
-            :items="departments"
-            :item-text="(item) => item.code + ' - ' + item.nom"
-            :item-value="(item) => item.id_department"
-            chips
-            label="Departement"
-          ></v-autocomplete>
+          <v-app-bar color="secondary" dark>
+            Modifier l'adresse
+            <v-spacer />
+            <v-btn icon @click="dialog = false">
+              <v-icon>mdi-close</v-icon></v-btn
+            >
+          </v-app-bar>
+          <v-card-text>
+
+            <v-text-field v-model="address.road" label="Rue"></v-text-field>
+            <v-text-field
+              v-model="address.zip"
+              label="Code postal"
+            ></v-text-field>
+            <v-autocomplete
+              v-model="address.id_department"
+              :items="departments"
+              :item-text="(item) => item.code + ' - ' + item.nom"
+              :item-value="(item) => item.id_department"
+              chips
+              label="Departement"
+            ></v-autocomplete>
           <v-btn color="primary" class="mr-4" @click="update(),dialog=false" >
             Modifier</v-btn
           >
-          <v-btn
-              color="blue darken-1"
-              text
-              @click="dialog = false"
-            >Fermer</v-btn>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-if="addressDialog" class="update-form" v-model="addressDialog"  max-width="1000">
+        <v-card>
+          <v-app-bar color="secondary" dark>
+            Ajouter une adresse
+            <v-spacer />
+            <v-btn icon @click="addressDialog = false">
+              <v-icon>mdi-close</v-icon></v-btn
+            >
+          </v-app-bar>
+          <v-form ref="formAdd" v-model="valid" lazy-validation>
+
+            <v-text-field
+                v-model="object.road"
+                :rules="required"
+                label="Rue"
+                required
+            ></v-text-field>
+            <v-text-field
+            v-model="object.zip"
+            :rules="CodePostalRules"
+            label="Code Postal"
+            required
+            ></v-text-field>
+            <v-autocomplete
+                v-model="object.id_department"
+                :items="departments"
+                :item-text="(item) => item.code + ' - ' + item.nom"
+                :item-value="(item) => item.id_department"
+                chips
+                :rules="required"
+                required
+                label="Departement"
+                
+            ></v-autocomplete>
+
+            <v-btn color="primary" class="mr-4" @click="add(),addressDialog=false" >
+              Ajouter</v-btn
+            >
+          </v-form>
         </v-card>
       </v-dialog>
     </div>
@@ -66,6 +106,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      addressDialog: null,
       dialog:false, 
       dialog1:false, 
       valid: false,
@@ -80,48 +121,89 @@ export default {
       ],
       id: null,
       id_department: 1,
+      object: {
+        id_department: "",
+        road: "",
+        zip: "",
+      },
+      CodePostalRules:[
+          (v) => /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/.test(v) || "Code Postal Valide", 
+      ], 
       required: [(v) => !!v || "requis"],
     };
   },
   mounted() {
     // si l'utilisateur est pas connecté rentourne à l'accueil
     this.id = this.$store.state.customerId;
-    console.log(this.address)
     // On recupere les info de l'utilisateur pour pouvoir les afficher
-    let url = `http://localhost:5000/customers/${this.id}`;
-    axios
-      .get(url)
-      .then((response) => {
-        if (response.data) {
-          // console.log("ADDRCUSTOMER", response.data)
-          this.customers = response.data;
-          this.search();
-        }
-      })
-      .catch((error) => {
-        console.log("ERREUR", error);
-      });
+    this.loadCustomer()
+    this.getDepartments()
 
-      url = "http://localhost:5000/departments";
-    axios
-      .get(url)
-      .then((response) => {
-        // console.log("Departements", response.data);
-        this.departments = response.data;
-      }) //c'est un objet
-      .catch((error) => console.log(console.log("Departments error ", error)));
+    
   },
 
   methods: {
+    loadCustomer() {
+      let url = `http://localhost:5000/customers/${this.id}`;
+      axios
+        .get(url)
+        .then((response) => {
+          if (response.data) {
+            // console.log("Customer", response.data)
+            this.customers = response.data;
+            // this.search();
+          }
+        })
+        .catch((error) => {
+          console.log("ERREUR", error);
+        });
+    },
+    getDepartments() {
+      let  url = "http://localhost:5000/departments";
+      axios
+        .get(url)
+        .then((response) => {
+          // console.log("Departements", response.data);
+          this.departments = response.data;
+        }) //c'est un objet
+        .catch((error) => console.log(("Departments error ", error)));
+    },
     // fonction de deconnexion
     logout() {
       this.$store.commit("logoutCustomer");
       this.$router.push("/");
     },
+    add() {
+      // fait appel a la requete add de l'api
+      let url = "http://localhost:5000/addrCustomer/add"
+      console.log(this.object)
+      // if (this.$refs.formAdd.validate()) {
+          axios
+          .post(url, {
+              road: this.object.road,
+              zip: this.object.zip,
+              id_department: this.object.id_department,
+              id_customer: this.$store.state.customerId
+          })
+          .then(() => {
+            this.loadCustomer()
+
+          })
+            //c'est un objet
+          .catch((error) =>{
+              console.log("PAS Ajouter:", error)
+              this.message = "Erreur"
+          })
+      // }
+    },
     // fonction pour update un adresse
+    addAddr() {
+      this.object = []
+      this.addressDialog = true
+    },
     update() {
-      let url = `http://localhost:5000/addrCustomer/${this.id}`;
-      console.log(url);
+      let url = `http://localhost:5000/addrCustomer/${this.address.id_address}`;
+      // console.log(url);
       axios
         .put(url, {
           road: this.address.road,
@@ -132,21 +214,22 @@ export default {
           if (response.data) {
             // console.log("Address", response.data)
             this.address = response.data;
+        this.loadCustomer()
+
           }
         })
         .catch((error) => {
           console.log("ERREUR", error);
         });
       this.$store.commit("removeAddrCustomer");
-      document.location.reload(); 
+      // document.location.reload(); 
+    },
+    updateAddr(customer) {
+      this.address = customer
     },
     // fonction poour modifier le mail, le numero de tel et le password
     updateProfil() {
       this.$router.push({ name: "UpadteProfilClient" });
-    },
-    // fonction d'ajout d'adresse
-    addAddr() {
-      this.$router.push({ name: "AddAddrClient" });
     },
     // fonction de suppression d'addresse
     deleteAddr(id) {
@@ -160,21 +243,10 @@ export default {
       });
       this.reloadAddr();
     },
-    reloadAddr() {
-      let url = `http://localhost:5000/customers/${this.id}`;
-      axios
-        .get(url)
-        .then((response) => {
-          if (response.data) {
-            // console.log("ADDRCUSTOMER", response.data)
-            this.customers = response.data;
-            this.search();
-          }
-        })
-        .catch((error) => {
-          console.log("ERREUR", error);
-        });
-    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+
+</style>

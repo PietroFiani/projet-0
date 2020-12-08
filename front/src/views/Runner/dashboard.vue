@@ -53,23 +53,18 @@
         </v-list>
       </v-menu>
     </v-row>
-    <!-- <v-img
-      id="avatar"
-      v-if="!runner.image"
-      src="../../assets/avatar.png"
-      width="200px"
-    ></v-img> -->
     <v-row justify="center">
       <v-col cols="12" lg="10" md="10" class="mt-14">
-        <v-card height="750" style="border-radius: 25px"
-          ><v-tabs grow v-model="tab" align-with-title>
-            <v-tabs-slider></v-tabs-slider>
+      <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
+        <v-card height="750" style="border-radius: 25px" class="pt-10"
+          ><v-tabs grow color="#515bae" v-model="tab" align-with-title>
+            <v-tabs-slider color="#515bae"></v-tabs-slider>
             <v-tab class="ma-0"> Commande </v-tab>
             <v-tab> Produit </v-tab>
             <v-tab> Profil </v-tab>
             <v-tabs-items v-model="tab">
               <v-tab-item>
-                <v-order :orders="runner.orders"></v-order>
+                <v-order :orders="runner.orders" :runner="runner" @reload="reload()"></v-order>
               </v-tab-item>
               <v-tab-item>
                 <v-product :products="products" @reload="reload()"></v-product>
@@ -149,6 +144,7 @@ export default {
       this.$router.push("/");
     },
     reload() {
+      const moment = require("moment");
       console.log("reload");
       let id = this.$store.state.runnerId;
       let url = `http://localhost:5000/runners/${id}`;
@@ -158,6 +154,10 @@ export default {
           if (response.data) {
             console.log("RUNNER", response.data);
             this.runner = response.data;
+            this.runner.orders.forEach((order) => {
+              order.name = order.lastname + " " + order.firstname;
+              order.date = moment(order.date).format("DD/MM/YYYY");
+            });
           }
         })
         .catch((error) => {
@@ -203,8 +203,7 @@ export default {
           .catch((error) => {
             console.log("erreur", error);
           });
-      } 
-      else {
+      } else {
         axios
           .put(url, {
             id_runner: this.runner.id_runner,
@@ -245,6 +244,14 @@ body {
   left: 11%;
   top: 8%;
   z-index: 5;
+}
+.white-logo {
+  height: 10vmin;
+  width: 10vmin;
+  top:8%;
+  left:48%;
+  position: absolute;
+  z-index:10
 }
 /* button {
   position: absolute;

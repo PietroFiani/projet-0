@@ -58,6 +58,24 @@ exports.findOne = (req, res) => {
 };
 
 
+
+// exports.findBy = (req, res) => {
+//     console.log(req.params)
+//     AddrCustomer.findById(req.params.addrCustomerId, (err, data) => {
+//         if (err) {
+//             if (err.kind === "not_found") {
+//                 res.status(404).send({
+//                     message: `Not found Address Customer with id ${req.params.addrCustomerId}.`
+//                 });
+//             } else {
+//                 res.status(500).send({
+//                     message: "Error retrieving Address Customer with id " + req.params.addrCustomerId
+//                 });
+//             }
+//         } else res.send(data);
+//     });
+// };
+
 // Update a Customer identified by the customerId in the request
 exports.update = (req, res) => {
     // Validate Request

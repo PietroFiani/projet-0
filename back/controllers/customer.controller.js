@@ -1,5 +1,6 @@
 const Customer = require("../models/customer.models.js");
 const AddrCustomer = require("../models/addrCustomer.models.js");
+const Notification = require("../models/notification.models.js");
 const bcrypt = require('bcrypt');
 
 // Create and Save a new Customer
@@ -110,8 +111,24 @@ exports.findOne = (req, res) => {
                     message: "Error retrieving Customer with id " + req.params.customerId
                 });
             }
-        } else res.send(data);
-    });
+        } else {
+            Notification.findByCustomer(req.params.customerId, (err, notificationData) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.send(data)
+                    } else {
+                        res.status(500).send({
+                            message: "Error retrieving notification with customerId " + req.params.customerId
+                        });
+                    }
+                } else {
+                    data.notifications = notificationData;
+                    console.log("dATA", data)
+                    res.send(data);
+                }
+            })
+        }
+    })
 };
 
 
@@ -134,7 +151,7 @@ exports.update = (req, res) => {
     });
     Customer.updateById(
         req.params.customerId,
-        customer,
+        new Customer(customer),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {

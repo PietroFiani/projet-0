@@ -97,11 +97,22 @@ CREATE TABLE IF NOT EXISTS `order` (
     PRIMARY KEY(id_order),
     FOREIGN KEY (id_runner) REFERENCES runner(id_runner),
     FOREIGN KEY (id_customer) REFERENCES customer(id_customer),
-    FOREIGN KEY (id_address) REFERENCES address(id_address)
+    FOREIGN KEY (id_address) REFERENCES address(id_address),
     FOREIGN KEY (id_product) REFERENCES product(id_product)
 
 
 ) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS notification(
+    id_notification INT(11) NOT NULL AUTO_INCREMENT,
+    head VARCHAR(255),
+    text VARCHAR(255),
+    id_customer INT NOT NULL,
+    `read` BOOLEAN,
+    PRIMARY KEY(id_notification),
+    FOREIGN KEY (id_customer) REFERENCES `customer`(id_customer)
+    )ENGINE = InnoDB;
+
 
 -- CREATE TABLE IF NOT EXISTS orderRow(
 --     id_orderRow INT(11) NOT NULL AUTO_INCREMENT,

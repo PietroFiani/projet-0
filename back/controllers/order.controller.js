@@ -100,11 +100,11 @@ exports.updateWorkflow = (req, res) => {
     }
     console.log("req", req)
     const order = new Order({
-        workflow:req.body.workflow
+        workflow: req.body.workflow
     });
 
     Order.updateWorkflow(req.params.orderId,
-            order,
+        order,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
@@ -122,3 +122,20 @@ exports.updateWorkflow = (req, res) => {
             }
         })
 }
+
+// Retrieve all Orders wt idCustomer from the database.
+exports.findAllByCustomer = (req, res) => {
+    Order.getAllByCustomer(req.params.IdCustomer, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found Order with id ${req.params.orderId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving order with id " + req.params.orderId
+                });
+            }
+        } else res.send(data);
+    });
+};

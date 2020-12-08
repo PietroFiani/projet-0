@@ -6,6 +6,10 @@ module.exports = app => {
     // Retrieve all Address
     app.get("/addrCustomer", addrCustomer.findAll);
 
+
+    // // Retrieve a single Address with customerId
+    // app.get("/adresseOrder/:addrCustomerId/:idDep", addrCustomer.findBy);
+
     // Retrieve a single Address with customerId
     app.get("/addrCustomer/:addrCustomerId", addrCustomer.findOne);
 

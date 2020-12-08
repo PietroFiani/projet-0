@@ -9,7 +9,7 @@
       <button class="rounded">Devenir Runner</button>
     </router-link>
     <h1 class="title" data-text="Miguel la petite feuille de canabis !">
-      O' Shit !
+      Just Smoke It
     </h1>
     <v-home-form></v-home-form>
     <!-- credits : GoodKatz -->
@@ -117,6 +117,7 @@ $color1-btn: #ffaaaa;
   flex-direction: column;
   align-items: center;
   background: linear-gradient(135deg, #8ee2cf 0%, #6fce91 100%);
+
   .rounded {
     font-family: Rubik, sans-serif;
     font-size: 1.5em;
@@ -153,6 +154,7 @@ $color1-btn: #ffaaaa;
   25% {
     transform: scale(0);
   }
+
   50% {
     transform: scale(1.2);
   }

@@ -21,6 +21,7 @@ require("./routes/department.routes.js")(app);
 require("./routes/product.routes.js")(app);
 require("./routes/category.routes.js")(app);
 require("./routes/order.routes.js")(app);
+require("./routes/notification.routes.js")(app);
 
 
 
