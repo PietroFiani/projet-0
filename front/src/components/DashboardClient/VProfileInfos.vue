@@ -131,6 +131,7 @@ export default {
       if (this.object.password != this.object.repassword) {
         return (this.message = "Le mot de passe est invalide");
       }
+      // console.log(this.object.password)
       let url = `http://localhost:5000/customers/${this.id}`
       if (this.$refs.form.validate()) {
         if (this.object.password) {
@@ -142,30 +143,30 @@ export default {
             })
             .then((response) => {
             if (response.data) {
-                // console.log("customer", response.data)
-                this.customers = response.data
+                return response.data
             }
             })
             .catch((error) => {
-            console.log("ERREUR", error)
+              console.log("ERREUR", error)
             })
         } else {
           axios
             .put(url, {
                 mail: this.customers[0].mail,
                 phone: this.customers[0].phone,
+                password: this.customers[0].password,
             })
             .then((response) => {
             if (response.data) {
                 // console.log("customer", response.data)
-                this.customers = response.data
+                return response.data
             }
             })
             .catch((error) => {
             console.log("ERREUR", error)
             })
         }
-        
+        this.dialog = false
       }
     },
   },

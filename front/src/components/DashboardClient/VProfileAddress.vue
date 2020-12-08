@@ -4,7 +4,9 @@
   <div class="addr_container">
     
     
-    <h1>Mes adresses</h1>    
+    <h1>Mes adresses</h1>  
+    <v-btn color="primary" class="mr-4" @click="add(),dialog=true" >
+            Ajouter une adresse</v-btn>
     <!-- Début du v-for -->
     <div
       class="addresses-container"
