@@ -2,27 +2,43 @@
   
   
   <div class="addr_container">
-    
-    
     <h1>Mes adresses</h1>  
     <v-btn color="primary" class="mr-4" @click="addAddr()" >
       Ajouter une adresse
     </v-btn>
-    <!-- Début du v-for -->
-    <div
-      class="addresses-container"
-      v-for="customer of customers"
-      :key="customer.id_address"
+    <v-data-table
+      :headers="headers"
+      :items="customers"
+      :page.sync="page"
+      :items-per-page="itemsPerPage"
+      hide-default-footer
+      class="elevation-1"
+      @page-count="pageCount = $event"
     >
-      <p>{{ customer.road }} {{ customer.zip }} {{ customer.nom }}</p>
-      <!-- <v-btn
-        color="error"
-        class="mr-4"
-        @click="deleteAddr(customer.id_address)"
-      >
-        Supprimer</v-btn
-      > -->
-      <v-btn color="primary" class="mr-4" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
+      <template v-slot:body="{ items }">
+        <tbody name="list" is="transition-group" v-if="items.length">
+          <tr
+            v-for="item in items"
+            :key="item.id_address"
+            class="item-row"
+            @click="handleClick(item)"
+          >
+            <td>{{ item.road }}</td>
+            <td>{{ item.zip }}</td>
+            <td>{{ item.nom}}</td>
+            <td>
+              <v-btn color="primary" class="mr-4" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
+
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-data-table>
+    <v-pagination
+      v-model="page"
+      color="#515bae"
+      :length="pageCount"
+    ></v-pagination>
 
       <v-dialog v-if="dialog" class="update-form" v-model="dialog"  max-width="1000">
         <v-card>
@@ -95,7 +111,6 @@
           </v-form>
         </v-card>
       </v-dialog>
-    </div>
   
   
   </div>
@@ -130,6 +145,11 @@ export default {
           (v) => /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/.test(v) || "Code Postal Valide", 
       ], 
       required: [(v) => !!v || "requis"],
+      headers: [
+        { text: "Rue", value: "name" },
+        { text: "Code postal", value: "name" },
+        { text: "Département", value: "name" },
+      ],
     };
   },
   mounted() {
@@ -143,6 +163,15 @@ export default {
   },
 
   methods: {
+    handleClick(e) {
+      // console.log("order", e);
+      this.customers = {
+        nom: e.nom,
+        road: e.road,
+        zip: e.zip,
+      };
+      this.dialogConfirm = true;
+    },
     loadCustomer() {
       let url = `http://localhost:5000/customers/${this.id}`;
       axios
