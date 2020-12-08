@@ -50,6 +50,7 @@
 </template>
 
 <script>
+// import moment from 'moment'
 import axios from "axios"
 
 export default {
@@ -85,6 +86,7 @@ export default {
     }
   },
   mounted(){
+    const moment = require('moment')
     let url = `http://localhost:5000/orders/${this.$store.state.customerId}`
     axios
     .get(url)
@@ -92,6 +94,9 @@ export default {
         if (response.data) {
             // console.log("ADDRCUSTOMER", response.data)
             this.orders = response.data
+            this.orders.forEach((order) => {
+              order.date = moment(order.date).format("DD/MM/YYYY H:mm:ss");
+            });
         }
     })
     .catch((error) => {
