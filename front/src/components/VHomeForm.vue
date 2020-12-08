@@ -112,7 +112,7 @@ $color1-btn: #6fce91;
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  margin-top: 3vh;
+  margin-top: 4vh;
   .home-form {
     display: flex;
     flex-direction: column;
