@@ -84,7 +84,7 @@ $color1-btn: #ffaaaa;
   
   .rounded {
     font-family: Rubik, sans-serif;
-    margin: 2em;
+    margin: 2.2em;
     font-size: 0.8em;
     border: solid 2px rgba(111, 206, 145, 1);
     color: white;
