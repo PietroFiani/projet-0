@@ -26,23 +26,23 @@
         <v-list-item class="me-content">
           <v-list-item
             ><router-link class="link" :to="{ name: 'Dashboard Client' }"
-              ><span class="link">Accueil</span></router-link
+              ><span class="link">Accueil</span><v-divider></v-divider></router-link
             ></v-list-item
           >
           <v-list-item>
             <router-link class="link" :to="{ name: 'Client Profile' }"
-              ><span class="link">Profil</span></router-link
+              ><span class="link">Profil</span><v-divider></v-divider></router-link
             ></v-list-item
           >
           <v-list-item
             ><router-link class="link" :to="{ name: 'Commandes Client' }"
-              ><span class="link">Historique des <br> commandes</span></router-link
+              ><span class="link">Historique des <br> commandes</span><v-divider></v-divider></router-link
             ></v-list-item
           >
           <v-list-item
             ><span class="link" @click="logout()"
               >Se deconnecter</span
-            ></v-list-item
+            ><v-divider></v-divider></v-list-item
           >
         </v-list-item>
       </v-menu>

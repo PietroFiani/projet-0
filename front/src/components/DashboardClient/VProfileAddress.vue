@@ -2,8 +2,8 @@
   
   
   <div class="addr_container">
-    <h1>Mes adresses</h1>  
-    <v-btn color="primary" class="mr-4" @click="addAddr()" >
+    <h1 class="adrr-title">Mes adresses</h1>  
+    <v-btn color="primary" class="mr-4 mt-2 mb-2 button" @click="addAddr()" >
       Ajouter une adresse
     </v-btn>
     <v-data-table
@@ -27,7 +27,7 @@
             <td>{{ item.zip }}</td>
             <td>{{ item.nom}}</td>
             <td>
-              <v-btn color="primary" class="mr-4" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
+              <v-btn color="primary" class="mr-4 button" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
 
             </td>
           </tr>
@@ -64,7 +64,7 @@
               chips
               label="Departement"
             ></v-autocomplete>
-          <v-btn color="primary" class="mr-4" @click="update(),dialog=false" >
+          <v-btn color="primary" class="mr-4 button" @click="update(),dialog=false" >
             Modifier</v-btn
           >
           </v-card-text>
@@ -277,5 +277,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
+
+.addr_container{
+  margin-top: 4vh;
+}
 
 </style>
+
+

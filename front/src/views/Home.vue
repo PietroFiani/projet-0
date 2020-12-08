@@ -169,7 +169,7 @@ $color1-btn: #ffaaaa;
   }
 }
 .logo {
-  height: 10em;
+  height: 7em;
   margin-top: 5vh;
   animation: 1s ease-in-out 0s 1 popLogo;
 }
