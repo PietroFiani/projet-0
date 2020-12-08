@@ -133,14 +133,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .container {
-  height: 100%;
-  min-width: 100%;
-  background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   .wrapper {
     background-color: white;
     height: 85vh;
@@ -149,11 +141,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: center;
-    .menu-container {
-      width: auto;
-      display: flex;
-      justify-content: flex-end;
-    }
+    justify-content: space-around;
   }
-}
 </style>

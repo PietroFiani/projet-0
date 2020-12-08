@@ -20,7 +20,7 @@
     <v-fab-transition>
       <v-btn
         :color="color()"
-        style="align-self: flex-end"
+        style="align-self: flex-end;"
         class="mr-10 mb-16"
         dark
         bottom
@@ -38,111 +38,116 @@
         <v-menu-client></v-menu-client>
       </div>
       <!-- <div class="flex"> -->
+      <div class="title-select">
+        <h1>Autour de chez moi :</h1>
+        <div class="select-wrapper">
+          <v-select
+            ref="addr"
+            class="select-accueil"
+            v-model="adresse"
+            label="Adresse de livraison"
+            required
+            :items="customers"
+            :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
+            :item-value="(item) => item"
+            @change="search"
+          ></v-select>
+          <v-select
+            class="select-accueil"
+            width="12"
+            :items="items"
+            label="Trier par : "
+            v-model="selectValue"
+          >
+          </v-select>
+        </div>
+      </div>
 
-        <h1>Autour de chez moi : </h1>
-        <v-select
-          ref="addr"
-          width="10"
-          v-model="adresse"
-          label="Adresse de livraison"
-          required
-          :items="customers"
-          :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
-          :item-value="(item) => item"
-          @change="search"
-        ></v-select>
-        <v-select 
-              :items="items"
-              label="Trier par : "
-              v-model="selectValue">
-        </v-select>
       <!-- </div> -->
       <div class="runner-cards">
         <v-card
-            v-for="runner in orderBy(runnersTable,selectValue)"
-            :key="runner.id_product"
-            class="card-runner"
+          v-for="runner in orderBy(runnersTable, selectValue)"
+          :key="runner.id_product"
+          class="card-runner"
+        >
+          <v-card-title>
+            {{ runner.firstname }} {{ runner.lastname }}
+          </v-card-title>
+          <v-card-subtitle>
+            {{ runner.name }}
+          </v-card-subtitle>
+          <p class="ma-auto">
+            Produit : {{ runner.label }} <br />
+            En stock : {{ runner.stock }} <br />
+            Prix : {{ runner.price }} €
+          </p>
+          <v-btn
+            color="primary"
+            class="mr-4"
+            @click="commander(runner, runner.id_runner)"
           >
-              <v-card-title>
-                {{ runner.firstname }} {{ runner.lastname }}
-              </v-card-title>
-              <v-card-subtitle>
-                {{ runner.name }}
-              </v-card-subtitle>
-              <p class="ma-auto">
-                Produit : {{runner.label}} <br />
-                En stock : {{ runner.stock }} <br />
-                Prix : {{ runner.price }} €
-              </p>
-              <v-btn
-                color="primary"
-                class="mr-4"
-                @click="commander(runner, runner.id_runner)"
-              >
-                Commander</v-btn
-              >
-          </v-card>
-          <span v-if="empty" class="">{{ empty }}</span>
+            Commander</v-btn
+          >
+        </v-card>
+        <span v-if="empty" class="">{{ empty }}</span>
       </div>
-    <v-dialog v-model="dialog">
-      <v-card class="dialog">
-        <v-app-bar color="secondary" dark>
-          Commander du {{ commande.name_product }}
-          <v-spacer />
-          <v-btn icon @click="dialog = false">
-            <v-icon>mdi-close</v-icon></v-btn
-          >
-        </v-app-bar>
-        <v-card-text>
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field
-              v-model="commande.quantity"
-              :label="'Quantité (' + commande.max_quantity + ')'"
-              required
-              type="number"
-              min="0"
-              :max="commande.max_quantity"
-            ></v-text-field>
-            <p>
-              Prix :
-              <span v-if="commande.quantity"
-                >{{
+      <v-dialog v-model="dialog">
+        <v-card class="dialog">
+          <v-app-bar color="secondary" dark>
+            Commander du {{ commande.name_product }}
+            <v-spacer />
+            <v-btn icon @click="dialog = false">
+              <v-icon>mdi-close</v-icon></v-btn
+            >
+          </v-app-bar>
+          <v-card-text>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="commande.quantity"
+                :label="'Quantité (' + commande.max_quantity + ')'"
+                required
+                type="number"
+                min="0"
+                :max="commande.max_quantity"
+              ></v-text-field>
+              <p>
+                Prix :
+                <span v-if="commande.quantity"
+                  >{{
                   (commande.prix = commande.quantity * commande.prix_init)
-                }}
-                €</span
-              >
-            </p>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="orderPruduct()">
-                commander</v-btn>
-            </v-card-actions>
-          </v-form>
-          <span v-if="message" class="alert">
-            <img
-              id="warning-icon"
-              src="../../assets/warning.svg"
-              alt="warning logo"
-            />{{ message }}
-          </span>
-        </v-card-text>
-      </v-card>
-    </v-dialog> 
+                  }}
+                  €</span
+                >
+              </p>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="orderPruduct()">
+                  commander</v-btn
+                >
+              </v-card-actions>
+            </v-form>
+            <span v-if="message" class="alert">
+              <img
+                id="warning-icon"
+                src="../../assets/warning.svg"
+                alt="warning logo"
+              />{{ message }}
+            </span>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </div>
-
-   
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from "vue";
 import axios from "axios";
 import VMenuClient from "@/components/DashboardClient/VMenuClient";
-import Vue2Filters from 'vue2-filters'; 
+import Vue2Filters from "vue2-filters";
 
-Vue.use(Vue2Filters); 
+Vue.use(Vue2Filters);
 export default {
-
   mixins: [Vue2Filters.mixin],
   name: "dashboard",
   components: {
@@ -151,11 +156,11 @@ export default {
 
   data() {
     return {
-      empty: 'Choisisez votre adresse de livraison !',
+      empty: "Choisisez votre adresse de livraison !",
       drawer: false,
       valid: false,
-      items: ['name', 'price'],
-      selectValue:'',
+      items: ["name", "price"],
+      selectValue: "",
       message: null,
       customers: [
         {
@@ -183,7 +188,7 @@ export default {
       dialog: false,
       notifications: [],
       runnersTable: [],
-      adresse: []
+      adresse: [],
       // required: [(v) => !!v || "requis"],
     };
   },
@@ -222,12 +227,11 @@ export default {
         });
     }
 
-    this.date()
+    this.date();
     // this.findAddr()
-    
   },
   methods: {
-    date(){
+    date() {
       let today = new Date();
       let dd = today.getDate();
       let mm = today.getMonth() + 1;
@@ -277,9 +281,9 @@ export default {
         });
     },
     search() {
-      this.runnersTable = []
+      this.runnersTable = [];
       let url = `http://localhost:5000/runners/from/${this.adresse.id_department}`;
-      this.commande.id_address = this.adresse.id_address
+      this.commande.id_address = this.adresse.id_address;
       axios
         .get(url)
         .then((response) => {
@@ -291,16 +295,16 @@ export default {
                 let item = product;
                 item.firstname = element.firstname;
                 item.lastname = element.lastname;
-                  this.runnersTable.push(item)
+                this.runnersTable.push(item);
               });
             });
-            this.empty = null
+            this.empty = null;
           }
-
         })
         .catch((error) => {
           console.log("ERREUR", error);
-          this.empty = "Votre département ne dispose pas de livreur ! On arrive bientôt !"
+          this.empty =
+            "Votre département ne dispose pas de livreur ! On arrive bientôt !";
           //ajouter un message si null
         });
     },
@@ -358,7 +362,7 @@ export default {
           .catch((error) => {
             console.log("ERREUR", error);
           });
-        this.$router.push("/client/commandes")
+        this.$router.push("/client/commandes");
         this.dialog = false;
       }
     },
@@ -371,13 +375,12 @@ export default {
   height: 100%;
   min-width: 100%;
   background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
-  padding: 0px !important; 
+  padding: 0px !important;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   .wrapper {
-    padding: 2vmin;
     background-color: white;
     height: 85vh;
     width: 90vw;
@@ -416,26 +419,41 @@ export default {
 }
 .runner-cards {
   width: 90vw;
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
   overflow-y: scroll;
   justify-content: space-between;
-  .card-runner{
+  .card-runner {
     width: 15vw;
     height: 20vh;
     margin: 2.2vw;
   }
 }
-.v-input{
+.v-input {
   margin: 0px;
   padding: 0px;
   display: block !important;
   max-width: 20%;
-  flex: none!important;
-
+  flex: none !important;
+}
+.title-select {
+  padding: 2.5vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 20vmin;
+  width: 50%;
+}
+.select-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2vh;
+}
+.select-accueil {
+  min-width: 15vw;
 }
 // .flex{
-//  display: flex; 
+//  display: flex;
 //  height: auto;
 // justify-content: space-around;
 //   h1,div {

@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+      
+    <img src="../../../assets/logoBlanc.svg" class="white-logo"/>
+    
     <div class="wrapper">
       <div class="menu-container">    
         <v-menu-client></v-menu-client>
@@ -203,6 +206,7 @@ export default {
   min-height: 100%;
   background:linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   .menu-container {
@@ -210,13 +214,17 @@ export default {
     justify-content: flex-end;
   }
   .wrapper{
-    padding: 2vmin;
     background: white;
     border-radius: 25px;
     display: block;
     height: 80%;
     width: 90%;
   }
+}
+.white-logo {
+  position: absolute;
+  width: 10vmin;
+  top: 6vh;
 }
 
 </style>

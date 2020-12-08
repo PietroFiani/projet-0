@@ -1,5 +1,7 @@
 <template>
-  <div class="addr-container">
+  
+  
+  <div class="addr_container">
     
     
     <h1>Mes adresses</h1>    
@@ -169,3 +171,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+
+</style>
