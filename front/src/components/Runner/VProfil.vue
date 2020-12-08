@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card flat>
-      <v-card-text class="pa-16">
+      <v-card-text class="profil pa-16">
         <h2>{{ runner.lastname }} {{ runner.firstname }}</h2>
 
         <v-text-field
@@ -127,5 +127,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+@media screen and (max-width: 600px) {
+  .v-card__text{
+    padding: 30px!important;
+  }
+}
 </style>
