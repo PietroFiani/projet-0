@@ -48,4 +48,8 @@ export default {
   display: flex;
   justify-content: flex-end;
 }
+
+@media screen and (max-width: 767px) and (max-height: 1027px){
+  
+}
 </style>

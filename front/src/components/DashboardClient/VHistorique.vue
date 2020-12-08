@@ -1,13 +1,15 @@
 <template>
 <div class="container">
-  <div class="ma-16 wrapper">
+  <div class="wrapper">
+    <v-row justify="center"><h1 >Mes commandes : </h1></v-row>
+     
     <v-data-table
       :headers="headers"
       :items="orders"
       :page.sync="page"
       :items-per-page="itemsPerPage"
       hide-default-footer
-      class="elevation-1 "
+      class="elevation-1 mt-8 datas"
       @page-count="pageCount = $event"
     >
       <template v-slot:body="{ items }">
@@ -32,7 +34,7 @@
         <tbody v-else>
           <tr>
             <td :colspan="headers.length" style="text-align: center">
-              Pas de commande ? Commandez dés maintenant !
+              Pas de commande ? <router-link :to="{name: 'Dashboard Client'}">Commandez dés maintenant !</router-link> 
             </td>
           </tr>
         </tbody>
@@ -42,6 +44,7 @@
       v-model="page"
       color="primary"
       :length="pageCount"
+      class="mt-8"
     ></v-pagination>
 
   </div>
@@ -139,4 +142,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+td{
+  font-family: 'rubik', sans-serif;
+}
+@media screen and (max-width: 767px) and (max-height: 1027px){
+  h1{
+    font-size: 1.5em;
+  }
+}
 </style>
