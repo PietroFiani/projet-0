@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>Modifie l'adresse poto</h1>
+      
       <v-text-field
           v-model="address.road"
           label="Rue"
@@ -90,7 +90,7 @@ export default {
           console.log("ERREUR", error)
         })
       this.$store.commit("removeAddrCustomer")
-      this.$router.push("/client/profil")
+      this.$router.push("/client/dashboard")
     }
   }
 }

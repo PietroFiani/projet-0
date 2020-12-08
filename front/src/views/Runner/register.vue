@@ -1,15 +1,20 @@
 <template>
   <div class="home">
-    <img
-      class="logo"
-      src="../../assets/logoBlanc.svg"
-      alt="icone de feuille de canabis kawaii"
-    />
-    <router-link :to="{ name: 'Connexion Partenaire' }">
-      <button class="rounded">D√©j√† inscrit</button>
-    </router-link>
+    <div class="header">
+      <router-link :to="{ name: 'Home' }">
+        <button class="rounded rounded-left">Client ?</button>
+      </router-link>
+      <img
+        class="logo"
+        src="../../assets/logoBlanc.svg"
+        alt="icone de feuille de canabis kawaii"
+      />
+      <router-link :to="{ name: 'Connexion Partenaire' }">
+        <button class="rounded rounded-right">DÈj‡ inscrit ?</button>
+      </router-link>
+    </div>
     <h1 class="title" data-text="Miguel la petite feuille de canabis !">
-      Miguel la petite feuille de canabis !
+      O'Shit !
     </h1>
     <v-form-inscription-runner></v-form-inscription-runner>
     <!-- credits : GoodKatz -->
@@ -59,8 +64,7 @@
 
 <script>
 import axios from "axios";
-import VFormInscriptionRunner from '../../components/Runner/VFormInscriptionRunner.vue';
-
+import VFormInscriptionRunner from "../../components/Runner/VFormInscriptionRunner.vue";
 export default {
   components: { VFormInscriptionRunner },
   data: () => ({
@@ -79,8 +83,11 @@ export default {
     },
     message: "",
     departments: [],
-    PhoneRules:[
-      (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Num√©ro incorrect"
+    PhoneRules: [
+      (v) =>
+        /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(
+          v
+        ) || "NumÈro incorrect",
     ],
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -101,15 +108,15 @@ export default {
       }) //c'est un objet
       .catch((error) => console.log(console.log("Departments error ", error)));
   },
-
   methods: {
     register() {
       let url = "http://localhost:5000/runners/register";
       if (this.object.password != this.object.repassword) {
         return (this.message = "Le mot de passe est invalide");
       }
-      if (!this.object.departmentsIds.length){
-        return (this.message ="Veuillez rentrer les d√©partements dans lesquels vous travaillez")
+      if (!this.object.departmentsIds.length) {
+        return (this.message =
+          "Veuillez rentrer les dÈpartements dans lesquels vous travaillez");
       }
       if (this.$refs.form.validate()) {
         axios
@@ -129,7 +136,7 @@ export default {
           }) //c'est un objet
           .catch((error) => {
             console.log("PAS INSCRIT", error);
-            this.message = "Vous etes d√©j√† inscrit !";
+            this.message = "Vous etes dÈj‡ inscrit !";
           });
       }
     },
@@ -139,26 +146,25 @@ export default {
 
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
+@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
+.logo {
+    height: 70px;
+    width: 75px;
+    margin-top: 10%;
+  }
 
-.home {
+  .home {
   height: 100%;
-  padding: 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(180deg, #9BC9FF 0%, #515BAE 100%);
-
-
+  background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
+  
   .rounded {
     font-family: Rubik, sans-serif;
-    font-size: 1.5em;
+    margin: 2em;
+    font-size: 0.8em;
     border: solid 2px rgba(111, 206, 145, 1);
     color: white;
-    width: 10em;
+    width: 25vmin;
     border-radius: 50px !important;
-    position: absolute;
-    top: 20px;
-    right: 20px;
     height: 2em;
     outline: none;
     transition: 300ms;
@@ -168,27 +174,72 @@ $color1-btn: #ffaaaa;
       background-color: white;
     }
   }
+  }
+  .title {
+  font-weight: 900;
+  font-size: 1.5vmin !important;
+  font-family: "Poppins", sans-serif !important;
+  color: white;
+  margin-top: -6vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.home {
+  height: 100%;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .rounded {
+    font-family: Rubik, sans-serif;
+    margin: 2em;
+    font-size: 1.5em;
+    border: solid 2px rgba(111, 206, 145, 1);
+    color: white;
+    width: 20vmin;
+    border-radius: 50px !important;
+    height: 2em;
+    outline: none;
+    transition: 300ms;
+    background-color: rgba(111, 206, 145, 1);
+    &:hover {
+      color: rgba(111, 206, 145, 1);
+      background-color: white;
+    }
+  }
+  .rounded-left{
+    background-color:  #ffaaaa; 
+    border: #ffaaaa;
+    &:hover {
+      color:#ffaaaa;
+      background-color: white;
+    }
+  }
 }
 .title {
   font-weight: 900;
-  font-size: 5vmin !important;
+  font-size: 20vmin !important;
   font-family: "Poppins", sans-serif !important;
   color: white;
   margin-top: 3vh;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 }
-
 //logo animation
-
 @keyframes popLogo {
-
   0% {
     transform: scale(0);
   }
   25% {
     transform: scale(0);
   }
-  
   50% {
     transform: scale(1.2);
   }
@@ -212,8 +263,8 @@ $color1-btn: #ffaaaa;
   margin: 0px;
   position: absolute;
   bottom: 0px;
-  height:12vh;
-  width:100%;
+  height: 12vh;
+  width: 100%;
 }
 .parallax > use {
   animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
@@ -242,4 +293,5 @@ $color1-btn: #ffaaaa;
     transform: translate3d(85px, 0, 0);
   }
 }
+
 </style>

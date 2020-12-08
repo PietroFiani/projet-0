@@ -87,7 +87,20 @@ export default {
 
 <style lang="scss" scoped>
 //Variables
+@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
+  .container {
+  background-color: white;
+  
+  width: 23em;
+  border-radius: 50px;
+  box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  margin-top: 1vh;
+  }
+}
 
+@media screen and (max-width: 375px) and (max-height:812px){ //iphone X
+} 
 .container {
   background-color: white;
   height: 50vh;
@@ -120,6 +133,14 @@ font-size: 1.5em;
   font-family: Monsserrat, sans-serif;
   outline: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: rgba(111, 206, 145, 1);
+  color: white; 
+  margin-top: 2em;
+  &:hover{
+  background-color:white;
+  border:solid 2px rgba(111, 206, 145, 1); 
+  color: rgba(111, 206, 145, 1); 
+  }
 }
 //textarea
 .text-field {
@@ -148,4 +169,5 @@ font-size: 1.5em;
     margin-right: 0.5em;
   }
 }
+ 
 </style>

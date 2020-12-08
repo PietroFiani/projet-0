@@ -63,36 +63,12 @@
           >
         </v-btn>
         <v-btn icon class="ma-2">
-          <v-icon v-if="!editMode" large color="warning" @click="dialog = true"
-            >mdi-delete</v-icon
-          >
-        </v-btn>
-        <v-btn icon class="ma-2">
           <v-icon v-if="editMode" large color="primary" @click="updateRunner"
             >mdi-check-bold</v-icon
           >
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-dialog v-model="dialog" persistent max-width="500">
-      <v-card>
-        <v-card-title class="headline">
-          Etes-vous surs de vouloir supprimer votre compte ?
-        </v-card-title>
-        <v-card-text
-          >Toutes vos données seront définitivement supprimées.</v-card-text
-        >
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Annuler
-          </v-btn>
-          <v-btn color="warning" text @click="remove()">
-            Supprimer mon compte</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -107,7 +83,6 @@ export default {
     value1: String,
     value2: String,
     editMode: false,
-    dialog: false,
     message: "",
     departments: [],
     newRunner: {
@@ -137,18 +112,6 @@ export default {
           this.editMode = true;
         }) //c'est un objet
         .catch((error) => console.log("Departments error ", error));
-    },
-    remove() {
-      let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
-      console.log("id", this.runner.id_runner)
-      axios
-        .delete(url)
-        .then((response) => {
-          console.log("Runner deleted", response.data);
-          this.dialog = false;
-          this.$emit("logout");
-        }) //c'est un objet
-        .catch((error) => console.log("error ", error));
     },
     updateRunner() {
       if (this.newRunner.password !== this.newRunner.repassword) {

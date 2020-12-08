@@ -1,243 +1,175 @@
 <template>
-  <div id="app">
-    <v-app id="inspire">
-      <v-form ref="form" v-model="valid" lazy-validation>
-        <v-text-field
-          v-model="object.firstname"
-          :rules="required"
-          label="Prénom"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="object.lastname"
-          :rules="required"
-          label="Nom"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="object.phone"
-          :rules="PhoneRules"
-          label="Téléphone"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="object.mail"
-          :rules="emailRules"
-          label="E-mail"
-          required
-        ></v-text-field>
-        <v-text-field
-              v-model="object.password"
-              :rules="required"
-              label="Mot de passe"
-              required
-              :append-icon="value1 ? 'mdi-eye-off' : 'mdi-eye'"
-              @click:append="() => (value1 = !value1)"
-              :type="value1 ? 'password' : 'text'"
-            ></v-text-field>
-        <v-text-field
-              v-model="object.repassword"
-              :rules="required"
-              label="Confirmation mot de passe"
-              required
-              :append-icon="value2 ? 'mdi-eye-off' : 'mdi-eye'"
-              @click:append="() => (value2 = !value2)"
-              :type="value2 ? 'password' : 'text'"
-            ></v-text-field>
-        <!-- <v-autocomplete
-          v-model="object.road"
-          @input="search()"
-
-          :items="roads"
-          :item-text="(item) => item.name"
-          :item-value="(item) => item.name"
-          chips
-          :rules="required"
-          required
-          label="Rue"
-        ></v-autocomplete> -->
-        <div>
-          <v-text-field class="road" list="road"
-            v-model.lazy="object.road"
-            @input="search()"
-            :rules="required"
-            label="Rue"
-            required
-          ></v-text-field>
-          <datalist id="road">
-
-          </datalist>
-        </div>
-        <v-text-field
-          v-model="object.zip"
-          :rules="codePostalRules"
-          label="Code postal"
-          required
-        ></v-text-field>
-        <div>
-          {{ object.road }}
-        </div>
-         <v-autocomplete
-              v-model="object.departmentsId"
-              :items="departments"
-              :item-text="(item) => item.code + ' - ' + item.nom"
-              :item-value="(item) => item.id_department"
-              chips
-              :rules="required"
-              required
-              label="Departement"
-              
-            ></v-autocomplete>
-            <v-card v-if="message" dark color="warning"
-              ><v-card-text>{{ message }}</v-card-text>
-            </v-card>
-        <v-btn color="error" class="mr-4" @click="register"> Inscription</v-btn>
-      </v-form>
-    </v-app>
+  <div class="home">
+    <img
+      class="logo"
+      src="../../assets/logoBlanc.svg"
+      alt="icone de feuille de canabis kawaii"
+    />
+    <router-link :to="{ name: 'Home' }">
+      <button color="secondary" class="rounded">Déjà inscrit</button>
+    </router-link>
+    <h1 class="title" data-text="Miguel la petite feuille de canabis !">
+      Miguel la petite feuille de canabis !
+    </h1>
+    <v-form-inscription-client></v-form-inscription-client>
+    <!-- credits : GoodKatz -->
+    <svg
+      class="waves"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 24 150 28"
+      preserveAspectRatio="none"
+      shape-rendering="auto"
+    >
+      <defs>
+        <path
+          id="gentle-wave"
+          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+        />
+      </defs>
+      <g class="parallax">
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="0"
+          fill="rgba(255, 170, 170, 0.5)"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="3"
+          fill="rgba(255, 255, 255, 1)"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="5"
+          fill="rgba(255, 170, 170, 0.7)"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="7"
+          fill="rgba(255, 170, 170, 1)"
+        />
+      </g>
+    </svg>
   </div>
 </template>
 
 <script>
-import axios from "axios"
+import VFormInscriptionClient from '@/components/Customer/VFormInscriptionClient.vue';
 
 export default {
-  data: () => ({
-    apiUrl: "https://api-adresse.data.gouv.fr/search/?q=",
-    limit: "&limit=15",
-    valid: false,
-    value1: String,
-    value2: String,
-    object: {
-      mail: "",
-      password: "",
-      repassword: "",
-      phone: "",
-      firstname: "",
-      lastname: "",
-      image: "",
-      departmentsId: "",
-      road: "",
-      zip: ""
-    },
-    message: "",
-    departments: [],
-    roads: [],
-    PhoneRules:[
-      (v) => /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(v)|| "Numéro incorrect"
-    ],
-    emailRules: [
-      (v) => !!v || "E-mail requis",
-      (v) => /.+@.+\..+/.test(v) || "E-mail non valide",
-    ],
-    codePostalRules:[
-      (v) => /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/.test(v) || "Code Postal Valide", 
-    ], 
-    required: [(v) => !!v || "requis"],
-  }),
-  mounted() {
-    //Verifie si l'utilisateur est deja log 
-    if (this.$store.state.customerId) {
-      // this.$router.push("/client/profil")
-      console.log('already Log')
-    }
-    // recupere la liste des departements
-    let url = "http://localhost:5000/departments"
-    axios
-      .get(url)
-      .then((response) => {
-        // console.log("Departements", response.data)
-        this.departments = response.data
-      }) //c'est un objet
-      .catch((error) => console.log(console.log("Departments error ", error)))
-
-      // this.search()
-      // document.querySelector('road').on
-  },
-
-  methods: {
-    // inscrit un utilisateur, stocke la variable global, redirige vers le dashboard
-    register() {
-      // Verfiie si les password sont identiques
-      if (this.object.password != this.object.repassword) {
-        return (this.message = "Le mot de passe est invalide");
-      }
-      // fait appel a l'api pour enregistrer un user
-      let url = "http://localhost:5000/customers/register"
-      if (this.$refs.form.validate()) {
-        axios
-          .post(url, {
-            mail: this.object.mail,
-            password: this.object.password,
-            phone: this.object.phone,
-            firstname: this.object.firstname,
-            lastname: this.object.lastname,
-            image: this.object.image,
-            id_department: this.object.departmentsId,
-            road: this.object.road,
-            zip: this.object.zip
-          })
-          .then((response) => {
-            console.log("INSCRIT", response)
-            this.$store.commit("loginCustomer", response.data.id)
-            this.$router.push("/client/profil")
-          }) //c'est un objet
-          .catch((error) =>{
-            console.log("PAS INSCRIT", error)
-            this.message = "Vous etes déjà inscrit !"
-          })
-      }
-    },
-    search(){
-      // let road = this.object.road
-      // this.object.road.onchange = function() {
-      //   console.log('heelo')
-      // }
-      // docu.addEventListener("change", console.log('hello'));
-      // console.log(this.object.road)
-      this.roads = []
-      let url = this.apiUrl + this.object.road
-      console.log(url)
-      fetch(url)
-      .then(response => response.json())
-      .then(results => {
-        // console.log(results.features)
-        results.features.forEach(result => {
-          // console.log(result.properties)
-          this.roads.push(result.properties)
-        });
-        console.log(this.roads)
-        // this.roads = results.features
-      })
-    },
-    
-  },
-  // computed: {
-  //   search(){
-  //     // let road = this.object.road
-  //     // this.object.road.onchange = function() {
-  //     //   console.log('heelo')
-  //     // }
-  //     // docu.addEventListener("change", console.log('hello'));
-  //     // console.log(this.object.road)
-  //     let url = this.apiUrl + this.object.road
-  //     console.log(url)
-  //     fetch(url)
-  //     .then(response => response.json())
-  //     .then(results => {
-  //       // console.log(results.features)
-  //       results.features.forEach(result => {
-  //         console.log(result.properties)
-  //         this.roads.push(result.properties)
-  //       });
-  //       console.log(this.roads)
-  //       // this.roads = results.features
-  //     })
-  //     return this.roads
-  //   },
-  // }
+  components: {
+    VFormInscriptionClient
+  }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  $color1-btn: #ffaaaa;
+
+  .home {
+    height: 100%;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #8ee2cf 0%, #6fce91 100%);
+
+
+    .rounded {
+      font-family: Rubik, sans-serif;
+      font-size: 1.5em;
+      border: solid 2px rgba(111, 206, 145, 1);
+      color: white;
+      width: 10em;
+      border-radius: 50px !important;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 2em;
+      outline: none;
+      transition: 300ms;
+      background-color: #ffaaaa;
+      &:hover {
+        color: rgba(111, 206, 145, 1);
+        background-color: white;
+      }
+    }
+  }
+  .title {
+    font-weight: 900;
+    font-size: 5vmin !important;
+    font-family: "Poppins", sans-serif !important;
+    color: white;
+    margin-top: 3vh;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  //logo animation
+
+  @keyframes popLogo {
+
+    0% {
+      transform: scale(0);
+    }
+    25% {
+      transform: scale(0);
+    }
+    
+    50% {
+      transform: scale(1.2);
+    }
+    70% {
+      transform: scale(1);
+    }
+    85% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .logo {
+    height: 10em;
+    margin-top: 3vh;
+    animation: 1s ease-in-out 0s 1 popLogo;
+  }
+  // Waves and waves animation, credits : GoodKatz (https://codepen.io/goodkatz/details/LYPGxQz)
+  .waves {
+    margin: 0px;
+    position: absolute;
+    bottom: 0px;
+    height:12vh;
+    width:100%;
+  }
+  .parallax > use {
+    animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+  }
+  .parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 25s;
+  }
+  .parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 20s;
+  }
+  .parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 15s;
+  }
+  .parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 12s;
+  }
+  @keyframes move-forever {
+    0% {
+      transform: translate3d(-90px, 0, 0);
+    }
+    100% {
+      transform: translate3d(85px, 0, 0);
+    }
+  }
 </style>

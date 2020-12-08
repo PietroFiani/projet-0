@@ -1,6 +1,6 @@
 const sql = require("./dbServices.js");
 
-const Product = function (product) {
+const Product = function(product) {
     this.stock = product.stock;
     this.label = product.label;
     this.description = product.description;
@@ -54,8 +54,29 @@ Product.updateById = (id, product, result) => {
                 // not found Product with the id
                 result({ kind: "not_found" }, null)
                 return;
+            } else {
+                console.log("updated product: ", { id: id, ...product })
+                result(null, { id: id, ...product })
             }
-            else {
+
+        });
+};
+
+Product.updateStockById = (id, product, result) => {
+    sql.query(
+        "UPDATE product SET stock = stock - ? WHERE id_product = ?", [product.stock, id],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err)
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Product with the id
+                result({ kind: "not_found" }, null)
+                return;
+            } else {
                 console.log("updated product: ", { id: id, ...product })
                 result(null, { id: id, ...product })
             }

@@ -80,7 +80,7 @@ export default {
                 })
                 .then(() => {
                     // console.log("Ajouter", response)
-                    this.$router.push("/client/profil")
+                    this.$router.push("/client/dashboard")
                 })
                  //c'est un objet
                 .catch((error) =>{

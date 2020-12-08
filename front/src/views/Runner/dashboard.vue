@@ -1,27 +1,75 @@
 <template>
-  <div>
-    <v-btn color="warning" @click="logout()"> Se deconnecter </v-btn>
-    <v-img
+  <div
+    style="
+      background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
+      height: 100%;
+    "
+  >
+    <v-row>
+      <v-spacer />
+      <v-menu offset-y min-width="260" class="mr-10 mt-5">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            v-bind="attrs"
+            rounded
+            v-on="on"
+            x-large
+            class="arrow-btn mr-10 mt-5"
+            width="260"
+            @click="rotate()"
+          >
+            <img
+              width="50"
+              height="50"
+              class="mr-3"
+              src="../../assets/avatar.png"
+              alt="photo de profil"
+            />
+            {{ runner.lastname }}
+            {{ runner.firstname }}
+            <div class="pl-2">
+              <svg
+                id="arrow"
+                width="20"
+                height="51"
+                viewBox="0 0 44 51"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M32.9061 35.564L21.9373 22.8626L10.9686 35.564L6.58105 33.0237L21.9373 15.2417L37.2936 33.0237L32.9061 35.564Z"
+                  fill="#000000"
+                />
+              </svg>
+            </div>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            ><v-btn text class="link" @click="logout()"
+              >Se deconnecter</v-btn
+            ></v-list-item
+          >
+        </v-list>
+      </v-menu>
+    </v-row>
+    <!-- <v-img
       id="avatar"
       v-if="!runner.image"
       src="../../assets/avatar.png"
       width="200px"
-    ></v-img>
+    ></v-img> -->
     <v-row justify="center">
-      <v-col cols="7" class="mt-16 pl-9">
-        <h1>Bonjour, {{ runner.lastname }} {{ runner.firstname }}</h1></v-col
-      >
-
-      <v-col cols="7" class="mt-14">
-        <v-card height="700" class="scroll"
+      <v-col cols="12" lg="10" md="10" class="mt-14">
+        <v-card height="750" style="border-radius: 25px"
           ><v-tabs grow v-model="tab" align-with-title>
-            <v-tabs-slider color="primary"></v-tabs-slider>
+            <v-tabs-slider></v-tabs-slider>
             <v-tab class="ma-0"> Commande </v-tab>
             <v-tab> Produit </v-tab>
             <v-tab> Profil </v-tab>
             <v-tabs-items v-model="tab">
               <v-tab-item>
-               <v-order :orders="runner.orders"></v-order>
+                <v-order :orders="runner.orders"></v-order>
               </v-tab-item>
               <v-tab-item>
                 <v-product :products="products" @reload="reload()"></v-product>
@@ -59,17 +107,23 @@ export default {
     };
   },
   mounted() {
+    const moment = require("moment");
     if (!this.$store.state.runnerId) {
       this.$router.push("/");
     } else {
       let id = this.$store.state.runnerId;
       let url = `http://localhost:5000/runners/${id}`;
+
       axios
         .get(url)
         .then((response) => {
           if (response.data) {
             console.log("RUNNER", response.data);
             this.runner = response.data;
+            this.runner.orders.forEach((order) => {
+              order.name = order.lastname + " " + order.firstname;
+              order.date = moment(order.date).format("DD/MM/YYYY");
+            });
           }
         })
         .catch((error) => {
@@ -123,39 +177,60 @@ export default {
         });
       console.log("reload ended");
     },
+    rotate() {
+      let arrow = document.getElementById("arrow");
+      console.log("arrow", arrow);
+      if (arrow.style.transform == "rotate(180deg)")
+        arrow.style.transform = "rotate(0deg)";
+      else {
+        arrow.style.transform = "rotate(180deg)";
+      }
+    },
     update(newRunner) {
       console.log("New Runner", newRunner);
       let url = `http://localhost:5000/runners/${this.runner.id_runner}`;
-      axios
-        .put(url, {
-          id_runner: this.runner.id_runner,
-          mail: newRunner.mail,
-          phone: newRunner.phone,
-          password: newRunner.password,
-        })
-        .then((response) => {
-          console.log("Runner updated", response.data);
-        }) //c'est un objet
-        .catch((error) => {
-          console.log("erreur", error);
-        });
-
-      newRunner.departmentsIds.forEach((element) => {
-        console.log(element)
-        axios({
-          method: "DELETE",
-          url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
-          headers: { "Content-Type": "application/json" },
-        }).then(() => {
-          axios
-            .post("http://localhost:5000/deliveries/create", {
-              id_runner: this.runner.id_runner,
-              departmentsIds: this.runner.departmentsIds,
-            })
-            .then(() => {
-              this.reload();
-            });
-        });
+      if (newRunner.password) {
+        axios
+          .put(url, {
+            id_runner: this.runner.id_runner,
+            mail: newRunner.mail,
+            phone: newRunner.phone,
+            password: newRunner.password,
+          })
+          .then((response) => {
+            console.log("Runner updated", response.data);
+          }) //c'est un objet
+          .catch((error) => {
+            console.log("erreur", error);
+          });
+      } 
+      else {
+        axios
+          .put(url, {
+            id_runner: this.runner.id_runner,
+            mail: newRunner.mail,
+            phone: newRunner.phone,
+          })
+          .then((response) => {
+            console.log("Runner updated", response.data);
+          }) //c'est un objet
+          .catch((error) => {
+            console.log("erreur", error);
+          });
+      }
+      axios({
+        method: "DELETE",
+        url: `http://localhost:5000/deliveries/${this.runner.id_runner}`,
+        headers: { "Content-Type": "application/json" },
+      }).then(() => {
+        axios
+          .post("http://localhost:5000/deliveries/create", {
+            id_runner: this.runner.id_runner,
+            departmentsIds: this.runner.departmentsIds,
+          })
+          .then(() => {
+            this.reload();
+          });
       });
     },
   },
@@ -163,18 +238,23 @@ export default {
 </script>
 
 <style scoped>
+body {
+}
 #avatar {
   position: absolute;
   left: 11%;
   top: 8%;
   z-index: 5;
 }
-button {
+/* button {
   position: absolute;
   right: 2%;
   top: 3%;
-}
+} */
 .scroll {
   overflow-y: scroll;
+}
+.v-menu__content {
+  border-radius: 50px;
 }
 </style>

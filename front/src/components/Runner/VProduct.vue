@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div style="height:600px" class="scroll">
     <v-btn block dark color="primary" class="mb-8 mt-8" @click="edit()"
       >Ajouter un nouveau produit</v-btn
     >
-    <v-card v-for="(product, index) in products" class="ma-3" :key="index">
+    <v-card v-for="(product, index) in products" class="ma-3" :key="index" :color="color(product)">
       <div class="d-flex flex-no-wrap justify-space-between">
         <div>
           <v-card-title class="headline"
@@ -167,6 +167,10 @@ export default {
           this.$emit("reload");
         })
         .catch((error) => console.log("Categories error ", error));
+    },
+    color(product){
+      if (product.stock==0) return '#E1E1E1'
+      else return 'white'
     },
     edit(product) {
       let url = "http://localhost:5000/categories";

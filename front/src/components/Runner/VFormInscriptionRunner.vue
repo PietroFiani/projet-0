@@ -1,3 +1,4 @@
+  
 <template>
   <div class="container">
     <v-form id="form" ref="form" v-model="valid" lazy-validation>
@@ -9,7 +10,7 @@
                 class=""
                 v-model="object.firstname"
                 :rules="required"
-                label="Pr√©nom"
+                label="PrÈnom"
                 required
               ></v-text-field>
             </v-col>
@@ -49,7 +50,7 @@
           class="text-field"
           v-model="object.phone"
           :rules="PhoneRules"
-          label="T√©l√©phone"
+          label="TÈlÈphone"
           required
         ></v-text-field>
 
@@ -90,7 +91,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   data: () => ({
     valid: false,
@@ -112,7 +112,7 @@ export default {
       (v) =>
         /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(
           v
-        ) || "Num√©ro incorrect",
+        ) || "NumÈro incorrect",
     ],
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -133,16 +133,15 @@ export default {
       }) //c'est un objet
       .catch((error) => console.log(console.log("Departments error ", error)));
   },
-
   methods: {
     register() {
       let url = "http://localhost:5000/runners/register";
       if (this.object.password != this.object.repassword) {
-        return (this.message = "Les mots de passe sont diff√©rents ! ");
+        return (this.message = "Les mots de passe sont diffÈrents ! ");
       }
       if (!this.object.departmentsIds.length) {
         return (this.message =
-          "Veuillez rentrer les d√©partements dans lesquels vous travaillez");
+          "Veuillez rentrer les dÈpartements dans lesquels vous travaillez");
       }
       if (this.$refs.form.validate()) {
         axios
@@ -162,7 +161,7 @@ export default {
           }) //c'est un objet
           .catch((error) => {
             console.log("PAS INSCRIT", error);
-            this.message = "Vous etes d√©j√† inscrit !";
+            this.message = "Vous etes dÈj‡ inscrit !";
           });
       }
     },
@@ -171,6 +170,33 @@ export default {
 </script>
 
 <style lang="scss">
+@media screen and (max-width: 420px) and (max-height:740px){
+  .container {
+  background: white;
+  width: 60vmin;
+  height: 43vh;
+  border-radius: 50px;
+  margin-top: 4vh;
+  z-index: 1;
+  box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
+  .text-field-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -1em;
+  .text-field {
+    width: 50vmin;
+    height: 4em;
+  }
+  .name-container {
+    display: flex;
+    width: 60vmin;
+  }
+}
+}
+
+
+}
 .container {
   background: white;
   width: 70vmin;
@@ -217,4 +243,5 @@ export default {
     margin-right: 0.5em;
   }
 }
+
 </style>

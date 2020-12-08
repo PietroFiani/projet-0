@@ -9,7 +9,7 @@
       <button class="rounded">Devenir Runner</button>
     </router-link>
     <h1 class="title" data-text="Miguel la petite feuille de canabis !">
-      Miguel la petite feuille de canabis !
+      O' Shit !
     </h1>
     <v-home-form></v-home-form>
     <!-- credits : GoodKatz -->
@@ -60,7 +60,6 @@
 <script>
 // @ is an alias to /src
 import VHomeForm from "@/components/VHomeForm.vue";
-
 export default {
   name: "Home",
   components: {
@@ -72,15 +71,20 @@ export default {
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
 
-.home {
+@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
+.logo {
+    height: 70px;
+    width: 75px;
+    margin-top: 10%;
+  }
+
+  .home {
   height: 100%;
   padding: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: linear-gradient(135deg, #8ee2cf 0%, #6fce91 100%);
-
-
   .rounded {
     font-family: Rubik, sans-serif;
     font-size: 1.5em;
@@ -90,9 +94,43 @@ $color1-btn: #ffaaaa;
     border-radius: 50px !important;
     position: absolute;
     top: 20px;
-    right: 20px;
     height: 2em;
+    outline: none;
+    transition: 300ms;
+    background-color: $color1-btn;
+    &:hover {
+      color: $color1-btn;
+      background-color: white;
+    }
+  }
+}
+  .title {
+  font-weight: 900;
+  font-size: 1.5vmin !important;
+  font-family: "Poppins", sans-serif !important;
+  color: white;
+  margin-top: -6vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  }
+}
 
+.home {
+  height: 100%;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #8ee2cf 0%, #6fce91 100%);
+  .rounded {
+    font-family: Rubik, sans-serif;
+    font-size: 1.5em;
+    border: solid 2px $color1-btn;
+    color: white;
+    width: 10em;
+    border-radius: 50px !important;
+    position: absolute;
+    top: 20px;
+    height: 2em;
     outline: none;
     transition: 300ms;
     background-color: $color1-btn;
@@ -110,18 +148,14 @@ $color1-btn: #ffaaaa;
   margin-top: 3vh;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 }
-
 //logo animation
-
 @keyframes popLogo {
-
   0% {
     transform: scale(0);
   }
   25% {
     transform: scale(0);
   }
-  
   50% {
     transform: scale(1.2);
   }
@@ -140,14 +174,13 @@ $color1-btn: #ffaaaa;
   margin-top: 5vh;
   animation: 1s ease-in-out 0s 1 popLogo;
 }
-
 // Waves and waves animation, credits : GoodKatz (https://codepen.io/goodkatz/details/LYPGxQz)
 .waves {
   margin: 0px;
   position: absolute;
   bottom: 0px;
-  height:25vh;
-  width:100%;
+  height: 25vh;
+  width: 100%;
 }
 .parallax > use {
   animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
