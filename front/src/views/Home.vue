@@ -71,7 +71,7 @@ export default {
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
 
-@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
+@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){//probleme avec le background
 .logo {
     height: 70px;
     width: 75px;
