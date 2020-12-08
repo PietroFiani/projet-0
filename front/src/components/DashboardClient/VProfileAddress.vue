@@ -198,6 +198,7 @@ export default {
     },
     // fonction pour update un adresse
     addAddr() {
+      this.object = []
       this.addressDialog = true
     },
     update() {

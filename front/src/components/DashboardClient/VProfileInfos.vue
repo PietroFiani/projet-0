@@ -1,14 +1,16 @@
 <template>
     <div class="profile-container">
       <h1>Mon Profil</h1>
-      <table class="profile">
-        <tr>
-          <td>Prénom : {{customers[0].firstname}}</td>
-          <td>Nom : {{customers[0].lastname}} </td>
-        </tr>
-        <tr>E-mail : {{customers[0].mail}}</tr>
-        <tr>Nom : {{customers[0].lastname}}</tr>
-      </table>
+      <div class="profile">
+        <div>
+          <p>Prénom : {{customers[0].firstname}}</p>
+          <p>Nom : {{customers[0].lastname}} </p>
+        </div>
+        <div>  
+          <p>E-mail : {{customers[0].mail}}</p>
+          <p>Téléphone : {{customers[0].phone}}</p>
+        </div>
+      </div>
       
       <v-btn color="primary" class="mr-4" @click="updateProfil()"> Modifier Profil</v-btn>
       <v-dialog v-model="dialog"  max-width="1000">
@@ -172,3 +174,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+  .profile {
+    display: flex;
+    justify-content: space-between;
+    width: 50vmin;
+  }
+</style>

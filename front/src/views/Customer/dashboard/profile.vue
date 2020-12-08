@@ -214,6 +214,7 @@ export default {
     justify-content: flex-end;
   }
   .wrapper{
+    padding: 2vmin;
     background: white;
     border-radius: 25px;
     display: block;

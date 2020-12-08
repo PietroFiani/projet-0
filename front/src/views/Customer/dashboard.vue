@@ -91,7 +91,7 @@
         </v-card>
         <span v-if="empty" class="">{{ empty }}</span>
       </div>
-      <v-dialog v-model="dialog">
+      <v-dialog v-model="dialog" max-width="1000">
         <v-card class="dialog">
           <v-app-bar color="secondary" dark>
             Commander du {{ commande.name_product }}
