@@ -10,7 +10,7 @@
         alt="icone de feuille de canabis kawaii"
       />
       <router-link :to="{ name: 'Connexion Partenaire' }">
-        <button class="rounded rounded-right">Déjà inscrit ?</button>
+        <button class="rounded rounded-right">D�j� inscrit ?</button>
       </router-link>
     </div>
     <h1 class="title">Just Smoke It</h1>
@@ -63,7 +63,6 @@
 <script>
 import axios from "axios";
 import VFormInscriptionRunner from "../../components/Runner/VFormInscriptionRunner.vue";
-
 export default {
   components: { VFormInscriptionRunner },
   data: () => ({
@@ -86,7 +85,7 @@ export default {
       (v) =>
         /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(
           v
-        ) || "Numéro incorrect",
+        ) || "Num�ro incorrect",
     ],
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -107,7 +106,6 @@ export default {
       }) //c'est un objet
       .catch((error) => console.log(console.log("Departments error ", error)));
   },
-
   methods: {
     register() {
       let url = "http://localhost:5000/runners/register";
@@ -116,7 +114,7 @@ export default {
       }
       if (!this.object.departmentsIds.length) {
         return (this.message =
-          "Veuillez rentrer les départements dans lesquels vous travaillez");
+          "Veuillez rentrer les d�partements dans lesquels vous travaillez");
       }
       if (this.$refs.form.validate()) {
         axios
@@ -136,7 +134,7 @@ export default {
           }) //c'est un objet
           .catch((error) => {
             console.log("PAS INSCRIT", error);
-            this.message = "Vous etes déjà inscrit !";
+            this.message = "Vous etes d�j� inscrit !";
           });
       }
     },
@@ -146,6 +144,44 @@ export default {
 
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
+@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
+.logo {
+    height: 70px;
+    width: 75px;
+    margin-top: 10%;
+  }
+
+  .home {
+  height: 100%;
+  background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
+  
+  .rounded {
+    font-family: Rubik, sans-serif;
+    margin: 2em;
+    font-size: 0.8em;
+    border: solid 2px rgba(111, 206, 145, 1);
+    color: white;
+    width: 25vmin;
+    border-radius: 50px !important;
+    height: 2em;
+    outline: none;
+    transition: 300ms;
+    background-color: rgba(111, 206, 145, 1);
+    &:hover {
+      color: rgba(111, 206, 145, 1);
+      background-color: white;
+    }
+  }
+  }
+  .title {
+  font-weight: 900;
+  font-size: 1.5vmin !important;
+  font-family: "Poppins", sans-serif !important;
+  color: white;
+  margin-top: -6vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  }
+}
 
 .home {
   height: 100%;
@@ -154,7 +190,6 @@ $color1-btn: #ffaaaa;
   flex-direction: column;
   align-items: center;
   background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
-
   .header {
     display: flex;
     flex-direction: row;
@@ -189,15 +224,13 @@ $color1-btn: #ffaaaa;
 }
 .title {
   font-weight: 900;
-  font-size: 5vmin !important;
+  font-size: 20vmin !important;
   font-family: "Poppins", sans-serif !important;
   color: white;
   margin-top: 3vh;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 }
-
 //logo animation
-
 @keyframes popLogo {
   0% {
     transform: scale(0);
@@ -205,7 +238,6 @@ $color1-btn: #ffaaaa;
   25% {
     transform: scale(0);
   }
-
   50% {
     transform: scale(1.2);
   }
@@ -259,4 +291,5 @@ $color1-btn: #ffaaaa;
     transform: translate3d(85px, 0, 0);
   }
 }
+
 </style>

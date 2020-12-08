@@ -16,8 +16,8 @@
             <td>{{ item.id_order }}</td>
             <td>{{ item.firstname }} {{ item.lastname }}</td>
             <td>{{ item.label }}</td>
-            <td>{{ item.qtte }}</td>
-            <td>{{ item.prix }}</td>
+            <td>{{ item.qtte }} gr</td>
+            <td>{{ item.prix }} €</td>
             <td>{{ item.date }}</td>
             <v-chip
               :color="color(item.workflow)"
@@ -50,9 +50,11 @@
 </template>
 
 <script>
+// import moment from 'moment'
 import axios from "axios"
 
 export default {
+  name:'VHistorique', 
   data() {
     return {
       dialogConfirm: false,
@@ -85,6 +87,7 @@ export default {
     }
   },
   mounted(){
+    const moment = require('moment')
     let url = `http://localhost:5000/orders/${this.$store.state.customerId}`
     axios
     .get(url)
@@ -92,6 +95,9 @@ export default {
         if (response.data) {
             // console.log("ADDRCUSTOMER", response.data)
             this.orders = response.data
+            this.orders.forEach((order) => {
+              order.date = moment(order.date).format("DD/MM/YYYY H:mm:ss");
+            });
         }
     })
     .catch((error) => {
@@ -133,14 +139,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .wrapper {
-    background-color: white;
-    height: 85vh;
-    width: 90vw;
-    border-radius: 25px;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: space-around;
-  }
 </style>

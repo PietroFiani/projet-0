@@ -288,4 +288,19 @@ export default {
     margin-right: 0.5em;
   }
 }
+
+@media screen and (max-width: 420px) and (max-height:740px){
+  .container {
+  background-color: white;
+  height: 50vh;
+  width: 20em;
+  border-radius: 50px;
+  box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  margin-top: 1vh;
+  }
+}
+
+@media screen and (max-width: 375px) and (max-height:812px){ //iphone X
+}
 </style>

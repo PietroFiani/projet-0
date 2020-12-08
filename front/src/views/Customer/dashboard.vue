@@ -17,6 +17,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
     <v-fab-transition>
       <v-btn
         :color="color()"
@@ -417,6 +418,7 @@ export default {
     margin-right: 0.5em;
   }
 }
+
 .runner-cards {
   width: 90vw;
   display: flex;
@@ -429,6 +431,7 @@ export default {
     margin: 2.2vw;
   }
 }
+
 .v-input {
   margin: 0px;
   padding: 0px;
@@ -452,12 +455,4 @@ export default {
 .select-accueil {
   min-width: 15vw;
 }
-// .flex{
-//  display: flex;
-//  height: auto;
-// justify-content: space-around;
-//   h1,div {
-//     height: 6vmin
-//   }
-// }
 </style>

@@ -60,7 +60,6 @@
 <script>
 // @ is an alias to /src
 import VHomeForm from "@/components/VHomeForm.vue";
-
 export default {
   name: "Home",
   components: {
@@ -71,6 +70,45 @@ export default {
 
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
+
+@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){//probleme avec le background
+.logo {
+    height: 70px;
+    width: 75px;
+    margin-top: 10%;
+  }
+
+  .home {
+  height: 100%;
+  background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
+  
+  .rounded {
+    font-family: Rubik, sans-serif;
+    margin: 2em;
+    font-size: 0.8em;
+    border: solid 2px rgba(111, 206, 145, 1);
+    color: white;
+    width: 25vmin;
+    border-radius: 50px !important;
+    height: 2em;
+    outline: none;
+    transition: 300ms;
+    background-color: rgba(111, 206, 145, 1);
+    &:hover {
+      color: rgba(111, 206, 145, 1);
+      background-color: white;
+    }
+  }
+  }
+  .title {
+  font-weight: 900;
+  font-size: 1.5vmin !important;
+  font-family: "Poppins", sans-serif !important;
+  color: white;
+  margin-top: -6vh;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  }
+}
 
 .home {
   height: 100%;
@@ -89,9 +127,8 @@ $color1-btn: #ffaaaa;
     border-radius: 50px !important;
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 40px;
     height: 2em;
-
     outline: none;
     transition: 300ms;
     background-color: $color1-btn;
@@ -109,9 +146,7 @@ $color1-btn: #ffaaaa;
   margin-top: 3vh;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
 }
-
 //logo animation
-
 @keyframes popLogo {
   0% {
     transform: scale(0);
@@ -134,11 +169,10 @@ $color1-btn: #ffaaaa;
   }
 }
 .logo {
-  height: 10em;
+  height: 7em;
   margin-top: 5vh;
   animation: 1s ease-in-out 0s 1 popLogo;
 }
-
 // Waves and waves animation, credits : GoodKatz (https://codepen.io/goodkatz/details/LYPGxQz)
 .waves {
   margin: 0px;

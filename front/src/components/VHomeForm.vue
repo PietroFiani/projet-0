@@ -20,15 +20,15 @@
           required
         >
         </v-text-field>
-        <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
-      <span v-if="message" class="alert ma-auto mt-10">
+      <v-row justify="center"> <span v-if="message" class="alert">
         <img
           id="warning-icon"
           src="./../assets/warning.svg"
           alt="warning logo"
         />{{ message }}</span
-      >
+      ></v-row>
+     
       <div class="btn-wrapper">
         <button class="round sign-in" type="button" @click="log()">
           Connexion
@@ -106,7 +106,7 @@ $color1-btn: #6fce91;
 
 .container {
   background-color: white;
-  height: 60vh;
+  height: 65vh;
   width: 35em;
   border-radius: 25px;
   box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
@@ -131,6 +131,7 @@ $color1-btn: #6fce91;
     }
   }
 }
+
 //buttons
 .round {
   font-size: 1.5em;
@@ -168,7 +169,7 @@ $color1-btn: #6fce91;
   color: $color1-btn;
   width: 21em;
   justify-self: center;
-  margin-top: -1em;
+  // margin-top: -4em;
   &:hover {
     color: white;
     background-color: $color1-btn;
@@ -186,7 +187,6 @@ $color1-btn: #6fce91;
   }
 }
 .alert {
-  margin-top: 1em;
   width: 30em;
   color: white;
   display: flex;
@@ -199,6 +199,36 @@ $color1-btn: #6fce91;
   #warning-icon {
     width: 1.5em;
     margin-right: 0.5em;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) and (max-height: 1027px) {
+  .container {
+    height: 65vh;
+    width: 15em;
+    margin-top: 4vh;
+    .home-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .btn-wrapper {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 3em;
+      }
+      .text-area-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin-top: 1em;
+        margin-left: 2em;
+        margin-right: 2em;
+      }
+    }
+  }
+  .round{
+    max-width: 100px; 
+    max-height: 20px  ; 
   }
 }
 </style>
