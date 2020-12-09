@@ -27,8 +27,7 @@
             <td>{{ item.zip }}</td>
             <td>{{ item.nom}}</td>
             <td>
-              <v-btn color="primary" class="mr-4 button" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
-
+              <v-btn color="primary" class="mr-4 button" @click="updateAddr(item),dialog=true" > Modifier </v-btn>
             </td>
           </tr>
         </tbody>
@@ -36,7 +35,7 @@
     </v-data-table>
     <v-pagination
       v-model="page"
-      color="#515bae"
+      color="primary"
       :length="pageCount"
     ></v-pagination>
 
@@ -121,6 +120,9 @@ import axios from "axios";
 export default {
   data() {
     return {
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 5,
       addressDialog: null,
       dialog:false, 
       dialog1:false, 
@@ -149,6 +151,7 @@ export default {
         { text: "Rue", value: "name" },
         { text: "Code postal", value: "name" },
         { text: "Département", value: "name" },
+        {align:'right'}
       ],
     };
   },
