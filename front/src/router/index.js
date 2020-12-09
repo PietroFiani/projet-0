@@ -49,8 +49,8 @@ const routes = [{
             import ( /* webpackChunkName: "profile" */ '../views/Customer/dashboard/commandes.vue')
     },
     {
-        path:'/client/profile', 
-        name:'Client Profile', 
+        path:'/client/profil', 
+        name:'Client Profil', 
         component: () => 
             import('../views/Customer/dashboard/profile.vue')
     }, 

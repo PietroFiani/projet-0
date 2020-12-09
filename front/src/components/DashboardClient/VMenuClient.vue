@@ -30,7 +30,7 @@
             ></v-list-item
           >
           <v-list-item>
-            <router-link class="link" :to="{ name: 'Client Profile' }"
+            <router-link class="link" :to="{ name: 'Client Profil' }"
               ><span class="link">Profil</span><v-divider></v-divider></router-link
             ></v-list-item
           >

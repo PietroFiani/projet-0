@@ -12,7 +12,7 @@ const Order = function(order) {
 };
 
 Order.findByRunner = (runnerId, result) => {
-    sql.query(`SELECT * FROM ` + "`order`" + `NATURAL JOIN customer NATURAL JOIN address NATURAL JOIN product WHERE id_runner = ${runnerId}`, (err, res) => {
+    sql.query(`SELECT * FROM ` + "`order`" + `NATURAL JOIN customer NATURAL JOIN address NATURAL JOIN product WHERE id_runner = ${runnerId} ORDER BY date DESC`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -156,7 +156,7 @@ Order.removeAll = result => {
 Order.getAllByCustomer = (customerId, result) => {
     sql.query(`SELECT id_order, date, workflow, qtte, prix, label, lastname,firstname
                FROM ` + "`order`" +
-        `NATURAL JOIN product NATURAL JOIN runner WHERE id_customer = ${customerId}`, (err, res) => {
+        `NATURAL JOIN product NATURAL JOIN runner WHERE id_customer = ${customerId} ORDER BY date DESC`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
