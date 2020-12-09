@@ -21,7 +21,6 @@
             v-for="item in items"
             :key="item.id_address"
             class="item-row"
-            @click="handleClick(item)"
           >
             <td>{{ item.road }}</td>
             <td>{{ item.zip }}</td>
@@ -127,7 +126,7 @@ export default {
       dialog:false, 
       dialog1:false, 
       valid: false,
-      address: {},
+      address: [],
       message: "",
       departments: [],
       customers: [
@@ -148,10 +147,10 @@ export default {
       ], 
       required: [(v) => !!v || "requis"],
       headers: [
-        { text: "Rue", value: "name" },
-        { text: "Code postal", value: "name" },
-        { text: "Département", value: "name" },
-        {align:'right'}
+        { text: "Rue", value: "road" },
+        { text: "Code postal", value: "zip" },
+        { text: "Département", value: "nom" },
+        {text:"",value:"", align:'right'}
       ],
     };
   },
@@ -161,8 +160,6 @@ export default {
     // On recupere les info de l'utilisateur pour pouvoir les afficher
     this.loadCustomer()
     this.getDepartments()
-
-    
   },
 
   methods: {
@@ -181,7 +178,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("Customer", response.data)
+            console.log("Customer", response.data)
             this.customers = response.data;
             // this.search();
           }
@@ -242,13 +239,8 @@ export default {
           zip: this.address.zip,
           id_department: this.address.id_department,
         })
-        .then((response) => {
-          if (response.data) {
-            // console.log("Address", response.data)
-            this.address = response.data;
-        this.loadCustomer()
-
-          }
+        .then(() => {
+            this.loadCustomer()
         })
         .catch((error) => {
           console.log("ERREUR", error);
@@ -257,6 +249,7 @@ export default {
       // document.location.reload(); 
     },
     updateAddr(customer) {
+      console.log(customer)
       this.address = customer
     },
     // fonction poour modifier le mail, le numero de tel et le password
@@ -285,7 +278,7 @@ export default {
 .addr_container{
   margin-top: 4vh;
 }
-
+  
 </style>
 
 
