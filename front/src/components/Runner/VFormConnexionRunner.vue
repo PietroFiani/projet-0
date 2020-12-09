@@ -87,20 +87,30 @@ export default {
 
 <style lang="scss" scoped>
 //Variables
-@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
-  .container {
-  background-color: white;
-  
-  width: 23em;
-  border-radius: 50px;
-  box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  margin-top: 1vh;
+@media screen and (max-width:767px){
+  .container{ 
+  width: 98vw!important;
+  height: 70vh !important;
+    
+    .btn-wrapper {
+      margin-top: 1em !important;
+    }
+  }
+
+  .round{
+    width: 35vw !important; 
+    height: 6vh;
+    font-size: 20px!important;
+  }
+
+.runner-sign-in {
+  width: 78vw !important;
+  margin-top: -111em;
+ 
   }
 }
 
-@media screen and (max-width: 375px) and (max-height:812px){ //iphone X
-} 
+
 .container {
   background-color: white;
   height: 50vh;

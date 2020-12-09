@@ -170,32 +170,30 @@ export default {
 </script>
 
 <style lang="scss">
-@media screen and (max-width: 420px) and (max-height:740px){
-  .container {
-  background: white;
-  width: 60vmin;
-  height: 43vh;
-  border-radius: 50px;
-  margin-top: 4vh;
-  z-index: 1;
-  box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
-  .text-field-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: -1em;
-  .text-field {
-    width: 50vmin;
-    height: 4em;
+@media screen and (max-width:767px){
+  .container{ 
+  width: 98vw!important;
+  height: 70vh !important;
+    
+    .btn-wrapper {
+      margin-top: 1em !important;
+    }
+    .text-field-container{
+      font-size: 0px;
+    }
   }
-  .name-container {
-    display: flex;
-    width: 60vmin;
+
+  .round{
+    width: 35vw !important; 
+    height: 6vh;
+    font-size: 20px!important;
   }
-}
-}
 
-
+.runner-sign-in {
+  width: 78vw !important;
+  margin-top: -111em;
+ 
+  }
 }
 .container {
   background: white;

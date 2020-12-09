@@ -144,43 +144,33 @@ export default {
 
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
-@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
+@media screen and (max-width:700px){
 .logo {
-    height: 70px;
+    height: auto !important;
     width: 75px;
-    margin-top: 10%;
+    margin-top: 1% !important
   }
-
+  .waves {
+    display: none;
+  }
   .home {
   height: 100%;
   background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
-  max-width: 100%;
+  display:inline-block;
   .rounded {
-    font-family: Rubik, sans-serif;
-    margin: 2em;
-    font-size: 0.8em;
-    border: solid 2px rgba(111, 206, 145, 1);
-    color: white;
-    width: 25vmin;
-    border-radius: 50px !important;
-    height: 2em;
-    outline: none;
-    transition: 300ms;
-    background-color: rgba(111, 206, 145, 1);
-    &:hover {
-      color: rgba(111, 206, 145, 1);
-      background-color: white;
-    }
+    font-size: 12px!important;
+    top: 20px;
+    margin-right: -33px;
+    height: 2vh;
+    width: 23vw;
   }
-  }
-  .title {
+  h1 {
   font-weight: 900;
-  font-size: 1.5vmin !important;
-  font-family: "Poppins", sans-serif !important;
-  color: white;
-  margin-top: -6vh;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  font-size: 40px !important;
   }
+  
+ }
+
 }
 
 .home {
@@ -224,7 +214,7 @@ $color1-btn: #ffaaaa;
 }
 .title {
   font-weight: 900;
-  font-size: 20vmin !important;
+  font-size: 5vmin !important;
   font-family: "Poppins", sans-serif !important;
   color: white;
   margin-top: 3vh;
