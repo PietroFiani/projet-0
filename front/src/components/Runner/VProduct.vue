@@ -43,7 +43,24 @@
         </div>
 
         <v-avatar v-if="!product.image" class="ma-3 hidden-md-and-down" size="200" tile>
-          <v-img class="picture" src="../../assets/marijuana.jpg"></v-img>
+          <v-img
+            v-if="product.name == 'Fines Herbes'"
+            height="250"
+            width="300"
+            src="../../assets/musk.jpeg"
+          ></v-img>
+          <v-img
+            v-if="product.name == 'Champignons'"
+            height="250"
+            width="300"
+            src="../../assets/toad.jpg"
+          ></v-img>
+          <v-img
+            v-if="product.name == 'Vitamines'"
+            height="250"
+            width="300"
+            src="../../assets/bad.jpg"
+          ></v-img>
         </v-avatar>
       </div>
     </v-card>

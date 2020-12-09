@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <v-navigation-drawer v-model="drawer" absolute temporary right width="500">
+
+    <v-navigation-drawer v-model="drawer" class="onglet" temporary app right width="500">
       <v-list three-line>
         <v-list-item
           v-for="notif in notifications"
@@ -22,7 +23,7 @@
       <v-btn
         :color="color()"
         style="align-self: flex-end"
-        class="mr-10 mb-16"
+        class="mr-10 mb-16 fab"
         dark
         bottom
         right
@@ -32,8 +33,9 @@
         <v-icon>mdi-alarm-light-outline </v-icon>
       </v-btn>
     </v-fab-transition>
-
+    <v-row justify="center">
     <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
+    
     <div class="wrapper">
       <div class="menu-container">
         <v-menu-client></v-menu-client>
@@ -165,8 +167,8 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-      <v-dialog v-if="!$store.state.addrCustomerId" v-model="dialogConfirm" persistent max-width="600">
-        <v-card>
+      <v-dialog v-if="!$store.state.addrCustomerId" v-model="dialogConfirm" class="dialog" persistent max-width="600">
+        <v-card class="carte">
           <v-app-bar dark color="primary">
             Bienvenue sur l'application !
           </v-app-bar>
@@ -199,6 +201,7 @@
           </v-card-actions> </v-card
       ></v-dialog>
     </div>
+    </v-row>
   </div>
 </template>
 
@@ -471,8 +474,6 @@ export default {
   min-width: 100%;
   background: linear-gradient(180deg, #ffd1d1 0%, #ffaaaa 100%);
   padding: 0px !important;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   .wrapper {
@@ -548,5 +549,64 @@ export default {
 }
 .select-accueil {
   min-width: 15vw;
+}
+@media screen and (max-width: 600px) {
+  .onglet{
+    width:80vw !important;
+  }
+  h1{
+    margin-top:110px!important;
+    font-size:1.5em;
+  }
+  .fab{
+    margin:8px !important;
+  }
+  .white-logo {
+  width: 100px;
+  top: 4vh;
+}
+.title-select{
+  width:auto;
+}
+  .dialog {
+        width:fit-content!important;
+  }
+  .v-input {
+  max-width: 48%;
+}
+    .carte {
+    width:300px!important;
+  }
+  .v-dialog{
+    width:fit-content!important;
+
+  }
+  .v-dialog__content{
+    width:fit-content!important;
+  }
+  .v-overlay__scrim{
+    position:relative!important;
+  }
+  .runner-cards{
+  width: 90vw;
+  display: flex;
+  overflow-y:hidden;
+  justify-content: left;
+  margin-top:50px;
+  }
+  .container {
+    overflow-x:hidden;
+  .wrapper {
+    height: auto!important;
+    width: 93vw;
+    display: flex;
+    align-content: center;
+    .menu-container {
+      width: auto;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
 }
 </style>
