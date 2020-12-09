@@ -10,7 +10,7 @@
               alt="photo de profil"
             />
             <h2 class="client-name">
-              menu
+              Menu
             </h2>
             <button
               v-bind="attrs"
@@ -169,7 +169,8 @@ $width: 150px;
     display: flex;
     flex-direction: column;
     padding: 0px !important;
-    height: 200px;
+    min-height: 3.2em; 
+    max-height: 200px;
   }
 }
 
@@ -182,6 +183,7 @@ $width: 150px;
   margin: 0.5em;
   font-size: 2em;
   padding-right: 0.5em;
+  font-family: 'Rubik', sans-serif;
 }
 .client-name {
   color: black;
@@ -212,14 +214,16 @@ $width: 150px;
     }
   }
   .v-menu__content {
+    margin-top:0px !important; 
     position: absolute;
     width: 7em;
-    height: 10em;
+    height: 9em;
     .v-list-item {
+      margin-top: 5px !important; 
       font-family: Rubik, sans-serif;
       cursor: pointer;
       padding: 0px !important;
-      height: 35px !important;
+      min-height: 0px !important;
     }
   }
 
@@ -229,8 +233,7 @@ $width: 150px;
     height: 2em;
   }
   .client-name {
-    height: 2em;
-    font-size: 10px;
+    font-size: 15px;
     padding-right: 0.5em;
     margin-bottom: 0.9em;
   }
