@@ -10,7 +10,7 @@
                 class=""
                 v-model="object.firstname"
                 :rules="required"
-                label="Prénom"
+                label="PrÃ©nom"
                 required
               ></v-text-field>
             </v-col>
@@ -50,7 +50,7 @@
           class="text-field"
           v-model="object.phone"
           :rules="PhoneRules"
-          label="Téléphone"
+          label="TÃ©lÃ©phone"
           required
         ></v-text-field>
 
@@ -112,7 +112,7 @@ export default {
       (v) =>
         /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/.test(
           v
-        ) || "Numéro incorrect",
+        ) || "Numï¿½ro incorrect",
     ],
     emailRules: [
       (v) => !!v || "E-mail requis",
@@ -137,11 +137,11 @@ export default {
     register() {
       let url = "http://localhost:5000/runners/register";
       if (this.object.password != this.object.repassword) {
-        return (this.message = "Les mots de passe sont différents ! ");
+        return (this.message = "Les mots de passe sont diffï¿½rents ! ");
       }
       if (!this.object.departmentsIds.length) {
         return (this.message =
-          "Veuillez rentrer les départements dans lesquels vous travaillez");
+          "Veuillez rentrer les dï¿½partements dans lesquels vous travaillez");
       }
       if (this.$refs.form.validate()) {
         axios
@@ -161,7 +161,7 @@ export default {
           }) //c'est un objet
           .catch((error) => {
             console.log("PAS INSCRIT", error);
-            this.message = "Vous etes déjà inscrit !";
+            this.message = "Vous etes dï¿½jï¿½ inscrit !";
           });
       }
     },

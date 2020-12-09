@@ -10,7 +10,7 @@
         alt="icone de feuille de canabis kawaii"
       />
       <router-link :to="{ name: 'Connexion Partenaire' }">
-        <button class="rounded rounded-right">D�j� inscrit ?</button>
+        <button class="rounded rounded-right">Déjà inscrit ?</button>
       </router-link>
     </div>
     <h1 class="title">Just Smoke It</h1>
