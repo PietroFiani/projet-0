@@ -108,6 +108,17 @@ export default {
   margin-top: -111em;
  
   }
+
+  .alert {
+  margin-top: 1em;
+  width: 16em !important;
+  padding: 0.2em;
+  position: center;
+  #warning-icon {
+    width: 1.5em;
+    margin-right: 0.5em;
+    }
+  }
 }
 
 
