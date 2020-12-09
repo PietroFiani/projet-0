@@ -226,4 +226,16 @@ export default {
 .body-wrapper{
   padding: 2vmin;
 }
+
+
+@media screen and (max-width: 767px) and (max-height: 1027px) {
+  .wrapper {
+    margin-top: 3vh;
+    min-height: 98%!important;
+  }
+  .white-logo{
+    top:2vh;
+    width: 15vmin;
+  }
+}
 </style>

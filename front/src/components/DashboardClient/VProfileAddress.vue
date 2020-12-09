@@ -2,10 +2,14 @@
   
   
   <div class="addr_container">
-    <h1 class="adrr-title">Mes adresses</h1>  
-    <v-btn color="primary" class="mr-4 mt-2 mb-2 button" @click="addAddr()" >
-      Ajouter une adresse
-    </v-btn>
+    <div class="flex">
+      <h1 class="adrr-title">Mes adresses</h1>  
+      <v-btn fab x-small dark color="secondary"  class="ml-4 " @click="addAddr()" >
+        <v-icon  >
+          mdi-plus 
+        </v-icon>
+      </v-btn>
+    </div>
     <v-data-table
       :headers="headers"
       :items="customers"
@@ -26,7 +30,11 @@
             <td>{{ item.zip }}</td>
             <td>{{ item.nom}}</td>
             <td>
-              <v-btn color="primary" class="mr-4 button" @click="updateAddr(item),dialog=true" > Modifier </v-btn>
+              <v-btn icon color="primary" class="mr-4 button" @click="updateAddr(item),dialog=true" >
+                <v-icon>
+                mdi-pencil
+                </v-icon>
+              </v-btn>
             </td>
           </tr>
         </tbody>
@@ -69,7 +77,7 @@
         </v-card>
       </v-dialog>
       <v-dialog v-if="addressDialog" class="update-form" v-model="addressDialog"  max-width="1000">
-        <v-card>
+        <v-card class="">
           <v-app-bar color="secondary" dark>
             Ajouter une adresse
             <v-spacer />
@@ -77,7 +85,7 @@
               <v-icon>mdi-close</v-icon></v-btn
             >
           </v-app-bar>
-          <v-form ref="formAdd" v-model="valid" lazy-validation>
+          <v-form class="pa-4" ref="formAdd" v-model="valid" lazy-validation>
 
             <v-text-field
                 v-model="object.road"
@@ -278,7 +286,23 @@ export default {
 .addr_container{
   margin-top: 4vh;
 }
-  
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 767px) and (max-height: 1027px) {
+  .addr_container{
+    margin-top: 0;
+  }
+  tbody,th,td {
+    padding: 1px!important;
+  }
+  h1 {
+      font-size: 1.7em;
+    }
+}
 </style>
 
 

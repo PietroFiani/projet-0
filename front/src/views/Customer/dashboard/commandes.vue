@@ -52,18 +52,22 @@ export default {
 @media screen and (max-width: 767px) and (max-height: 1027px){
 
   .commande-container {
-  .test {
-    background: white;
-    height: 85vh;
-    width: 90vw;
-    border-radius: 20px;
-    padding: 10px; 
+    .test {
+      background: white;
+      border-radius: 20px;
+      padding: 10px; 
+    }
   }
-}
+  .test {
+    margin-top: 3vh;
+    // min-height: 98%!important;
+    height: auto!important;
 
+  }
   .white-logo{
-    top: 4vh;
+    top:2vh;
     width: 15vmin;
   }
+
 }
 </style>

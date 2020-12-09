@@ -9,7 +9,7 @@
       :page.sync="page"
       :items-per-page="itemsPerPage"
       hide-default-footer
-      class="elevation-1 mt-8 datas"
+      class="elevation-1 mt-2 datas"
       @page-count="pageCount = $event"
     >
       <template v-slot:body="{ items }">
@@ -43,7 +43,7 @@
       v-model="page"
       color="primary"
       :length="pageCount"
-      class="mt-8"
+      class="mt-3"
     ></v-pagination>
 
   </div>
@@ -141,6 +141,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
+
 td{
   font-family: 'rubik', sans-serif;
 }
