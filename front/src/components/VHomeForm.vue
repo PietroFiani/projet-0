@@ -104,36 +104,38 @@ export default {
 //Variables
 $color1-btn: #6fce91;
 
-@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){
-.container {
-  background-color: white;
-  height: 65vh;
-  width: 15em;
-  border-radius: 25px;
-  box-shadow: 0px 4px 4px 7px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  margin-top: 4vh;
-  .home-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+@media screen and (max-width:767px){
+  .container{ 
+  width: 98vw!important;
+  height: 70vh !important;
+    
     .btn-wrapper {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 3em;
-    }
-    .text-area-wrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      margin-top: 1em;
-      margin-left: 2em;
-      margin-right: 2em;
+      margin-top: 1em !important;
     }
   }
-}
+
+  .round{
+    width: 35vw !important; 
+    height: 6vh;
+    font-size: 20px!important;
+  }
+
+.runner-sign-in {
+  width: 78vw !important;
+  margin-top: -111em;
+ 
 }
 
+.alert {
+  width: 18em!important;
+
+  #warning-icon {
+    width: 1.5em;
+    margin-right: 0.5em;
+  }
+
+ }
+}
 .container {
   background-color: white;
   height: 60vh;
@@ -231,4 +233,5 @@ $color1-btn: #6fce91;
     margin-right: 0.5em;
   }
 }
+
 </style>

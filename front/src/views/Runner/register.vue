@@ -154,7 +154,7 @@ $color1-btn: #ffaaaa;
   .home {
   height: 100%;
   background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
-  
+  max-width: 100%;
   .rounded {
     font-family: Rubik, sans-serif;
     margin: 2em;
