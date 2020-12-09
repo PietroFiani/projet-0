@@ -3,47 +3,46 @@
     <div class="text-center">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <div class="overview">
+          <div class="overview" @click="dislpayMenu()"  v-bind="attrs"
+              v-on="on">
             <img
               class="profil-pic"
               src="../../assets/avatar.png"
               alt="photo de profil"
             />
             <h2 class="client-name">
-              {{ customers[0].firstname }} <br />
-              {{ customers[0].lastname }}
+              Menu
             </h2>
-            <button v-bind="attrs" v-on="on" class="arrow-btn" @click="dislpayMenu()">
               <img
                 class="arrow"
                 src="../../assets/flechenavigation.svg"
                 alt="fleche de découverte du menu"
               />
-            </button>
           </div>
         </template>
 
         <v-list-item class="me-content">
           <v-list-item
             ><router-link class="link" :to="{ name: 'Dashboard Client' }"
-              ><span class="link">Accueil</span><v-divider></v-divider></router-link
-            ></v-list-item
-          >
+              ><span class="link">Accueil</span
+              ><v-divider></v-divider></router-link
+          ></v-list-item>
           <v-list-item>
             <router-link class="link" :to="{ name: 'Client Profil' }"
-              ><span class="link">Profil</span><v-divider></v-divider></router-link
-            ></v-list-item
-          >
+              ><span class="link">Profil</span
+              ><v-divider></v-divider></router-link
+          ></v-list-item>
           <v-list-item
             ><router-link class="link" :to="{ name: 'Commandes Client' }"
-              ><span class="link">Historique des <br> commandes</span><v-divider></v-divider></router-link
-            ></v-list-item
-          >
+              ><span class="link"
+                >Historique des <br />
+                commandes</span
+              ><v-divider></v-divider></router-link
+          ></v-list-item>
           <v-list-item
-            ><span class="link" @click="logout()"
-              >Se deconnecter</span
-            ><v-divider></v-divider></v-list-item
-          >
+            ><span class="link" @click="logout()">Se deconnecter</span
+            ><v-divider></v-divider
+          ></v-list-item>
         </v-list-item>
       </v-menu>
     </div>
@@ -111,12 +110,10 @@ export default {
         });
     },
     //fonction d'affichage du menu
-    dislpayMenu(){
-      let pills = document.querySelector('.overview')
-      pills.classList.toggle("menu-display")
-      let arrow = document.querySelector('.arrow')
-      arrow.classList.toggle('.arrow-rotate')
-    }
+    dislpayMenu() {
+      let pills = document.querySelector(".overview");
+      pills.classList.toggle("menu-display");
+    },
   },
 };
 </script>
@@ -135,16 +132,16 @@ $width: 150px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius:50px;
-    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     background: white;
   }
-  .menu-display{
+  .menu-display {
     border-bottom-right-radius: 0px;
-    border-bottom-left-radius:0px;
+    border-bottom-left-radius: 0px;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
-    box-shadow: 0px 0px ;
+    box-shadow: 0px 0px;
   }
 }
 .v-menu__content {
@@ -155,16 +152,17 @@ $width: 150px;
   border-bottom-right-radius: 25px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
-  box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: white;
   .v-list-item {
     font-family: Rubik, sans-serif;
     margin-top: 10px;
     cursor: pointer;
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     padding: 0px !important;
-    height: 200px;
+    min-height: 3.2em; 
+    max-height: 200px;
   }
 }
 
@@ -174,80 +172,79 @@ $width: 150px;
   height: 3em;
 }
 .client-name {
-  height: 3em;
-  font-size: 2em; 
+  margin: 0.5em;
+  font-size: 2em;
   padding-right: 0.5em;
+  font-family: 'Rubik', sans-serif;
 }
 .client-name {
   color: black;
   font-size: 1em;
 }
-.arrow-btn{
+.arrow-btn {
   outline: none;
-  .arrow {
-  padding-right: 0.5em;
+}
+.arrow {
   height: 2em;
-  }
 }
 
 //menu
 
 .link {
   text-decoration: none;
-  color:#6fce91; 
+  color: #6fce91;
 }
 
-
-
-@media screen and (max-width: 767px) and (max-height: 1027px){
+@media screen and (max-width: 767px) and (max-height: 1027px) {
   .menu-container {
+    .overview {
+      width: 5em;
+      height: 2em;
+      display: flex;
+    }
+  }
+  .v-menu__content {
+    margin-top:0px !important; 
+    position: absolute;
+    width: 5em;
+    height: 9em;
+    border-radius: 15px; 
+    .v-list-item {
+      width:5em;
+      margin-top: 5px !important; 
+      font-family: Rubik, sans-serif;
+      cursor: pointer;
+      padding: 0px !important;
+      min-height: 0px !important;
+    }
+  }
+  .menu-display {
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    box-shadow: 0px 0px;
+  }
+  //overview
 
-  .overview {
-    width: 7em;
+  .profil-pic {
     height: 2em;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
-}
-.v-menu__content {
-  position: absolute;
-  width: 7em;
-  height: 10em;
-  .v-list-item {
-    font-family: Rubik, sans-serif;
-    cursor: pointer;  
-    padding: 0px !important;
-    height: 35px!important;
+  .client-name {
+    margin-right: 1em;
+    font-size: 12px;
   }
-}
 
-//overview
-
-.profil-pic {
-  height: 2em;
-}
-.client-name {
-  height: 2em;
-  font-size: 10px; 
-  padding-right: 0.5em;
-  margin-bottom:0.9em; 
-}
-
-.arrow-btn{
   .arrow {
-  padding-right: 0.5em;
-  height: 1em;
+  display: none;
   }
-}
+  //menu
 
-//menu
-
-.link {
-  font-size: 10px;
-  margin:0 !important; 
-  text-decoration: none;
-  color:#6fce91; 
-}
+  .link {
+    font-size: 9px;
+    margin-top: 3px !important;
+    text-decoration: none;
+    color: #6fce91;
+  }
 }
 </style>

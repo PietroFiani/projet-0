@@ -21,14 +21,12 @@
             v-for="item in items"
             :key="item.id_address"
             class="item-row"
-            @click="handleClick(item)"
           >
             <td>{{ item.road }}</td>
             <td>{{ item.zip }}</td>
             <td>{{ item.nom}}</td>
             <td>
-              <v-btn color="primary" class="mr-4 button" @click="updateAddr(customer),dialog=true" > Modifier </v-btn>
-
+              <v-btn color="primary" class="mr-4 button" @click="updateAddr(item),dialog=true" > Modifier </v-btn>
             </td>
           </tr>
         </tbody>
@@ -36,7 +34,7 @@
     </v-data-table>
     <v-pagination
       v-model="page"
-      color="#515bae"
+      color="primary"
       :length="pageCount"
     ></v-pagination>
 
@@ -121,11 +119,14 @@ import axios from "axios";
 export default {
   data() {
     return {
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 5,
       addressDialog: null,
       dialog:false, 
       dialog1:false, 
       valid: false,
-      address: {},
+      address: [],
       message: "",
       departments: [],
       customers: [
@@ -146,9 +147,10 @@ export default {
       ], 
       required: [(v) => !!v || "requis"],
       headers: [
-        { text: "Rue", value: "name" },
-        { text: "Code postal", value: "name" },
-        { text: "Département", value: "name" },
+        { text: "Rue", value: "road" },
+        { text: "Code postal", value: "zip" },
+        { text: "Département", value: "nom" },
+        {text:"",value:"", align:'right'}
       ],
     };
   },
@@ -158,8 +160,6 @@ export default {
     // On recupere les info de l'utilisateur pour pouvoir les afficher
     this.loadCustomer()
     this.getDepartments()
-
-    
   },
 
   methods: {
@@ -178,7 +178,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("Customer", response.data)
+            console.log("Customer", response.data)
             this.customers = response.data;
             // this.search();
           }
@@ -239,13 +239,8 @@ export default {
           zip: this.address.zip,
           id_department: this.address.id_department,
         })
-        .then((response) => {
-          if (response.data) {
-            // console.log("Address", response.data)
-            this.address = response.data;
-        this.loadCustomer()
-
-          }
+        .then(() => {
+            this.loadCustomer()
         })
         .catch((error) => {
           console.log("ERREUR", error);
@@ -254,6 +249,7 @@ export default {
       // document.location.reload(); 
     },
     updateAddr(customer) {
+      console.log(customer)
       this.address = customer
     },
     // fonction poour modifier le mail, le numero de tel et le password
@@ -282,7 +278,7 @@ export default {
 .addr_container{
   margin-top: 4vh;
 }
-
+  
 </style>
 
 
