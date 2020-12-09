@@ -9,14 +9,14 @@
       :page.sync="page"
       :items-per-page="itemsPerPage"
       hide-default-footer
-      class="elevation-1 mt-8 datas"
+      class="elevation-1 mt-2 datas"
       @page-count="pageCount = $event"
     >
       <template v-slot:body="{ items }">
         <tbody name="list" is="transition-group" v-if="items.length">
           <tr v-for="item in items" :key="item.id_order" class="item-row" @click="handleClick(item)">
-            <td>{{ item.id_order }}</td>
-            <td>{{ item.firstname }} {{ item.lastname }}</td>
+            <td class="number mt">{{ item.id_order }}</td>
+            <td class="lala"><span>{{ item.firstname }} </span><span>{{ item.lastname }}</span></td>
             <td>{{ item.label }}</td>
             <td>{{ item.qtte }} gr</td>
             <td>{{ item.prix }} €</td>
@@ -24,8 +24,7 @@
             <v-chip
               :color="color(item.workflow)"
               dark
-              class="mt-2"
-              style="width: 100px; justify-content: center"
+              class="mt-2 chip"
             >
                 {{ item.workflow }}
             </v-chip>
@@ -44,7 +43,7 @@
       v-model="page"
       color="primary"
       :length="pageCount"
-      class="mt-8"
+      class="mt-3"
     ></v-pagination>
 
   </div>
@@ -142,14 +141,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
+
 td{
   font-family: 'rubik', sans-serif;
+}
+.chip{
+  width: 100px; justify-content: center;
 }
 @media screen and (max-width: 767px) and (max-height: 1027px){
   h1{
     font-size: 1.5em;
   }
   .datas{
+  }
+  .container{
+  padding:0px !important; 
+  }
+  td{
+    font-weight:500; 
+    font-size: 10px !important;
+    padding:0px !important; 
+    margin: 4p;
+  }
+  .chip{
+    font-size: 10px;
+    width: 60px; 
+    justify-content: center;
+  }
+  .number{
+    display:none; 
+  }
+  .lala{
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+  }
+  tr{
+    display:flex; 
+    justify-content: space-between;
+
   }
 }
 </style>

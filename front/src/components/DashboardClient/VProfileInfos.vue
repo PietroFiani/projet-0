@@ -1,18 +1,45 @@
 <template>
     <div class="profile-container">
-      <h1>Mon Profil</h1>
+      <div class="flex">
+        <h1>Mon Profil</h1>
+        <v-btn fab x-small dark  color="secondary" class="ml-4" @click="updateProfil()"> 
+          <v-icon>
+            mdi-pencil
+          </v-icon>
+        </v-btn>
+      </div>
       <div class="profile">
-        <div>
-          <p>Prénom : {{customers[0].firstname}}</p>
-          <p>Nom : {{customers[0].lastname}} </p>
-        </div>
-        <div>  
-          <p>E-mail : {{customers[0].mail}}</p>
-          <p>Téléphone : {{customers[0].phone}}</p>
-        </div>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <v-icon>
+                  mdi-account-cowboy-hat 
+                </v-icon> 
+                : {{customers[0].firstname}} {{customers[0].lastname}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <v-icon>
+                  mdi-at
+                </v-icon>
+                : {{customers[0].mail}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <v-icon>
+                  mdi-phone
+                </v-icon> 
+                : {{customers[0].phone}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       
-      <v-btn color="primary" class="mr-4" @click="updateProfil()"> Modifier Profil</v-btn>
+      
       <v-dialog v-model="dialog"  max-width="1000">
         <v-card>
           <v-app-bar color="secondary" dark>
@@ -176,9 +203,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .profile {
+  // .profile {
+  //   // display: flex;
+  //   // justify-content: space-between;
+  //   width: 50vmin;
+  // }
+  // .span-wrapper {
+  //   display: flex;
+  //   justify-content: flex-start;
+  //   text-align: left;
+  // }
+  .flex {
     display: flex;
-    justify-content: space-between;
-    width: 50vmin;
+    align-items: center;
+  }
+  td {
+    padding-top: 1vh!important;
+  }
+  @media screen and (max-width: 767px) and (max-height: 1027px) {
+    h1 {
+      font-size: 1.7em;
+    }
+    // .profile  {
+    //   div {
+    //     display: block;
+    //   }
+    // }
   }
 </style>

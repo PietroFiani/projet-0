@@ -218,7 +218,13 @@ $width: 150px;
       min-height: 0px !important;
     }
   }
-
+  .menu-display {
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    box-shadow: 0px 0px;
+  }
   //overview
 
   .profil-pic {

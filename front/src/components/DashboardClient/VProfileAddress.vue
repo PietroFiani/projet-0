@@ -2,10 +2,14 @@
   
   
   <div class="addr_container">
-    <h1 class="adrr-title">Mes adresses</h1>  
-    <v-btn color="primary" class="mr-4 mt-2 mb-2 button" @click="addAddr()" >
-      Ajouter une adresse
-    </v-btn>
+    <div class="flex">
+      <h1 class="adrr-title">Mes adresses</h1>  
+      <v-btn fab x-small dark color="secondary"  class="ml-4 " @click="addAddr()" >
+        <v-icon  >
+          mdi-plus 
+        </v-icon>
+      </v-btn>
+    </div>
     <v-data-table
       :headers="headers"
       :items="customers"
@@ -21,13 +25,16 @@
             v-for="item in items"
             :key="item.id_address"
             class="item-row"
-            @click="handleClick(item)"
           >
             <td>{{ item.road }}</td>
             <td>{{ item.zip }}</td>
             <td>{{ item.nom}}</td>
             <td>
-              <v-btn color="primary" class="mr-4 button" @click="updateAddr(item),dialog=true" > Modifier </v-btn>
+              <v-btn icon color="primary" class="mr-4 button" @click="updateAddr(item),dialog=true" >
+                <v-icon>
+                mdi-pencil
+                </v-icon>
+              </v-btn>
             </td>
           </tr>
         </tbody>
@@ -70,7 +77,7 @@
         </v-card>
       </v-dialog>
       <v-dialog v-if="addressDialog" class="update-form" v-model="addressDialog"  max-width="1000">
-        <v-card>
+        <v-card class="">
           <v-app-bar color="secondary" dark>
             Ajouter une adresse
             <v-spacer />
@@ -78,7 +85,7 @@
               <v-icon>mdi-close</v-icon></v-btn
             >
           </v-app-bar>
-          <v-form ref="formAdd" v-model="valid" lazy-validation>
+          <v-form class="pa-4" ref="formAdd" v-model="valid" lazy-validation>
 
             <v-text-field
                 v-model="object.road"
@@ -127,7 +134,7 @@ export default {
       dialog:false, 
       dialog1:false, 
       valid: false,
-      address: {},
+      address: [],
       message: "",
       departments: [],
       customers: [
@@ -148,10 +155,10 @@ export default {
       ], 
       required: [(v) => !!v || "requis"],
       headers: [
-        { text: "Rue", value: "name" },
-        { text: "Code postal", value: "name" },
-        { text: "Département", value: "name" },
-        {align:'right'}
+        { text: "Rue", value: "road" },
+        { text: "Code postal", value: "zip" },
+        { text: "Département", value: "nom" },
+        {text:"",value:"", align:'right'}
       ],
     };
   },
@@ -161,8 +168,6 @@ export default {
     // On recupere les info de l'utilisateur pour pouvoir les afficher
     this.loadCustomer()
     this.getDepartments()
-
-    
   },
 
   methods: {
@@ -181,7 +186,7 @@ export default {
         .get(url)
         .then((response) => {
           if (response.data) {
-            // console.log("Customer", response.data)
+            console.log("Customer", response.data)
             this.customers = response.data;
             // this.search();
           }
@@ -242,13 +247,8 @@ export default {
           zip: this.address.zip,
           id_department: this.address.id_department,
         })
-        .then((response) => {
-          if (response.data) {
-            // console.log("Address", response.data)
-            this.address = response.data;
-        this.loadCustomer()
-
-          }
+        .then(() => {
+            this.loadCustomer()
         })
         .catch((error) => {
           console.log("ERREUR", error);
@@ -257,6 +257,7 @@ export default {
       // document.location.reload(); 
     },
     updateAddr(customer) {
+      console.log(customer)
       this.address = customer
     },
     // fonction poour modifier le mail, le numero de tel et le password
@@ -286,6 +287,22 @@ export default {
   margin-top: 4vh;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 767px) and (max-height: 1027px) {
+  .addr_container{
+    margin-top: 0;
+  }
+  tbody,th,td {
+    padding: 1px!important;
+  }
+  h1 {
+      font-size: 1.7em;
+    }
+}
 </style>
 
 
