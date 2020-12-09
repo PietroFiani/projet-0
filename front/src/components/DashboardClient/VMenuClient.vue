@@ -3,7 +3,8 @@
     <div class="text-center">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <div class="overview">
+          <div class="overview" @click="dislpayMenu()"  v-bind="attrs"
+              v-on="on">
             <img
               class="profil-pic"
               src="../../assets/avatar.png"
@@ -12,18 +13,11 @@
             <h2 class="client-name">
               Menu
             </h2>
-            <button
-              v-bind="attrs"
-              v-on="on"
-              class="arrow-btn"
-              @click="dislpayMenu()"
-            >
               <img
                 class="arrow"
                 src="../../assets/flechenavigation.svg"
                 alt="fleche de découverte du menu"
               />
-            </button>
           </div>
         </template>
 
@@ -119,8 +113,6 @@ export default {
     dislpayMenu() {
       let pills = document.querySelector(".overview");
       pills.classList.toggle("menu-display");
-      let arrow = document.querySelector(".arrow");
-      arrow.classList.toggle(".arrow-rotate");
     },
   },
 };
@@ -206,19 +198,19 @@ $width: 150px;
 @media screen and (max-width: 767px) and (max-height: 1027px) {
   .menu-container {
     .overview {
-      width: 7em;
+      width: 5em;
       height: 2em;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
   }
   .v-menu__content {
     margin-top:0px !important; 
     position: absolute;
-    width: 7em;
+    width: 5em;
     height: 9em;
+    border-radius: 15px; 
     .v-list-item {
+      width:5em;
       margin-top: 5px !important; 
       font-family: Rubik, sans-serif;
       cursor: pointer;
@@ -233,23 +225,18 @@ $width: 150px;
     height: 2em;
   }
   .client-name {
-    font-size: 15px;
-    padding-right: 0.5em;
-    margin-bottom: 0.9em;
+    margin-right: 1em;
+    font-size: 12px;
   }
 
-  .arrow-btn {
-    .arrow {
-      padding-right: 0.5em;
-      height: 1em;
-    }
+  .arrow {
+  display: none;
   }
-
   //menu
 
   .link {
-    font-size: 10px;
-    margin: 0 !important;
+    font-size: 9px;
+    margin-top: 3px !important;
     text-decoration: none;
     color: #6fce91;
   }

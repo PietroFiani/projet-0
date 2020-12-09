@@ -50,6 +50,20 @@ export default {
 }
 
 @media screen and (max-width: 767px) and (max-height: 1027px){
-  
+
+  .commande-container {
+  .test {
+    background: white;
+    height: 85vh;
+    width: 90vw;
+    border-radius: 20px;
+    padding: 10px; 
+  }
+}
+
+  .white-logo{
+    top: 4vh;
+    width: 15vmin;
+  }
 }
 </style>
