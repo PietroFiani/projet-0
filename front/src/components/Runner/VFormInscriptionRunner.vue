@@ -176,7 +176,7 @@ export default {
   height: 70vh !important;
     
     .btn-wrapper {
-      margin-top: 1em !important;
+      margin-top: 0em !important;
     }
     .text-field-container{
       font-size: 0px;
@@ -197,7 +197,7 @@ export default {
 }
 .container {
   background: white;
-  width: 70vmin;
+  width: 72vmin;
   height: 65vh;
   border-radius: 50px;
   margin-top: 4vh;
@@ -209,15 +209,16 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1em;
   .text-field {
-    width: 60vmin;
-    height: 4em;
+    width: 65vw;
+    height: 3em;
   }
   .name-container {
-    display: flex;
     width: 60vmin;
+    height: 15vmin;
   }
+
+
 }
 //buttons
 .btn-large {
