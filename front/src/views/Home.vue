@@ -71,42 +71,20 @@ export default {
 <style lang="scss" scoped>
 $color1-btn: #ffaaaa;
 
-@media screen and (min-width: 320px) and (max-width: 420px) and (max-height:740px){//probleme avec le background
-.logo {
-    height: 70px;
-    width: 75px;
-    margin-top: 10%;
+@media screen and (max-width: 767px) and (max-height: 1027px) {
+  .logo {
+    max-height: 4em;
+    margin-top: 2em;
   }
-
+  .waves {
+    display: none;
+  }
   .home {
-  height: 100%;
-  background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
-  
-  .rounded {
-    font-family: Rubik, sans-serif;
-    margin: 2em;
-    font-size: 0.8em;
-    border: solid 2px rgba(111, 206, 145, 1);
-    color: white;
-    width: 25vmin;
-    border-radius: 50px !important;
-    height: 2em;
-    outline: none;
-    transition: 300ms;
-    background-color: rgba(111, 206, 145, 1);
-    &:hover {
-      color: rgba(111, 206, 145, 1);
-      background-color: white;
+    .rounded {
+      max-width: 5em; 
+      top: 0;
+      font-size: 15px;
     }
-  }
-  }
-  .title {
-  font-weight: 900;
-  font-size: 1.5vmin !important;
-  font-family: "Poppins", sans-serif !important;
-  color: white;
-  margin-top: -6vh;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
   }
 }
 
