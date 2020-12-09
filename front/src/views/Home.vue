@@ -77,7 +77,9 @@ $color1-btn: #ffaaaa;
     width: 75px;
     margin-top: 1% !important
   }
-
+  .waves {
+    display: none;
+  }
   .home {
   height: 100%;
   background: linear-gradient(180deg, #9bc9ff 0%, #515bae 100%);
@@ -160,7 +162,7 @@ $color1-btn: #ffaaaa;
   }
 }
 .logo {
-  height: 10em;
+  height: 7em;
   margin-top: 5vh;
   animation: 1s ease-in-out 0s 1 popLogo;
 }

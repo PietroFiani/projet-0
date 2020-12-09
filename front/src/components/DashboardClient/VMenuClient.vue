@@ -26,23 +26,23 @@
         <v-list-item class="me-content">
           <v-list-item
             ><router-link class="link" :to="{ name: 'Dashboard Client' }"
-              ><span class="link">Accueil</span></router-link
+              ><span class="link">Accueil</span><v-divider></v-divider></router-link
             ></v-list-item
           >
           <v-list-item>
-            <router-link class="link" :to="{ name: 'Client Profile' }"
-              ><span class="link">Profil</span></router-link
+            <router-link class="link" :to="{ name: 'Client Profil' }"
+              ><span class="link">Profil</span><v-divider></v-divider></router-link
             ></v-list-item
           >
           <v-list-item
             ><router-link class="link" :to="{ name: 'Commandes Client' }"
-              ><span class="link">Historique des <br> commandes</span></router-link
+              ><span class="link">Historique des <br> commandes</span><v-divider></v-divider></router-link
             ></v-list-item
           >
           <v-list-item
             ><span class="link" @click="logout()"
               >Se deconnecter</span
-            ></v-list-item
+            ><v-divider></v-divider></v-list-item
           >
         </v-list-item>
       </v-menu>
@@ -195,5 +195,59 @@ $width: 150px;
 .link {
   text-decoration: none;
   color:#6fce91; 
+}
+
+
+
+@media screen and (max-width: 767px) and (max-height: 1027px){
+  .menu-container {
+
+  .overview {
+    width: 7em;
+    height: 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.v-menu__content {
+  position: absolute;
+  width: 7em;
+  height: 10em;
+  .v-list-item {
+    font-family: Rubik, sans-serif;
+    cursor: pointer;  
+    padding: 0px !important;
+    height: 35px!important;
+  }
+}
+
+//overview
+
+.profil-pic {
+  height: 2em;
+}
+.client-name {
+  height: 2em;
+  font-size: 10px; 
+  padding-right: 0.5em;
+  margin-bottom:0.9em; 
+}
+
+.arrow-btn{
+  .arrow {
+  padding-right: 0.5em;
+  height: 1em;
+  }
+}
+
+//menu
+
+.link {
+  font-size: 10px;
+  margin:0 !important; 
+  text-decoration: none;
+  color:#6fce91; 
+}
 }
 </style>

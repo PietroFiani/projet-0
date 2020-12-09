@@ -20,15 +20,15 @@
           required
         >
         </v-text-field>
-        <a href="" class="forgot-psw">mot de passe oublié ?</a>
       </div>
-      <span v-if="message" class="alert ma-auto mt-10">
+      <v-row justify="center"> <span v-if="message" class="alert">
         <img
           id="warning-icon"
           src="./../assets/warning.svg"
           alt="warning logo"
         />{{ message }}</span
-      >
+      ></v-row>
+     
       <div class="btn-wrapper">
         <button class="round sign-in" type="button" @click="log()">
           Connexion
@@ -163,6 +163,7 @@ $color1-btn: #6fce91;
     }
   }
 }
+
 //buttons
 .round {
   font-size: 1.5em;
@@ -200,7 +201,7 @@ $color1-btn: #6fce91;
   color: $color1-btn;
   width: 21em;
   justify-self: center;
-  margin-top: -1em;
+  // margin-top: -4em;
   &:hover {
     color: white;
     background-color: $color1-btn;
@@ -218,7 +219,6 @@ $color1-btn: #6fce91;
   }
 }
 .alert {
-  margin-top: 1em;
   width: 30em;
   color: white;
   display: flex;

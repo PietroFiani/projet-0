@@ -6,9 +6,11 @@
       <div class="menu-container">
         <v-menu-client></v-menu-client>
       </div>
-
-      <v-profile-infos></v-profile-infos>
-      <v-profile-address></v-profile-address>
+      <div class="body-wrapper">
+        <v-profile-infos></v-profile-infos>
+        <v-profile-address></v-profile-address>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -220,5 +222,8 @@ export default {
 .menu-container {
   display: flex;
   justify-content: flex-end;
+}
+.body-wrapper{
+  padding: 2vmin;
 }
 </style>

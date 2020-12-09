@@ -21,7 +21,7 @@
     <v-fab-transition>
       <v-btn
         :color="color()"
-        style="align-self: flex-end;"
+        style="align-self: flex-end"
         class="mr-10 mb-16"
         dark
         bottom
@@ -46,7 +46,7 @@
             ref="addr"
             class="select-accueil"
             v-model="adresse"
-            label="Adresse de livraison"
+            label="Changer l'adresse"
             required
             :items="customers"
             :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
@@ -57,6 +57,8 @@
             class="select-accueil"
             width="12"
             :items="items"
+            :item-text="item=>item.text"
+            :item-value="item=>item.value"
             label="Trier par : "
             v-model="selectValue"
           >
@@ -69,26 +71,52 @@
         <v-card
           v-for="runner in orderBy(runnersTable, selectValue)"
           :key="runner.id_product"
-          class="card-runner"
+          class="card-runner ma-5"
+          style="border-radius:25px"
         >
+          <v-img
+            v-if="runner.name == 'Fines Herbes'"
+            height="250"
+            width="300"
+            src="../../assets/musk.jpeg"
+          ></v-img>
+          <v-img
+            v-if="runner.name == 'Champignons'"
+            height="250"
+            width="300"
+            src="../../assets/toad.jpg"
+          ></v-img>
+          <v-img
+            v-if="runner.name == 'Vitamines'"
+            height="250"
+            width="300"
+            src="../../assets/bad.jpg"
+          ></v-img>
           <v-card-title>
-            {{ runner.firstname }} {{ runner.lastname }}
+            {{ runner.label }}
           </v-card-title>
           <v-card-subtitle>
-            {{ runner.name }}
+            {{ runner.name }} <br />
+            {{ runner.price }} €/gr
           </v-card-subtitle>
-          <p class="ma-auto">
-            Produit : {{ runner.label }} <br />
-            En stock : {{ runner.stock }} <br />
-            Prix : {{ runner.price }} €
-          </p>
-          <v-btn
-            color="primary"
-            class="mr-4"
-            @click="commander(runner, runner.id_runner)"
-          >
-            Commander</v-btn
-          >
+
+          <v-card-text>
+            <v-icon>mdi-moped</v-icon> {{ runner.firstname }}
+            {{ runner.lastname }} <br />
+            Stock : {{ runner.stock }} gr<br />
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              block
+              dark
+              color="pink"
+              rounded
+              class="mr-4"
+              @click="commander(runner, runner.id_runner)"
+            >
+              Commander</v-btn
+            >
+          </v-card-actions>
         </v-card>
         <span v-if="empty" class="">{{ empty }}</span>
       </div>
@@ -115,13 +143,13 @@
                 Prix :
                 <span v-if="commande.quantity"
                   >{{
-                  (commande.prix = commande.quantity * commande.prix_init)
+                    (commande.prix = commande.quantity * commande.prix_init)
                   }}
                   €</span
                 >
               </p>
               <v-card-actions>
-                <v-spacer></v-spacer>
+                <v-spacer />
                 <v-btn color="primary" text @click="orderPruduct()">
                   commander</v-btn
                 >
@@ -137,6 +165,39 @@
           </v-card-text>
         </v-card>
       </v-dialog>
+      <v-dialog v-if="!$store.state.addrCustomerId" v-model="dialogConfirm" persistent max-width="600">
+        <v-card>
+          <v-app-bar dark color="primary">
+            Bienvenue sur l'application !
+          </v-app-bar>
+          <v-card-title>
+            Commencez par choisir l'adresse à laquelle vous souhaitez etre
+            livré(e) :</v-card-title
+          >
+          <v-row justify="center" class="ma-0 pa-0">
+            <v-select
+              ref="addr"
+              class="select-accueil"
+              v-model="adresse"
+              label="Adresse de livraison"
+              required
+              :items="customers"
+              :item-text="(item) => item.road + ' ' + item.zip + ' ' + item.nom"
+              :item-value="(item) => item"
+              @change="search"
+            ></v-select>
+          </v-row>
+          <v-card-title> Ou ajoutez une nouvelle adresse :</v-card-title>
+          <v-row justify="center" class="ma-0 pa-0">
+            <router-link :to="{ name: 'Client Profil' }">
+              <v-btn color="warning" dark>Créer une nouvelle adresse</v-btn>
+            </router-link>
+          </v-row>
+
+          <v-card-actions>
+            <v-spacer />
+          </v-card-actions> </v-card
+      ></v-dialog>
     </div>
   </div>
 </template>
@@ -157,10 +218,21 @@ export default {
 
   data() {
     return {
-      empty: "Choisisez votre adresse de livraison !",
+      adressDialog: false,
+      empty: "",
       drawer: false,
+      dialogConfirm: true,
       valid: false,
-      items: ["name", "price"],
+      items: [
+        {
+          value: "name",
+          text: "Catégorie",
+        },
+        { 
+          value: "price", 
+          text: "Prix" 
+        },
+      ],
       selectValue: "",
       message: null,
       customers: [
@@ -190,6 +262,21 @@ export default {
       notifications: [],
       runnersTable: [],
       adresse: [],
+      object: {
+        id_department: "",
+        road: "",
+        zip: "",
+      },
+      CodePostalRules: [
+        (v) =>
+          /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/.test(v) || "Code Postal Valide",
+      ],
+      required: [(v) => !!v || "requis"],
+      headers: [
+        { text: "Rue", value: "name" },
+        { text: "Code postal", value: "name" },
+        { text: "Département", value: "name" },
+      ],
       // required: [(v) => !!v || "requis"],
     };
   },
@@ -197,7 +284,12 @@ export default {
     // si l'utilisateur est pas connecté rentourne à l'accueil
     if (!this.$store.state.customerId) {
       this.$router.push("/");
-    } else {
+    } 
+    if (this.$store.state.addrCustomerId){
+      this.adresse.id_department
+    }
+    else {
+
       this.id = this.$store.state.customerId;
       // On recupere les info de l'utilisateur pour pouvoir les afficher
       let url = `http://localhost:5000/customers/${this.id}`;
@@ -281,6 +373,7 @@ export default {
           }
         });
     },
+    newAdress() {},
     search() {
       this.runnersTable = [];
       let url = `http://localhost:5000/runners/from/${this.adresse.id_department}`;
@@ -297,6 +390,7 @@ export default {
                 item.firstname = element.firstname;
                 item.lastname = element.lastname;
                 this.runnersTable.push(item);
+                this.dialogConfirm = false;
               });
             });
             this.empty = null;
@@ -424,12 +518,12 @@ export default {
   display: flex;
   flex-wrap: wrap;
   overflow-y: scroll;
-  justify-content: space-between;
-  .card-runner {
-    width: 15vw;
-    height: 20vh;
-    margin: 2.2vw;
-  }
+  justify-content: left;
+  // .card-runner {
+  //   width: 15vw;
+  //   height: 20vh;
+  //   margin: 2.2vw;
+  // }
 }
 
 .v-input {

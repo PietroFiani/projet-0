@@ -1,12 +1,17 @@
 <template>
-  <div style="height:600px" class="scroll">
-    <v-btn block dark color="primary" class="mb-8 mt-8" @click="edit()"
+  <div class="product">
+    <v-btn block dark tile color="primary" class="mb-8 mt-8" @click="edit()"
       >Ajouter un nouveau produit</v-btn
     >
-    <v-card v-for="(product, index) in products" class="ma-3" :key="index" :color="color(product)">
+    <v-card
+      v-for="(product, index) in products"
+      class="ma-3 line"
+      :key="index"
+      :color="color(product)"
+    >
       <div class="d-flex flex-no-wrap justify-space-between">
         <div>
-          <v-card-title class="headline"
+          <v-card-title class="toto"
             >{{ product.label }} - {{ product.name }}</v-card-title
           >
 
@@ -37,8 +42,8 @@
           </v-card-actions>
         </div>
 
-        <v-avatar v-if="!product.image" class="ma-3" size="200" tile>
-          <v-img src="../../assets/marijuana.jpg"></v-img>
+        <v-avatar v-if="!product.image" class="ma-3 hidden-md-and-down" size="200" tile>
+          <v-img class="picture" src="../../assets/marijuana.jpg"></v-img>
         </v-avatar>
       </div>
     </v-card>
@@ -168,9 +173,9 @@ export default {
         })
         .catch((error) => console.log("Categories error ", error));
     },
-    color(product){
-      if (product.stock==0) return '#E1E1E1'
-      else return 'white'
+    color(product) {
+      if (product.stock == 0) return "#E1E1E1";
+      else return "white";
     },
     edit(product) {
       let url = "http://localhost:5000/categories";
@@ -192,7 +197,7 @@ export default {
     },
     ask(product) {
       this.toDeleteId = product.id_product;
-      console.log("product Id to delete", this.toDeleteId)
+      console.log("product Id to delete", this.toDeleteId);
       this.dialogConfirm = true;
       // let url = `http://localhost:5000/products/${product.id_product}`;
       // axios
@@ -204,18 +209,18 @@ export default {
       //   .catch((error) => console.log("error ", error));
     },
     remove() {
-      let id=this.toDeleteId
-      console.log("ID", id)
+      let id = this.toDeleteId;
+      console.log("ID", id);
       let url = `http://localhost:5000/products/${id}`;
       axios
         .delete(url)
         .then((response) => {
-          console.log("Product deleted", response.data)
-          this.toDeleteId=0
-          this.dialogConfirm=false
-          this.$emit("reload")
+          console.log("Product deleted", response.data);
+          this.toDeleteId = 0;
+          this.dialogConfirm = false;
+          this.$emit("reload");
         }) //c'est un objet
-        .catch((error) => console.log("error ", error))
+        .catch((error) => console.log("error ", error));
     },
     initProduct() {
       this.newProduct.id_product = 0;
@@ -253,4 +258,19 @@ export default {
 </script>
 
 <style>
+.product {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+@media screen and (max-width: 600px) {
+  .product {
+    height:fit-content;
+    overflow-y:hidden;
+  }
+  .toto{
+    font-size:1em!important;
+  }
+}
 </style>
