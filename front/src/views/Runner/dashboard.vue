@@ -257,6 +257,11 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
+
+* {
+  font-family: 'Rubik', sans-serif;
+}
 #avatar {
   position: absolute;
   left: 11%;

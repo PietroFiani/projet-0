@@ -54,8 +54,7 @@
         <v-card v-if="message" dark color="warning"> {{ message }}</v-card>
       </v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
+      <v-card-actions class="icon">
 
         <v-btn icon class="ma-2">
           <v-icon v-if="!editMode" large color="primary" @click="edit()"
@@ -131,6 +130,10 @@ export default {
 @media screen and (max-width: 600px) {
   .v-card__text{
     padding: 30px!important;
+  }
+  .icon {
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>

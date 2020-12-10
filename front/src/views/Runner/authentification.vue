@@ -2,7 +2,7 @@
   <div class="home">
     <div class="header">
       <router-link :to="{ name: 'Home' }">
-        <button class="rounded rounded-left">Client ?</button>
+        <button class="rounded rounded-left">Iencli</button>
       </router-link>
       <img
         class="logo"

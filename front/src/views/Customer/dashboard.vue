@@ -75,23 +75,24 @@
           :key="runner.id_product"
           class="card-runner ma-5"
           style="border-radius:25px"
+          width = "250"
         >
           <v-img
             v-if="runner.name == 'Fines Herbes'"
-            height="250"
-            width="300"
+            height="200"
+            width="250"
             src="../../assets/musk.jpeg"
           ></v-img>
           <v-img
             v-if="runner.name == 'Champignons'"
-            height="250"
-            width="300"
+            height="200"
+            width="250"
             src="../../assets/toad.jpg"
           ></v-img>
           <v-img
             v-if="runner.name == 'Vitamines'"
-            height="250"
-            width="300"
+            height="200"
+            width="250"
             src="../../assets/bad.jpg"
           ></v-img>
           <v-card-title>
@@ -99,7 +100,8 @@
           </v-card-title>
           <v-card-subtitle>
             {{ runner.name }} <br />
-            {{ runner.price }} €/gr
+            {{ runner.price }} €/gr <br>
+            {{runner.description}}
           </v-card-subtitle>
 
           <v-card-text>
@@ -140,6 +142,7 @@
                 type="number"
                 min="0"
                 :max="commande.max_quantity"
+                class="quantite-commande"
               ></v-text-field>
               <p>
                 Prix :
@@ -147,8 +150,11 @@
                   >{{
                     (commande.prix = commande.quantity * commande.prix_init)
                   }}
-                  €</span
-                >
+                </span>
+                <span v-else>
+                  0
+                </span>
+                  €
               </p>
               <v-card-actions>
                 <v-spacer />
@@ -402,7 +408,7 @@ export default {
         .catch((error) => {
           console.log("ERREUR", error);
           this.empty =
-            "Votre département ne dispose pas de livreur ! On arrive bientôt !";
+            "Votre département ne dispose pas de livreur ! Miguel arrive bientôt !";
           //ajouter un message si null
         });
     },
@@ -562,51 +568,56 @@ export default {
     margin:8px !important;
   }
   .white-logo {
-  width: 100px;
-  top: 4vh;
-}
-.title-select{
-  width:auto;
-}
-  .dialog {
-        width:fit-content!important;
+    width: 100px;
+    top: 4vh;
   }
-  .v-input {
-  max-width: 48%;
-}
+  .title-select{
+    width:auto;
+  }
+    .dialog {
+          width:fit-content!important;
+    }
+    .v-input {
+    max-width: 48%;
+  }
     .carte {
-    width:300px!important;
-  }
-  .v-dialog{
-    width:fit-content!important;
+      // width:300px!important;
+      justify-content: center;
+    }
+    .v-dialog{
+      width:fit-content!important;
 
-  }
-  .v-dialog__content{
-    width:fit-content!important;
-  }
-  .v-overlay__scrim{
-    position:relative!important;
-  }
-  .runner-cards{
-  width: 90vw;
-  display: flex;
-  overflow-y:hidden;
-  justify-content: left;
-  margin-top:50px;
-  }
-  .container {
-    overflow-x:hidden;
-  .wrapper {
-    height: auto!important;
-    width: 93vw;
-    display: flex;
-    align-content: center;
-    .menu-container {
-      width: auto;
+    }
+    .v-dialog__content{
+      width:fit-content!important;
+    }
+    .v-overlay__scrim{
+      position:relative!important;
+    }
+    .runner-cards{
+      width: 90vw;
       display: flex;
-      justify-content: flex-end;
+      overflow-y:hidden;
+      justify-content: center;
+      margin-top:50px;
+    }
+    .container {
+      overflow-x:hidden;
+    .wrapper {
+      height: auto!important;
+      width: 93vw;
+      display: flex;
+      align-content: center;
+      .menu-container {
+        width: auto;
+        display: flex;
+        justify-content: flex-end;
+      }
     }
   }
-}
+  .quantite-commande {
+    margin-top: 4vh;
+    max-width: 100%!important;
+  }
 }
 </style>

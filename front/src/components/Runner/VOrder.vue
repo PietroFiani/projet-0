@@ -17,7 +17,7 @@
             class="item-row"
             @click="handleClick(item)"
           >
-            <td>{{ item.id_order }}</td>
+            <td class="display">{{ item.id_order }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.date }}</td>
             <v-chip
@@ -111,7 +111,7 @@ export default {
       dialogConfirm: false,
       page: 1,
       pageCount: 0,
-      itemsPerPage: 10,
+      itemsPerPage: 8,
       order: {
         id: "",
         workflow: "",
@@ -233,6 +233,9 @@ export default {
   overflow-y: scroll !important;
   display: flex !important;
 }
+.display {
+  display: block;
+}
 @media screen and (max-width: 600px) {
   .tata {
     margin: 0 !important;
@@ -240,6 +243,9 @@ export default {
   .btn{
     width:40vw;
     font-size:0.65em!important;
+  }
+  .display {
+    display: none;
   }
 }
 </style>
