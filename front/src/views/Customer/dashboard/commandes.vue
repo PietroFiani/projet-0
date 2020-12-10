@@ -62,6 +62,7 @@ export default {
     margin-top: 3vh;
     // min-height: 98%!important;
     height: auto!important;
+    min-height: 90vh!important;
 
   }
   .white-logo{

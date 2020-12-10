@@ -91,9 +91,30 @@ Runner.findByDepartment = (id_department, result) => {
         result({ kind: "not_found" }, null);
     });
 };
-Runner.updateById = (id, runner, result) => {
+Runner.updateByIdPassword = (id, runner, result) => {
     sql.query(
         "UPDATE runner SET mail = ?, phone = ?, password = ? WHERE id_runner = ?", [runner.mail, runner.phone,runner.password, id],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated runner: ", { id_runner: id, ...runner });
+            result(null, { id_runner: id, ...runner });
+        }
+    );
+};
+Runner.updateById = (id, runner, result) => {
+    sql.query(
+        "UPDATE runner SET mail = ?, phone = ? WHERE id_runner = ?", [runner.mail, runner.phone, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

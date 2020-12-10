@@ -5,24 +5,9 @@
       height: 100%;
     "
   >
-    <v-spacer />
-    <v-menu right top class="hidden-lg-and-up">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn x-large dark icon v-bind="attrs" v-on="on" class="hidden-lg-and-up">
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-
-      <v-list dark color="warning">
-        <v-list-item>
-          <v-list-item-title @click="logout()"
-            >Se déconnecter</v-list-item-title
-          >
-        </v-list-item>
-      </v-list>
-    </v-menu>
     <v-row>
       <v-spacer />
+      <v-btn x-small dark color="secondary" rounded @click="logout()" class="mt-2">Se déconnecter</v-btn>
       <v-menu offset-y min-width="260" class="mr-10 mt-5 hidden-md-and-down">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -70,7 +55,7 @@
       </v-menu>
     </v-row>
     <v-row justify="center">
-      <v-col cols="12" lg="10" md="10" class="mt-14">
+      <v-col cols="12" lg="10" md="10" class="mt-6">
         <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
         <v-card height="750" style="border-radius: 25px" class="carte pt-10"
           ><v-tabs grow color="#515bae" v-model="tab" align-with-title>
@@ -287,15 +272,22 @@ export default {
 }
 @media screen and (max-width: 600px) {
   .white-logo {
+    height:70px;
+    width:70px;
     top: 2%;
-    left: 38%;
+    left: 40%;
     z-index: 10;
   }
   .row {
     margin: 0;
   }
+  .v-menu__content {
+  border-radius: 0px;
+  z-index:300;
+}
   .carte {
     height: fit-content !important;
+    min-height:85vh
   }
 }
 </style>

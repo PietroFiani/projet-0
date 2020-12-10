@@ -174,32 +174,60 @@ exports.update = (req, res) => {
             message: "Content can not be empty!"
         });
     }
-    const encryptedPassword = bcrypt.hashSync(req.body.password, 10)
+    if (req.body.password) {
+        const encryptedPassword = bcrypt.hashSync(req.body.password, 10)
 
-    const runner = new Runner({
-        mail: req.body.mail,
-        password: encryptedPassword,
-        phone: req.body.phone,
-    });
+        const runner = new Runner({
+            mail: req.body.mail,
+            password: encryptedPassword,
+            phone: req.body.phone,
+        });
 
-    Runner.updateById(req.body.id_runner,
-        new Runner(runner),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Runner with id ${req.body.id}.`
-                    });
+        Runner.updateByIdPassword(req.body.id_runner,
+            new Runner(runner),
+            (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found Runner with id ${req.body.id}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Error updating Runner with id " + req.body.id
+                        });
+                    }
                 } else {
-                    res.status(500).send({
-                        message: "Error updating Runner with id " + req.body.id
-                    });
-                }
-            } else {
-                res.send(data)
+                    res.send(data)
 
-            }
-        })
+                }
+            })
+    }
+    else {
+
+        const runner = new Runner({
+            mail: req.body.mail,
+            phone: req.body.phone,
+        });
+
+        Runner.updateById(req.body.id_runner,
+            new Runner(runner),
+            (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found Runner with id ${req.body.id}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Error updating Runner with id " + req.body.id
+                        });
+                    }
+                } else {
+                    res.send(data)
+
+                }
+            })
+    }
 }
 exports.delete = (req, res) => {
     console.log("REQ", req.params)

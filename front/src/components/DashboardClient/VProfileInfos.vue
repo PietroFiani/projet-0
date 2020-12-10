@@ -183,7 +183,6 @@ export default {
             .put(url, {
                 mail: this.customers[0].mail,
                 phone: this.customers[0].phone,
-                password: this.customers[0].password,
             })
             .then((response) => {
             if (response.data) {

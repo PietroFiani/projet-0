@@ -86,9 +86,30 @@ Customer.getAll = result => {
     });
 };
 
-Customer.updateById = (id, customer, result) => {
+Customer.updateByIdPassword = (id, customer, result) => {
     sql.query(
         "UPDATE customer SET mail = ?, phone = ?, password = ? WHERE id_customer = ?", [customer.mail, customer.phone, customer.password, id],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated customer: ", { id: id, ...customer });
+            result(null, { id: id, ...customer });
+        }
+    );
+};
+Customer.updateById = (id, customer, result) => {
+    sql.query(
+        "UPDATE customer SET mail = ?, phone = ? WHERE id_customer = ?", [customer.mail, customer.phone, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

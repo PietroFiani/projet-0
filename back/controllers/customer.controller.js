@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     const password = req.body.password;
     const encryptedPassword = bcrypt.hashSync(password, 10)
     console.log("crypt psswd", encryptedPassword)
-        // Create a Customer
+    // Create a Customer
     const customer = new Customer({
         mail: req.body.mail,
         lastname: req.body.lastname,
@@ -35,7 +35,7 @@ exports.create = (req, res) => {
             });
         else {
             let id_customer = data.id
-                // req.body.departmentsIds.forEach(idDepartment => {
+            // req.body.departmentsIds.forEach(idDepartment => {
             let addrCustomer = new AddrCustomer({
                 road: req.body.road,
                 zip: req.body.zip,
@@ -43,13 +43,13 @@ exports.create = (req, res) => {
                 id_customer
             })
             AddrCustomer.create(addrCustomer, (err, addrCustomerdata => {
-                    if (err)
-                        res.status(500).send({
-                            message: err.message || "Some error occurred while creating the Delivery."
-                        });
+                if (err)
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the Delivery."
+                    });
 
-                }))
-                // },
+            }))
+            // },
             res.send(data)
 
             // )
@@ -71,7 +71,7 @@ exports.create = (req, res) => {
 //     })
 // }
 
-exports.login = async function(req, res) {
+exports.login = async function (req, res) {
     var mail = req.query.mail;
     var password = req.query.password;
     console.log("REQ", req.query)
@@ -141,31 +141,63 @@ exports.update = (req, res) => {
             message: "Content can not be empty!"
         });
     }
-    const password = req.body.password;
-    const encryptedPassword = bcrypt.hashSync(password, 10)
+    let customer
+    console.log(req.body)
+    let encryptedPassword
+    if (req.body.password) {
+        encryptedPassword = bcrypt.hashSync(req.body.password, 10)
+        customer = new Customer({
+            mail: req.body.mail,
+            phone: req.body.phone,
+            password: encryptedPassword,
 
-    const customer = new Customer({
-        mail: req.body.mail,
-        phone: req.body.phone,
-        password: encryptedPassword
-    });
-    Customer.updateById(
-        req.params.customerId,
-        new Customer(customer),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Customer with id ${req.params.customerId}.`
-                    });
-                } else {
-                    res.status(500).send({
-                        message: "Error updating Customer with id " + req.params.customerId
-                    });
+        })
+
+        Customer.updateByIdPassword(
+            req.params.customerId,
+            new Customer(customer),
+            (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found Customer with id ${req.params.customerId}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Error updating Customer with id " + req.params.customerId
+                        });
+                    }
+                } else res.send(data);
+            }
+        );
+    }
+    else {
+        customer = new Customer({
+            mail: req.body.mail,
+            phone: req.body.phone,
+
+        }),
+            Customer.updateById(
+
+                req.params.customerId,
+                new Customer(customer),
+                (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.status(404).send({
+                                message: `Not found Customer with id ${req.params.customerId}.`
+                            });
+                        } else {
+                            res.status(500).send({
+                                message: "Error updating Customer with id " + req.params.customerId
+                            });
+                        }
+                    } else res.send(data);
                 }
-            } else res.send(data);
-        }
-    );
+            );
+    }
+
+
 };
 
 // Delete a Customer with the specified customerId in the request
