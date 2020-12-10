@@ -7,7 +7,7 @@
   >
     <v-row>
       <v-spacer />
-      <v-btn x-small dark color="secondary" rounded @click="logout()" class="mt-2">Se déconnecter</v-btn>
+      <v-btn x-small dark color="secondary" rounded @click="logout()" class="mt-2 hidden-md-and-up">Se déconnecter</v-btn>
       <v-menu offset-y min-width="260" class="mr-10 mt-5 hidden-md-and-down">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -55,7 +55,7 @@
       </v-menu>
     </v-row>
     <v-row justify="center">
-      <v-col cols="12" lg="10" md="10" class="mt-6">
+      <v-col cols="12" lg="10" md="10" sm="10" class="mt-6" align-content="center">
         <img src="../../assets/logoBlanc.svg" alt="" class="white-logo" />
         <v-card height="750" style="border-radius: 25px" class="carte pt-10"
           ><v-tabs grow color="#515bae" v-model="tab" align-with-title>
@@ -247,18 +247,10 @@ export default {
 * {
   font-family: 'Rubik', sans-serif;
 }
-#avatar {
-  position: absolute;
-  left: 11%;
-  top: 8%;
-  z-index: 5;
-}
+
 .white-logo {
   height: 100px;
   width: 100px;
-  top: 8%;
-  left: 48%;
-  position: absolute;
   z-index: 10;
 }
 /* button {

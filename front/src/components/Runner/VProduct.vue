@@ -1,6 +1,6 @@
 <template>
   <div class="product">
-    <v-btn block dark tile color="primary" class="mb-8 mt-8" @click="edit()"
+    <v-btn block dark tile color="primary" max-height="50" class="mb-8 mt-8" @click="edit()"
       >Ajouter un nouveau produit</v-btn
     >
     <v-card
