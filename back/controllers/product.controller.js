@@ -17,7 +17,6 @@ exports.getByRunner = (req, res) => {
     });
 }
 exports.create = (req, res) => {
-    console.log("coucou")
     let product = new Product(req.body)
     Product.create(product, (err, data) => {
         if (err)
@@ -64,7 +63,7 @@ exports.update = (req, res) => {
 
 exports.updateOrder = (req, res) => {
     // Validate Request
-    console.log(req.body)
+    // console.log(req.body)
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
@@ -97,7 +96,7 @@ exports.updateOrder = (req, res) => {
     );
 }
 exports.delete = (req, res) => {
-    console.log("req", req.params)
+    // console.log("req", req.params)
     Product.remove(req.params.id_product, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {

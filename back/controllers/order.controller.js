@@ -2,7 +2,7 @@ const Order = require("../models/order.models.js");
 
 // Create and Save a new Order
 exports.create = (req, res) => {
-    console.log(req)
+    // console.log(req)
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
@@ -98,7 +98,7 @@ exports.updateWorkflow = (req, res) => {
             message: "Content can not be empty!"
         });
     }
-    console.log("req", req)
+    // console.log("req", req)
     const order = new Order({
         workflow: req.body.workflow
     });
