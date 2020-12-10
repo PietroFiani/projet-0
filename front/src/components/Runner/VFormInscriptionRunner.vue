@@ -169,6 +169,12 @@ export default {
 
 <style lang="scss">
 @media screen and (max-width:767px){
+  .alert{
+    margin-top:50px;
+    height:50px;
+    width:100%!important;
+    display:none
+  }
   .v-input{
     height:40px
   }
@@ -231,12 +237,8 @@ export default {
   height: 5vh !important;
 }
 .alert {
-  margin-top: 2em;
-  width: 60vmin;
+  width: 100%;
   color: white;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
   border: solid 1px red;
   padding: 0.2em;
   background-color: red;
